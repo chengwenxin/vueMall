@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `addresslist`
 --
-drop table if exists addresslist
+drop table if exists addresslist ;
 CREATE TABLE IF NOT EXISTS `addresslist` (
   `addressId` int(16) NOT NULL AUTO_INCREMENT,
   `userId` varchar(64) NOT NULL,
@@ -56,7 +56,7 @@ INSERT INTO `addresslist` (`addressId`, `userId`, `userName`, `streetName`, `pos
 --
 -- 表的结构 `cartlist`
 --
-drop table if exists cartlist
+drop table if exists cartlist;
 CREATE TABLE IF NOT EXISTS `cartlist` (
   `cartId` int(16) NOT NULL AUTO_INCREMENT,
   `userId` varchar(64) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `cartlist` (
 --
 -- 表的结构 `goods`
 --
-drop table if exists goods
+drop table if exists goods;
 CREATE TABLE IF NOT EXISTS `goods` (
   `id` int(32) NOT NULL AUTO_INCREMENT,
   `productId` int(32) NOT NULL,
@@ -119,7 +119,7 @@ INSERT INTO `goods` (`id`, `productId`, `productName`, `productPrice`, `checked`
 --
 -- 表的结构 `orderlist`
 --
-drop table if exists orderlist
+drop table if exists orderlist;
 CREATE TABLE IF NOT EXISTS `orderlist` (
   `orderId` varchar(128) NOT NULL,
   `userId` varchar(64) NOT NULL,
@@ -153,7 +153,7 @@ INSERT INTO `orderlist` (`orderId`, `userId`, `productId`, `productName`, `produ
 --
 -- 表的结构 `user`
 --
-drop table if exists user
+drop table if exists user;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `userId` varchar(64) NOT NULL,
