@@ -35,6 +35,7 @@ export default {
       getScholarList()
         .then(data => {
           this.noticeList = data.content || [];
+          console.log(this.noticeList)
         })
         .catch(err => {
           console.log(err);
@@ -43,6 +44,7 @@ export default {
   },
   data: function() {
     return {
+      noticeList:[],
       images: [
         { src: "../../static/1.jpg", path: "/goodslist" },
         { src: "../../static/2.jpg", path: "/goodslist" },
