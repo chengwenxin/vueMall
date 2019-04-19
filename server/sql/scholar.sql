@@ -10,7 +10,7 @@ File Encoding         : 65001
 Date: 2016-04-14 15:06:35
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for account
@@ -32,8 +32,8 @@ CREATE TABLE `account` (
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
-  CONSTRAINT `account_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=374 DEFAULT CHARSET=utf8;
+  -- CONSTRAINT `account_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+)   
 
 -- ----------------------------
 -- Records of account
@@ -54,7 +54,7 @@ CREATE TABLE `apply` (
   `createdate` datetime DEFAULT NULL,
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of apply
@@ -72,7 +72,7 @@ CREATE TABLE `college` (
   `createdate` datetime DEFAULT NULL,
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of college
@@ -131,7 +131,7 @@ CREATE TABLE `datas` (
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `acc_id` (`account_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of datas
@@ -155,8 +155,8 @@ CREATE TABLE `grade` (
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `college_id` (`college_id`),
-  CONSTRAINT `grade_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `college` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+  -- CONSTRAINT `grade_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `college` (`id`)
+)   
 
 -- ----------------------------
 -- Records of grade
@@ -175,10 +175,10 @@ CREATE TABLE `relation` (
   KEY `role_id` (`role_id`),
   KEY `college_id` (`college_id`),
   KEY `grade_id` (`grade_id`),
-  CONSTRAINT `relation_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
-  CONSTRAINT `relation_ibfk_2` FOREIGN KEY (`college_id`) REFERENCES `college` (`id`),
-  CONSTRAINT `relation_ibfk_3` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=259 DEFAULT CHARSET=utf8;
+  -- CONSTRAINT `relation_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  -- CONSTRAINT `relation_ibfk_2` FOREIGN KEY (`college_id`) REFERENCES `college` (`id`),
+  -- CONSTRAINT `relation_ibfk_3` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`id`)
+)   
 
 -- ----------------------------
 -- Records of relation
@@ -195,7 +195,7 @@ CREATE TABLE `role` (
   `createdate` datetime DEFAULT NULL,
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of role
@@ -217,7 +217,7 @@ CREATE TABLE `scholarship` (
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `id_2` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of scholarship
@@ -249,7 +249,7 @@ File Encoding         : 65001
 Date: 2016-05-24 18:46:58
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
 CREATE DATABASE `scholarship_setting` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `scholarship_setting`;
@@ -267,7 +267,7 @@ CREATE TABLE `audit` (
   `source_ip` varchar(255) DEFAULT NULL,
   `account_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4065 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of audit
@@ -283,7 +283,7 @@ CREATE TABLE `setting` (
   `setvalue` varchar(255) DEFAULT NULL COMMENT 'value',
   `settype` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8;
+)   
 
 -- ----------------------------
 -- Records of setting
