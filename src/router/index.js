@@ -8,12 +8,18 @@ import OrderConfirm from '../page/OrderConfirm'
 import OrderSuccess from '../page/OrderSuccess'
 import OrderList from '../page/OrderList.vue'
 import GoodsDetails from '../page/GoodsDetails'
+import Home from '../page/Home'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path:'/',
+      name:'Home',
+      component:Home
+    },
+    {
+      path: '/goodslist',
       name: 'GoodsList',
       component: GoodsList
     },
