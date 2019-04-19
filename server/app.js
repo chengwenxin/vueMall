@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req,res,next) { // 拦截请求
+  //请求中有cookies.userId 就继续执行，否则查看请求是否为未登录可访问页面（若是，可继续访问），反之提示未登录
   if(req.cookies.userId){
     next();
   }else{
