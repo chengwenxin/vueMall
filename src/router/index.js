@@ -9,17 +9,23 @@ import OrderSuccess from '../page/OrderSuccess'
 import OrderList from '../page/OrderList.vue'
 import GoodsDetails from '../page/GoodsDetails'
 import Home from '../page/Home'
+import Policy from '../page/Policy'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path:'/',
+      path:'/home',
       name:'Home',
       component:Home
     },
     {
-      path: '/goodslist',
+      path:'/policy',
+      name:'Policy',
+      component:Policy
+    },
+    {
+      path: '/',
       name: 'GoodsList',
       component: GoodsList
     },
