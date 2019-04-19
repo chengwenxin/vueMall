@@ -26,9 +26,9 @@ export default {
   data: function() {
     return {
       menus: [
-        { index: "/", label: "首页" },
+        { index: "/home", label: "首页" },
         { index: "/goodslist", label: "中心简介" },
-        { index: "/cart", label: "奖助学金" },
+        { index: "/policy", label: "奖助学金" },
         { index: "/123", label: "助学贷款" },
         { index: "/1231", label: "工作动态" }
       ]
