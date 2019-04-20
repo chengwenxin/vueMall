@@ -22,14 +22,10 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .article {
   padding: 8px;
   clear: both;
-  border-left: 1px dashed;
-  border-bottom: 1px dashed;
-  border-right: 1px dashed;
-  border-color: #2569af;
   margin-bottom: 20px;
   .line {
     width: 820px;

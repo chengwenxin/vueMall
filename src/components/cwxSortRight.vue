@@ -8,7 +8,7 @@
 <script>
 export default {};
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .sort_right {
   position: relative;
   width: 856px;
@@ -19,6 +19,10 @@ export default {};
   background-color: #ffffff;
   display: block;
   margin: 20px;
+    border-left: 1px dashed;
+  border-bottom: 1px dashed;
+  border-right: 1px dashed;
+  border-color: #2569af;
   .sort_rightcont {
     padding: 8px;
     clear: both;
