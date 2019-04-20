@@ -22,8 +22,6 @@ export default {};
   .sort_rightcont {
     padding: 8px;
     clear: both;
-    border: 1px dashed;
-    border-color: #2569af;
     margin-bottom: 20px;
   }
 }

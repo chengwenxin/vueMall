@@ -27,10 +27,10 @@ export default {
     return {
       menus: [
         { index: "/home", label: "首页" },
-        { index: "/goodslist", label: "中心简介" },
-        { index: "/policy", label: "奖助学金" },
-        { index: "/123", label: "助学贷款" },
-        { index: "/1231", label: "工作动态" }
+        { index: "/center", label: "中心简介" },
+        { index: "/announcement", label: "通知公告" },
+        { index: "/working", label: "工作动态" },
+        { index: "/policy", label: "资助政策" }
       ]
     };
   }
