@@ -8,6 +8,7 @@ import vueResource from 'vue-resource'
 import vueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import Base64 from 'js-base64'
+import "./assets/css/base.css"
 //自定义指令
 import './directives/'
 //注册组件

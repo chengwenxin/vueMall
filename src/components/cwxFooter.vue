@@ -1,25 +1,28 @@
 
 <template>
-
-<div class="footer">
-		<p >版权所有 &nbsp;西北农林科技大学学生处 &nbsp;</p>
-		<p >地址：陕西省杨凌高新农业技术产业示范区西农路22号 &nbsp;邮编：712100</p>
-</div>
+  <div class="footer">
+    <p>版权所有 &nbsp;西北农林科技大学学生处 &nbsp;</p>
+    <p>地址：陕西省杨凌高新农业技术产业示范区西农路22号 &nbsp;邮编：712100</p>
+  </div>
 </template>
 <script>
-export default {
-};
+export default {};
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .footer {
-    color:#fff;
-    font-size: 14px;
-    height: 105px;
-    background: #078f48/*#e5f3fa*/;
-    margin-top: 20px;
+  color: #fff;
+  clear: both;
+  float: left;
+  width: 1200px;
+  position: relative;
+  bottom: 0px;
+  font-size: 14px;
+  height: 80px;
+  background: #078f48 /*#e5f3fa*/;
+  margin-top: 20px;
   p {
-    text-align:center;
-    padding-top:10px;
+    text-align: center;
+    padding-top: 10px;
   }
 }
 </style>

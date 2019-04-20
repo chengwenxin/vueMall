@@ -48,18 +48,15 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .home {
+  background: #fff;
   width: 100%;
   .container {
     padding: 0px;
     width: 1200px;
-    .main {
-      height: 600px;
-    }
     .header,
-    .main,
-    .footer {
+    .main {
       position: relative;
     }
   }

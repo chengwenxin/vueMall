@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="policy">
     <div class="container">
       <div class="header">
         <cwx-header></cwx-header>
@@ -41,18 +41,18 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.home {
+<style lang="scss" scoped>
+.policy {
+  background: #fff;
   width: 100%;
   .container {
     padding: 0px;
     width: 1200px;
     .main {
-      height: 600px;
+     //height: 660px;
     }
     .header,
-    .main,
-    .footer {
+    .main {
       position: relative;
     }
   }

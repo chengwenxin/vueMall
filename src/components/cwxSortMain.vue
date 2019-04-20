@@ -12,7 +12,7 @@ export default {
   props: ["title"]
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .sort_main {
   width: 1200px;
   margin: 0 auto;

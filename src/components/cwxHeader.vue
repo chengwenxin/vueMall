@@ -15,7 +15,7 @@
         v-for="item in menus"
         :key="item.index"
         route
-        style="font-size:16px;font-weight:bold;"
+        style="font-size:20px;font-weight:bold;"
         :index="item.index"
       >{{item.label}}</el-menu-item>
     </el-menu>
@@ -36,5 +36,5 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

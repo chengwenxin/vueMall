@@ -33,18 +33,17 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .home {
   width: 100%;
   .container {
     padding: 0px;
     width: 1200px;
     .main {
-      height: 600px;
+     //height: 660px;
     }
     .header,
-    .main,
-    .footer {
+    .main {
       position: relative;
     }
   }

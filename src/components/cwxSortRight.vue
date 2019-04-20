@@ -12,8 +12,7 @@ export default {};
 .sort_right {
   position: relative;
   width: 856px;
-  min-height: 500px;
-  float: right;
+  min-height: 600px;
   margin-right: 20px;
   float: left;
   background-color: #ffffff;

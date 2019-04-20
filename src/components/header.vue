@@ -467,7 +467,6 @@ export default {
             .nav-info-list
               position: relative;
               padding-top: 20px;
-              background: #fff;
               border: 1px solid #d6d6d6;
               border-color: rgba(0, 0, 0, 0.08);
               border-radius: 8px;
@@ -552,7 +551,6 @@ export default {
               z-index:99
               .nav-user-list
                 position: relative;
-                background: #fff;
                 border: 1px solid #d6d6d6;
                 border-color: rgba(0, 0, 0, 0.08);
                 border-radius: 8px;
