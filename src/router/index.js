@@ -10,6 +10,11 @@ import OrderList from '../page/OrderList.vue'
 import GoodsDetails from '../page/GoodsDetails'
 import Home from '../page/Home'
 import Policy from '../page/Policy'
+import PolicyDetail from '../page/PolicyDetail'
+import Announcement from '../page/Announcement'
+import AnnouncementDetail from '../page/AnnouncementDetail'
+import Working from '../page/Working'
+import WorkingDetail from '../page/WorkingDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +28,31 @@ export default new Router({
       path:'/policy',
       name:'Policy',
       component:Policy
+    },
+    {
+      path:'/policy/detail/:id',
+      name:'PolicyDetail',
+      component:PolicyDetail
+    },
+    {
+      path:'/announcement',
+      name:'Announcement',
+      component:Announcement
+    },
+    {
+      path:'/announcement/detail/:id',
+      name:'AnnouncementDetail',
+      component:AnnouncementDetail
+    },
+    {
+      path:'/working',
+      name:'Working',
+      component:Working
+    },
+    {
+      path:'/working/detail/:id',
+      name:'WorkingDetail',
+      component:WorkingDetail
     },
     {
       path: '/',
