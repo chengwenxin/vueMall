@@ -14,9 +14,9 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-        <cwx-slide-content title="通知公告" path="/" :list="noticeList"></cwx-slide-content>
-        <cwx-slide-content title="工作动态" path="/" :list="noticeList"></cwx-slide-content>
-        <cwx-slide-content title="资助政策" path="/policy" :list="noticeList"></cwx-slide-content>
+        <cwx-slide-content title="通知公告" path="/" :list="announcementList"></cwx-slide-content>
+        <cwx-slide-content title="工作动态" path="/" :list="workingList"></cwx-slide-content>
+        <cwx-slide-content title="资助政策" path="/policy" :list="scholarList"></cwx-slide-content>
       </div>
       <div class="footer">
         <cwx-footer></cwx-footer>
@@ -25,7 +25,11 @@
   </div>
 </template>
 <script>
-import { getScholarList } from "../api/scholar.js";
+import {
+  getScholarList,
+  getAnnouncementList,
+  getWorkingtList
+} from "../api/scholar.js";
 export default {
   mounted() {
     this.getList();
@@ -34,8 +38,21 @@ export default {
     getList() {
       getScholarList()
         .then(data => {
-          this.noticeList = data.content || [];
-          console.log(this.noticeList)
+          this.scholarList = data.content || [];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      getAnnouncementList()
+        .then(data => {
+          this.announcementList = data.content || [];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      getWorkingtList()
+        .then(data => {
+          this.workingList = data.content || [];
         })
         .catch(err => {
           console.log(err);
@@ -44,7 +61,9 @@ export default {
   },
   data: function() {
     return {
-      noticeList:[],
+      scholarList: [],
+      announcementList: [],
+      workingList: [],
       images: [
         { src: "../../static/1.jpg", path: "/goodslist" },
         { src: "../../static/2.jpg", path: "/goodslist" },
@@ -67,6 +86,9 @@ export default {
     .main,
     .footer {
       position: relative;
+    }
+    .header {
+      margin-bottom: 10px;
     }
   }
 }
