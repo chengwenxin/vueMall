@@ -15,15 +15,21 @@ import Announcement from '../page/Announcement'
 import AnnouncementDetail from '../page/AnnouncementDetail'
 import Working from '../page/Working'
 import WorkingDetail from '../page/WorkingDetail'
+import Editor from '../page/Editor'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path:'/home',
-      name:'Home',
-      component:Home
+      name:'Editor',
+      component:Editor
     },
+    // {
+    //   path:'/home',
+    //   name:'Home',
+    //   component:Home
+    // },
     {
       path:'/policy',
       name:'Policy',
