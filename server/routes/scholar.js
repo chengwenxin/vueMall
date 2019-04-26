@@ -7,6 +7,10 @@ var $conf = require('../conf/conf');
 var pool = mysql.createPool($conf.mysql);
 router.use(express.static('public'));
 
+
+
+
+
 //资助政策
 router.get('/policy',(req, res, next) => {
 
@@ -49,6 +53,51 @@ router.get('/policy/detail',(req, res, next) => {
     }
   })
 })
+
+//资助中心简介
+router.get('/introduction',(req, res, next) => {
+  let id = 0
+  let sql = `select * from introduction where id = ${id}`;
+  pool.query(sql, (err, result) => {
+    if(result && result.length>0){
+      result = result[0]
+    }
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+        res.json({
+          status: '1',
+          msg: '获取数据成功',
+          content: result
+        });
+    }
+  })
+})
+//中心简介阅读次数
+router.get('/introduction/readingtimes',(req, res, next) => {
+  let id = 0
+  let reading_times = 0
+  let updatesql = ''
+  let sql = `select * from introduction where id = ${id}`;
+  pool.query(sql, (err, result) => {
+   if(!err){
+    if(result && result.length>0){
+      result = result[0]
+    }
+    reading_times = result.reading_times + 1
+    updatesql =`update introduction set reading_times= ${reading_times} where id =${id}`;
+    pool.query(updatesql,(err,result) => {
+      if(!err){
+        // console.log(result)
+      }
+    })
+   }
+  })
+})
+
 
 //通知公告
 router.get('/announcement',(req, res, next) => {

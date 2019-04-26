@@ -9,6 +9,12 @@ import vueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import Base64 from 'js-base64'
 import "./assets/css/base.css"
+
+//ueditor文件
+// import '../static/ue/ueditor.parse.min.js'
+// import '../static/ue/ueditor.all.min.js'
+// import '../static/ue/ueditor.config.js'
+// import '../static/ue/lang/zh-cn/zh-cn.js'
 //自定义指令
 import './directives/'
 //注册组件

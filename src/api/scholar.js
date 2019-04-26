@@ -27,3 +27,23 @@ export const getWorkingtList = () => {
 export const getWorkingtDetail = (params) => {
   return http.fetchGet('/api/scholar/working/detail',params)
 }
+//获取中心简介
+export const getIntroductionDetail = (params) => {
+  return http.fetchGet('/api/scholar/introduction',params)
+}
+//获取中心简介阅读次数
+export const IntroductionReadingTimes = (params) => {
+  return http.fetchGet('/api/scholar/introduction/readingtimes',params)
+}
+//登录
+export const login = (params) => {
+  return http.fetchPost('/api/login',params)
+}
+//注册
+export const register = (params) => {
+  return http.fetchPost('/api/register',params)
+}
+//注册
+export const profileApplyList = (params) => {
+  return http.fetchQuickSearch('/api/apply/list',params)
+}

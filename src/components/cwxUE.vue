@@ -7,7 +7,8 @@
     <button type @click="gettext">点击</button>
   </div>
 </template>
-<script>
+
+　　　　<script>
 export default {
   data() {
     return {
