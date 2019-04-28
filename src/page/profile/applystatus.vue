@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { profileApplyList } from "../../api/scholar.js";
+import { profileApplyList } from "../../api";
 export default {
   mounted() {
     this.getList();
@@ -57,7 +57,7 @@ export default {
   data: function() {
     return {
       formdata: [],
-      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/profile/applystatus'}]
+      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/profile/applystatus'}, {label:'发布信息',path:'/profile/editor'}]
     };
   }
 };

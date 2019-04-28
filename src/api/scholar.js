@@ -1,8 +1,6 @@
 import http from './public'
-//添加资助政策信息
-export const addPolicy = (params) => {
-  return http.fetchPost('/api/scholar/ueditor/content',params)
-}
+
+
 // 获取资助政策
 export const getScholarList = () => {
   return http.fetchQuickSearch('/api/scholar/policy')
@@ -40,15 +38,3 @@ export const IntroductionReadingTimes = (params) => {
   return http.fetchGet('/api/scholar/introduction/readingtimes',params)
 }
 
-//登录
-export const login = (params) => {
-  return http.fetchPost('/api/login',params)
-}
-//注册
-export const register = (params) => {
-  return http.fetchPost('/api/register',params)
-}
-//注册
-export const profileApplyList = (params) => {
-  return http.fetchQuickSearch('/api/apply/list',params)
-}

@@ -1,38 +1,23 @@
 import http from './public'
-// 登陆
-export const userLogin = (params) => {
-  return http.fetchPost('/member/login', params)
+
+//登录
+export const login = (params) => {
+  return http.fetchPost('/api/login',params)
 }
-// 退出登陆
-export const loginOut = (params) => {
-  return http.fetchGet('/member/loginOut', params)
-}
-// 用户信息
-export const userInfo = (params) => {
-  return http.fetchGet('/member/checkLogin', params)
-}
-// 注册账号
+//注册
 export const register = (params) => {
-  return http.fetchPost('/member/register', params)
+  return http.fetchPost('/api/register',params)
 }
-// 上传图片
-export const upload = (params) => {
-  return http.fetchPost('/member/imgaeUpload', params)
+//申请状态
+export const profileApplyList = (params) => {
+  return http.fetchQuickSearch('/api/apply/list',params)
 }
-// 修改头像
-export const updateheadimage = (params) => {
-  return http.fetchPost('/member/updateheadimage', params)
-}
-// 捐赠列表
-export const thanksList = (params) => {
-  return http.fetchGet('/member/thanks', params)
-}
-// 首页接口
-export const productHome = (params) => {
-  return http.fetchGet('/goods/productHome', params)
-}
-// 极验验证码
-export const geetest = (params) => {
-  return http.fetchGet('/member/geetestInit?t=' + (new Date()).getTime(), params)
+// 个人基本信息
+export const baseInformation = (params) => {
+  return http.fetchQuickSearch('/api/information/base',params)
 }
 
+//添加资助政策信息
+export const addPolicy = (params) => {
+  return http.fetchPost('/api/ueditor/content',params)
+}

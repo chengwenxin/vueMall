@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var scholar = require('./routes/scholar');
 var app = express();
 
@@ -27,8 +26,9 @@ app.use(function (req,res,next) { // 拦截请求
   if(req.cookies.number){
     next();
   }else{
-      // console.log("url:"+req.originalUrl);
+      console.log("url:"+req.originalUrl);
       if(req.originalUrl.indexOf('/login')>-1 || req.originalUrl.indexOf('/register')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
+      console.log("url1:"+req.originalUrl);
           next();
       }else{
           res.json({
@@ -41,7 +41,6 @@ app.use(function (req,res,next) { // 拦截请求
 });
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/scholar', scholar);
 
 // catch 404 and forward to error handler
