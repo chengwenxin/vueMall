@@ -61,6 +61,7 @@ router.get('/apply/list',(req, res, next) => {
         msg: err.message
       });
     } else {
+      console.log(result)
         res.json({
           status: '1',
           msg: '获取数据成功',

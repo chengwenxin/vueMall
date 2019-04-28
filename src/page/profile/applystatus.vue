@@ -57,12 +57,12 @@ export default {
   data: function() {
     return {
       formdata: [],
-      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/applystatus'}]
+      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/profile/applystatus'}]
     };
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 body .el-table th.gutter {
   display: table-cell !important;
 }
@@ -78,11 +78,5 @@ body .el-table th.gutter {
     }
   }
 }
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
 </style>

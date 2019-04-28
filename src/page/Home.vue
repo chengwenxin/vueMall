@@ -4,7 +4,7 @@
       <div class="header">
         <cwx-header></cwx-header>
       </div>
-      <div class="main">
+      <div class="mainer">
         <div style="width:550px;height:300px;float:left;margin:0 25px;">
           <el-carousel trigger="click" height="300px" width="550px">
             <el-carousel-item v-for="item in images" :key="item.src">
@@ -81,7 +81,7 @@ export default {
     padding: 0px;
     width: 1200px;
     margin: 0 auto;
-    .main {
+    .mainer {
      min-height: 660px;
     }
     .header,
@@ -92,12 +92,5 @@ export default {
       margin-bottom: 10px;
     }
   }
-}
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
 }
 </style>

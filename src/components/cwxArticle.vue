@@ -9,8 +9,8 @@
     <h2 class="cont_h2">
       作者：{{detail.author}} &nbsp;&nbsp;&nbsp;发布日期：{{detail.detailDate}}&nbsp;&nbsp;&nbsp; 浏览次数：{{detail.reading_times}}
     </h2>
-    <div class="cont">
-      {{detail.content}}
+    <div class="cont" v-html="detail.content">
+      <!-- {{detail.content}} -->
     </div>
   </div>
 </template>
