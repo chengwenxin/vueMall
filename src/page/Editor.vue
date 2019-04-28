@@ -1,53 +1,38 @@
 <template>
   <div>
-    <el-form :model="formData">
-      <el-row>
-        <el-col>
-          <el-form-item label="作者" prop="author">
-            <el-input v-model="formData.author"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col>
-          <el-form-item label="发布日期" prop="detailDate">
-            <el-date-picker
-              type="date"
-              value-format="yyyy-MM-dd"
-              v-model="formData.detailDate"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col>
-          <el-form-item label="标题" prop="title">
-            <el-input v-model="formData.title"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col>
-          <el-form-item label="申请状态" prop="title">
-            <el-select v-model="formData.isApply">
-              <el-option
-                v-for="item in applyList"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col>
-          <el-form-item>
-            <el-button @click="submit" type="primary">提交</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <el-form-item>
-            <template prop="content">
-              <vue-ueditor-wrap v-model="formData.content" :config="myConfig"></vue-ueditor-wrap>
-            </template>
-          </el-form-item>
-        </el-col>
-      </el-row>
+    <el-form :model="formData" :inline="true">
+      <el-form-item label="作者" prop="author">
+        <el-input v-model="formData.author"></el-input>
+      </el-form-item>
+
+      <el-form-item label="发布日期" prop="detailDate">
+        <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="formData.detailDate"></el-date-picker>
+      </el-form-item>
+
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="formData.title"></el-input>
+      </el-form-item>
+
+      <el-form-item label="申请状态" prop="title">
+        <el-select v-model="formData.isApply">
+          <el-option
+            v-for="item in applyList"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button @click="submit" type="primary">提交</el-button>
+      </el-form-item>
+
+      <el-form-item>
+        <template prop="content">
+          <vue-ueditor-wrap v-model="formData.content" :config="myConfig"></vue-ueditor-wrap>
+        </template>
+      </el-form-item>
     </el-form>
   </div>
 </template>

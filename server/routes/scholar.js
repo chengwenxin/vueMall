@@ -11,7 +11,6 @@ router.use(express.static('public'));
 //ueditor 获取content
 router.post('/ueditor/content',(req, res, next) => {
    if(req.cookies && req.cookies.number){
-     console.log(req.body)
     let sql = `insert into policy(author, update_date, title,content,detailDate,isApply) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}')`
     pool.query(sql, (err, result) => {
       if (err) {

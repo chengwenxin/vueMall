@@ -6,7 +6,7 @@ var $conf = require('../conf/conf');
 var pool = mysql.createPool($conf.mysql);
 router.use(express.static('public'));
 
-
+//登录
 router.post('/login', function (req, res, next) {
   //对输入的密码进行加密
   let number = req.body.number || ''
@@ -48,6 +48,48 @@ router.post('/login', function (req, res, next) {
     }
   })
 })
+
+//注册
+router.post('/register', function (req, res, next) {
+  console.log(req.body)
+  let querysql = `select number from user where number = ${req.body.number}`
+  let registersql = `insert into user(number,name,password,role,college,major,grade) values('${req.body.number}','${req.body.name}','${req.body.password}','${req.body.role}','${req.body.college}','${req.body.major}','${req.body.grade}')`;
+  pool.query(querysql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      if(result.length > 0){
+        res.json({
+          status: '-1',
+          msg: '账户已存在'
+        });
+      }else {
+        pool.query(registersql,function(err,result){
+          if(err){
+            res.json({
+              status: '-1',
+              msg: err.message
+            });
+          }else{
+            res.json({
+              status: '1',
+              msg: '注册成功'
+            });
+          }
+        })
+      }
+    }
+  })
+
+
+})
+
+
+
+
 
 //查询申请状态
 router.get('/apply/list',(req, res, next) => {
