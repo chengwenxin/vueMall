@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import { register } from "../api/scholar";
+import { register } from "../api";
 export default {
   data: function() {
     let secondPassword = (rule, value, callback) => {

@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var ueditor = require("ueditor")
 var index = require('./routes/index');
 var scholar = require('./routes/scholar');
 var app = express();
@@ -20,6 +20,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
+  if(req.query.action === 'config'){
+    console.log(req.query)
+  }
+  if(req.query.action === 'uploadimage'){
+    // 这里你可以获得上传图片的信息
+    var foo = req.ueditor;
+    console.log(foo.filename); // exp.png
+    console.log(foo.encoding); // 7bit
+    console.log(foo.mimetype); // image/png
+    var img_url = 'images';
+    res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+  }
+    //  客户端发起图片列表请求
+  else if (req.query.action === 'listimage'){
+      var dir_url = 'images'; // 要展示给客户端的文件夹路径
+      res.ue_list(dir_url) // 客户端会列出 dir_url 目录下的所有图片
+  }else {
+    res.setHeader('Content-Type', 'application/json');
+    // 这里填写 ueditor.config.json 这个文件的路径
+    res.redirect('/static/ue/nodejs/config.json')
+  }
+}))
 
 app.use(function (req,res,next) { // 拦截请求
   //请求中有cookies.userId 就继续执行，否则查看请求是否为未登录可访问页面（若是，可继续访问），反之提示未登录

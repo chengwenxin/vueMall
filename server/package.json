@@ -9,12 +9,13 @@
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.15.5",
+    "express": "^4.16.4",
     "finalhandler": "^1.1.0",
     "jade": "~1.11.0",
     "merge-descriptors": "^1.0.1",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "ueditor": "^1.2.3"
   }
 }

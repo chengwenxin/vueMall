@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import { login } from "../api/scholar";
+import { login } from "../api";
 export default {
   data: function() {
     return {
