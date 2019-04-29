@@ -1,7 +1,8 @@
 <template>
   <div class="article">
     <template v-if="detail.isApply === 1">
-      <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#078f48;font-size:18px;padding:5px;font-weight:bold;" value="在线申请">
+      <el-button type="primary"  @click="apply" style="float:right;margin-right:20px;">在线申请</el-button>
+      <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#078f48;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
     </template>
       <h1 style="font-size: 22px;font-family:'微软雅黑';color:#078f48;text-align:center;padding-top:20px;font-weight:bold;">{{detail.title}} </h1>
     

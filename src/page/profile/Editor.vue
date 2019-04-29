@@ -9,9 +9,8 @@
         <cwx-sort-main title="个人中心"></cwx-sort-main>
         <cwx-sort-left :menu="menu"></cwx-sort-left>
         <cwx-sort-right>
-          <div>
+          <div v-show="!isScan">
             <el-form :model="formData" :inline="true">
-
               <el-form-item label="作者：" prop="author">
                 <el-input v-model="formData.author"></el-input>
               </el-form-item>
@@ -35,15 +34,19 @@
                 </el-select>
               </el-form-item>
               <el-form-item>
+                <el-button @click="scan" type="primary">预览</el-button>
                 <el-button @click="submit" type="primary">提交</el-button>
               </el-form-item>
-
               <el-form-item>
                 <template prop="content">
                   <vue-ueditor-wrap v-model="formData.content" :config="myConfig"></vue-ueditor-wrap>
                 </template>
               </el-form-item>
             </el-form>
+          </div>
+          <div v-show="isScan">
+           <el-button @click="scan" type="primary">返回</el-button>
+            <cwx-article :detail="formData"></cwx-article>
           </div>
         </cwx-sort-right>
       </div>
@@ -56,12 +59,14 @@
 <script>
 import { addPolicy } from "../../api";
 import VueUeditorWrap from "vue-ueditor-wrap";
+import mixins from './mixins'
 export default {
+  mixins:[mixins],
   name: "Ueditor",
   components: { VueUeditorWrap },
   data() {
     return {
-      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/profile/applystatus'}, {label:'发布信息',path:'/profile/editor'}],
+      isScan:false,
       formData: {
         author: "",
         title: "",
@@ -85,7 +90,7 @@ export default {
         // 工具栏是否可以浮动
         autoFloatEnabled: false,
         // 初始容器高度
-        initialFrameHeight: 340,
+        initialFrameHeight: 410,
         // 初始容器宽度
         initialFrameWidth: "100%",
         // 关闭自动保存
@@ -97,7 +102,6 @@ export default {
     submit() {
       let update_date = this.formData.detailDate.slice(5);
       Object.assign(this.formData, { update_date });
-      console.log(this.formData);
       addPolicy(this.formData)
         .then(data => {
           this.$message.success(data.msg);
@@ -105,6 +109,9 @@ export default {
         .catch(err => {
           this.$message.error(err.msg);
         });
+    },
+    scan(){
+      this.isScan = !this.isScan
     }
   }
 };

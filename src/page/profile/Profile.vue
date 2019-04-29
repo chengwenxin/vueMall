@@ -82,7 +82,9 @@
 </template>
 <script>
 import { baseInformation } from "../../api";
+import mixins from './mixins'
 export default {
+  mixins:[mixins],
   mounted() {
     this.getList();
   },
@@ -92,6 +94,8 @@ export default {
         .then(data => {
           if(data.status === '1'){
             this.formData = data.content;
+            this.$store.commit('role',data.content.role)
+            this.menuList()
           }else {
             this.$message.error(data.msg)
             this.$router.push('/login')
@@ -105,7 +109,6 @@ export default {
   data: function() {
     return {
       formData: {},
-      menu: [{label:'个人信息',path:'/profile'}, {label:'申请状态',path:'/profile/applystatus'}, {label:'发布信息',path:'/profile/editor'}]
     };
   }
 };
