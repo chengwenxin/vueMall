@@ -2,7 +2,7 @@
     <div class="slide-content">
       <ul>
         <li
-          v-for="item in list.slice(0,7)"
+          v-for="item in list"
           :key="item.id"
           :style="paddingleft"
         >

@@ -8,6 +8,10 @@ router.use(express.static('public'));
 
 //登录
 router.post('/login', function (req, res, next) {
+
+  
+
+
   //对输入的密码进行加密
   let number = req.body.number || ''
   let password = req.body.password || ''

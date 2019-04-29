@@ -31,7 +31,7 @@ router.get('/ueditor/img',(req, res, next) => {
 //资助政策
 router.get('/policy',(req, res, next) => {
 
-  let sql = `select * from policy`
+  let sql = `select * from policy order by update_date desc`
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -119,7 +119,7 @@ router.get('/introduction/readingtimes',(req, res, next) => {
 //通知公告
 router.get('/announcement',(req, res, next) => {
 
-  let sql = `select * from announcement`
+  let sql = `select * from announcement order by update_date desc`
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -161,7 +161,7 @@ router.get('/announcement/detail',(req, res, next) => {
 //工作动态
 router.get('/working',(req, res, next) => {
 
-  let sql = `select * from working`
+  let sql = `select * from working order by update_date desc`
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -215,7 +215,17 @@ router.get('/readingtimes',(req, res, next) => {
     updatesql =`update policy set reading_times= ${reading_times} where id =${id}`;
     pool.query(updatesql,(err,result) => {
       if(!err){
-        // console.log(result)
+        res.json({
+          status: '-1',
+          msg: '获取数据成功',
+          content: result
+        });
+      }else {
+        res.json({
+          status: '1',
+          msg: '获取数据成功',
+          content: result
+        });
       }
     })
    }

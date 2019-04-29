@@ -14,9 +14,9 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-        <cwx-slide-content title="通知公告" path="/" :list="announcementList"></cwx-slide-content>
-        <cwx-slide-content title="工作动态" path="/" :list="workingList"></cwx-slide-content>
-        <cwx-slide-content title="资助政策" path="/policy" :list="scholarList"></cwx-slide-content>
+        <cwx-slide-content title="通知公告" path="/announcement" :list="announcementList.slice(0,7)"></cwx-slide-content>
+        <cwx-slide-content title="工作动态" path="/working" :list="workingList.slice(0,7)"></cwx-slide-content>
+        <cwx-slide-content title="资助政策" path="/policy" :list="scholarList.slice(0,7)"></cwx-slide-content>
       </div>
       <div class="footer">
         <cwx-footer></cwx-footer>

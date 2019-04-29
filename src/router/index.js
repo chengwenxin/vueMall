@@ -10,6 +10,7 @@ import WorkingDetail from '../page/WorkingDetail'
 import Introduction from '../page/Introduction'
 import Editor from '../page/profile/Editor'
 import Login from '../page/Login'
+import Apply from '../page/Apply'
 import Register from '../page/Register'
 import Profile from '../page/profile/Profile'
 import applystatus from '../page/profile/applystatus'
@@ -47,11 +48,6 @@ export default new Router({
       path:'/profile',
       name:'Profile',
       component:Profile,
-      // children: [{
-      //   path:'applystatus',
-      //   name:'applystatus',
-      //   component:applystatus
-      // }]
     },
     {
       path:'/introduction',
@@ -67,6 +63,11 @@ export default new Router({
       path:'/policy/detail/:id',
       name:'PolicyDetail',
       component:PolicyDetail
+    },   
+    {
+      path:'/apply/:id',
+      name:'Apply',
+      component:Apply
     },
     {
       path:'/announcement',
