@@ -68,7 +68,7 @@
                 </el-form-item>
                 <el-form-item label-width="100px" size="medium">
                   <el-button @click="resetForm('formData')">重置</el-button>
-                  <el-button type="primary" @click="onSubmit">注 册</el-button>
+                  <el-button type="success" @click="onSubmit">注 册</el-button>
                 </el-form-item>
               </el-form>
             </div>

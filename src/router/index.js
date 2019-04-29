@@ -13,8 +13,10 @@ import Login from '../page/Login'
 import Apply from '../page/Apply'
 import Register from '../page/Register'
 import Profile from '../page/profile/Profile'
-import applystatus from '../page/profile/applystatus'
-
+import ApplyStatus from '../page/profile/ApplyStatus'
+import AuditStatus from '../page/profile/AuditStatus'
+import SecondAuditStatus from '../page/profile/SecondAuditStatus'
+SecondAuditStatus
 Vue.use(Router)
 
 export default new Router({
@@ -35,9 +37,19 @@ export default new Router({
       component:Register
     },
     {
+      path:'/profile/auditstatus',
+      name:'AuditStatus',
+      component:AuditStatus
+    },
+    {
+      path:'/profile/secondauditstatus',
+      name:'SecondAuditStatus',
+      component:SecondAuditStatus
+    },
+    {
       path:'/profile/applystatus',
-      name:'applystatus',
-      component:applystatus
+      name:'ApplyStatus',
+      component:ApplyStatus
     },
     {
       path:'/home',

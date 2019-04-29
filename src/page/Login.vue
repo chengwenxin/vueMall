@@ -26,8 +26,8 @@
                       <el-input v-model="loginForm.password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <el-form-item label-width="100px">
-                      <el-button type="primary" @click="userLogin">登 录</el-button>
-                      <el-button type="primary" @click="register">注 册</el-button>
+                      <el-button type="success" @click="userLogin">登 录</el-button>
+                      <el-button type="success" @click="register">注 册</el-button>
                     </el-form-item>
                     <div style="padding-left:50px;">
                       <span>
@@ -38,7 +38,7 @@
                 </div>
                 <div v-else style="text-align:center">
                   <h1 style="color:#438F49;font-weight:bold;margin:50px 0px;">当前已登录</h1>
-                  <el-button @click="logout" type="primary">登 出</el-button>
+                  <el-button @click="logout" type="success">登 出</el-button>
                 </div>
               </template>
             </div>

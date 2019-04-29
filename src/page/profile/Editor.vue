@@ -34,8 +34,8 @@
                 </el-select>
               </el-form-item>
               <el-form-item>
-                <el-button @click="scan" type="primary">预览</el-button>
-                <el-button @click="submit" type="primary">提交</el-button>
+                <el-button @click="scan" type="success">预览</el-button>
+                <el-button @click="submit" type="success">提交</el-button>
               </el-form-item>
               <el-form-item>
                 <template prop="content">
@@ -45,7 +45,7 @@
             </el-form>
           </div>
           <div v-show="isScan">
-           <el-button @click="scan" type="primary">返回</el-button>
+           <el-button @click="scan" type="success">返回</el-button>
             <cwx-article :detail="formData"></cwx-article>
           </div>
         </cwx-sort-right>

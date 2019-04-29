@@ -18,7 +18,7 @@
             </el-steps>
             <div v-if="active > -1" style="width:100%;height:500px;border:1px solid ;margin-top:20px;">what</div>
             <div style="width:100%;text-align:center">
-              <el-button style="margin-top: 12px;" type="primary" @click="next">下一步</el-button>
+              <el-button style="margin-top: 12px;" type="success" @click="next">下一步</el-button>
             </div>
           </div>
         </div>
