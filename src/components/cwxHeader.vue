@@ -37,7 +37,7 @@ export default {
   data: function() {
     return {
       menus: [
-        { index: "/home", label: "首      页" },
+        { index: "/", label: "首      页" },
         { index: "/introduction", label: "中 心 简 介" },
         { index: "/announcement", label: "通 知 公 告" },
         { index: "/working", label: "工 作 动 态" },

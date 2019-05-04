@@ -52,7 +52,7 @@ export default new Router({
       component:ApplyStatus
     },
     {
-      path:'/home',
+      path:'/',
       name:'Home',
       component:Home
     },
