@@ -86,6 +86,10 @@ import mixins from './mixins'
 export default {
   mixins:[mixins],
   mounted() {
+    if(window.localStorage.getItem('isLogin') !== '1'){
+      this.$message.error('当前未登录！')
+      this.$router.push('/login')
+    }
     this.getList();
   },
   methods: {

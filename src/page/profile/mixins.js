@@ -47,6 +47,9 @@ export default {
         }, {
           label: '发布信息',
           path: '/profile/editor'
+        }, {
+          label: '发布管理',
+          path: '/profile/editor'
         }]
       }
     }

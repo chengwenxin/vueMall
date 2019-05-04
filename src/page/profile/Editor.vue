@@ -11,20 +11,29 @@
         <cwx-sort-right>
           <div v-show="!isScan">
             <el-form :model="formData" :inline="true">
+              <el-form-item label="类型" prop="author">
+                <el-select v-model="formData.type">
+                  <el-option v-for="item in typeList" :key="item" :label="item" :value="item"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="标题：" prop="title">
+                <el-input v-model="formData.title"></el-input>
+              </el-form-item>
               <el-form-item label="作者：" prop="author">
                 <el-input v-model="formData.author"></el-input>
               </el-form-item>
 
               <el-form-item label="发布日期：" prop="detailDate">
-                <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="formData.detailDate"></el-date-picker>
-              </el-form-item>
-              <br>
-              <el-form-item label="标题：" prop="title">
-                <el-input v-model="formData.title"></el-input>
+                <el-date-picker
+                  :clearable="false"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  v-model="formData.detailDate"
+                ></el-date-picker>
               </el-form-item>
 
               <el-form-item label="申请状态：" prop="title">
-                <el-select v-model="formData.isApply">
+                <el-select v-model="formData.isApply" @change="applyChange">
                   <el-option
                     v-for="item in applyList"
                     :key="item.value"
@@ -37,6 +46,10 @@
                 <el-button @click="scan" type="success">预览</el-button>
                 <el-button @click="submit" type="success">提交</el-button>
               </el-form-item>
+              <div v-if="isApply" style="width:100px;height:100px;">
+                {{isApply}}
+                定制申请信息
+              </div>
               <el-form-item>
                 <template prop="content">
                   <vue-ueditor-wrap v-model="formData.content" :config="myConfig"></vue-ueditor-wrap>
@@ -44,8 +57,9 @@
               </el-form-item>
             </el-form>
           </div>
+
           <div v-show="isScan">
-           <el-button @click="scan" type="success">返回</el-button>
+            <el-button @click="scan" type="success">返回</el-button>
             <cwx-article :detail="formData"></cwx-article>
           </div>
         </cwx-sort-right>
@@ -59,15 +73,16 @@
 <script>
 import { addPolicy } from "../../api";
 import VueUeditorWrap from "vue-ueditor-wrap";
-import mixins from './mixins'
+import mixins from "./mixins";
 export default {
-  mixins:[mixins],
+  mixins: [mixins],
   name: "Ueditor",
   components: { VueUeditorWrap },
   data() {
     return {
-      isScan:false,
+      isScan: false,
       formData: {
+        type: "",
         author: "",
         title: "",
         update_date: "",
@@ -75,6 +90,8 @@ export default {
         content: "",
         isApply: ""
       },
+      isApply: 0,
+      typeList: ["通知公告", "工作动态", "资助政策"],
       applyList: [
         { value: 1, label: "允许申请" },
         { value: 0, label: "不能申请" }
@@ -98,7 +115,27 @@ export default {
       }
     };
   },
+
+  mounted() {
+    this.formData = Object.assign({}, this.formData, {
+      detailDate: this.defaultValue()
+    });
+  },
   methods: {
+    applyChange(val) {
+      this.isApply = val
+    },
+    defaultValue() {
+      let date = new Date();
+      let year = date.getUTCFullYear();
+      let month =
+        date.getUTCMonth() < 9
+          ? "0" + (date.getUTCMonth() + 1)
+          : date.getUTCMonth() + 1;
+      let day =
+        date.getUTCDate() < 9 ? "0" + date.getUTCDate() : date.getUTCDate();
+      return "" + year + "-" + month + "-" + day;
+    },
     submit() {
       let update_date = this.formData.detailDate.slice(5);
       Object.assign(this.formData, { update_date });
@@ -110,8 +147,8 @@ export default {
           this.$message.error(err.msg);
         });
     },
-    scan(){
-      this.isScan = !this.isScan
+    scan() {
+      this.isScan = !this.isScan;
     }
   }
 };
