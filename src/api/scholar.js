@@ -1,6 +1,7 @@
 import http from './public'
 
 
+
 // 获取资助政策
 export const getScholarList = () => {
   return http.fetchQuickSearch('/api/scholar/policy')
@@ -8,6 +9,35 @@ export const getScholarList = () => {
 //获取资助政策详情
 export const getScholarDetail = (params) => {
   return http.fetchGet('/api/scholar/policy/detail',params)
+}
+// 更新资助政策
+export const updatePolicy = (params) => {
+  return http.fetchPost('/api/scholar/policy/update',params)
+}
+// 更新通知公告
+export const updateAnnouncement = (params) => {
+  return http.fetchPost('/api/scholar/announcement/update',params)
+}
+// 更新工作动态
+export const updateWorking= (params) => {
+  return http.fetchPost('/api/scholar/working/update',params)
+}
+// 更新中心简介
+export const updateIntroduction = (params) => {
+  return http.fetchPost('/api/scholar/introduction/update',params)
+}
+// 删除通知公告
+export const deleteAnnouncement = (params) => {
+  return http.fetchPost('/api/scholar/announcement/delete',params)
+}
+
+// 删除资助政策
+export const deletePolicy = (params) => {
+  return http.fetchPost('/api/scholar/policy/delete',params)
+}
+// 删除工作动态
+export const deleteWorking = (params) => {
+  return http.fetchPost('/api/scholar/working/delete',params)
 }
 //统计文章阅读次数
 export const setReadingTimes = (params) => {

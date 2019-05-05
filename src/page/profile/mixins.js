@@ -10,11 +10,15 @@ export default {
       }, {
         label: '发布信息',
         path: '/profile/editor'
+      },{
+        label: '发布管理',
+        path: '/profile/releasemanagement'
       }]
     }
   },
   mounted(){
     this.menuList()
+    console.log(this.$store.state.role)
   },
   methods: {
     menuList() {
@@ -33,9 +37,6 @@ export default {
         }, {
           label: '审核状态',
           path: '/profile/auditstatus'
-        }, {
-          label: '发布信息',
-          path: '/profile/editor'
         }]
       } else if (this.$store.state.role === "学生处" || this.$store.state.role === 'staff') {
         this.menu= [{
@@ -49,7 +50,7 @@ export default {
           path: '/profile/editor'
         }, {
           label: '发布管理',
-          path: '/profile/editor'
+          path: '/profile/releasemanagement'
         }]
       }
     }

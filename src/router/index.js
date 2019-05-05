@@ -16,6 +16,7 @@ import Profile from '../page/profile/Profile'
 import ApplyStatus from '../page/profile/ApplyStatus'
 import AuditStatus from '../page/profile/AuditStatus'
 import SecondAuditStatus from '../page/profile/SecondAuditStatus'
+import ReleaseManagement from '../page/profile/ReleaseManagement'
 SecondAuditStatus
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ export default new Router({
       path:'/profile',
       name:'Profile',
       component:Profile,
+    },
+    {
+      path:'/profile/releasemanagement',
+      name:'ReleaseManagement',
+      component:ReleaseManagement,
     },
     {
       path:'/introduction',

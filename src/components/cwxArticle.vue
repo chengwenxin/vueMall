@@ -1,6 +1,6 @@
 <template>
   <div class="article">
-    <template v-if="detail.isApply === 1">
+    <template v-if="detail.isApply === '允许申请'">
       <el-button type="success"  @click="apply" style="float:right;margin-right:20px;">在线申请</el-button>
       <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#078f48;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
     </template>
@@ -10,14 +10,13 @@
     <h2 class="cont_h2">
       作者：{{detail.author}} &nbsp;&nbsp;&nbsp;发布日期：{{detail.detailDate}}&nbsp;&nbsp;&nbsp; 浏览次数：{{detail.reading_times}}
     </h2>
-    <div class="cont" v-html="detail.content">
-      <!-- {{detail.content}} -->
+    <div class="cont" v-html="detail.content" >
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["detail"],
+  props: ["detail","width"],
   data: function() {
     return {};
   },

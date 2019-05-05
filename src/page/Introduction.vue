@@ -28,9 +28,10 @@ export default {
     getList() {
       getIntroductionDetail({params:{id:this.id}})
         .then(data => {
-          this.detail = data.content
-        })
-        .catch(err => {
+          if(data.content && data.content.length > 0){
+              this.detail = data.content[0]
+          }
+        }).catch(err => {
           console.log(err);
         });
     },

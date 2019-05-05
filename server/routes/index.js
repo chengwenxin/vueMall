@@ -28,7 +28,7 @@ router.post('/login', function (req, res, next) {
         if(result.password === password){
           res.cookie('number', number, {
             path:'/',
-            maxAge:1000*60*60, // 设置cookie时间,
+            maxAge:1000*60*60*24*7, // 设置cookie时间,
             httpOnly:true
           });
           res.json({

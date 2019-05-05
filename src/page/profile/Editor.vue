@@ -11,7 +11,7 @@
         <cwx-sort-right>
           <div v-show="!isScan">
             <el-form :model="formData" :inline="true">
-              <el-form-item label="类型" prop="author">
+              <el-form-item label="类型" prop="type">
                 <el-select v-model="formData.type">
                   <el-option v-for="item in typeList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
@@ -31,28 +31,34 @@
                   v-model="formData.detailDate"
                 ></el-date-picker>
               </el-form-item>
+              <template v-if="this.formData.type === '资助政策'">
+                <el-form-item label="申请状态：" prop="title">
+                  <el-select v-model="formData.isApply" @change="applyChange">
+                    <el-option
+                      v-for="item in applyList"
+                      :key="item.value"
+                      :value="item.value"
+                      :label="item.label"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </template>
 
-              <el-form-item label="申请状态：" prop="title">
-                <el-select v-model="formData.isApply" @change="applyChange">
-                  <el-option
-                    v-for="item in applyList"
-                    :key="item.value"
-                    :value="item.value"
-                    :label="item.label"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
               <el-form-item>
                 <el-button @click="scan" type="success">预览</el-button>
                 <el-button @click="submit" type="success">提交</el-button>
               </el-form-item>
-              <div v-if="isApply" style="width:100px;height:100px;">
+              <div v-if="isApply === '允许申请' && this.formData.type === '资助政策'" style="width:100px;height:100px;">
                 {{isApply}}
                 定制申请信息
               </div>
               <el-form-item>
                 <template prop="content">
-                  <vue-ueditor-wrap v-model="formData.content" :config="myConfig"></vue-ueditor-wrap>
+                  <vue-ueditor-wrap
+                    v-model="formData.content"
+                    :config="myConfig"
+                    style="line-height:25px;"
+                  ></vue-ueditor-wrap>
                 </template>
               </el-form-item>
             </el-form>
@@ -90,11 +96,11 @@ export default {
         content: "",
         isApply: ""
       },
-      isApply: 0,
+      isApply: "不能申请",
       typeList: ["通知公告", "工作动态", "资助政策"],
       applyList: [
-        { value: 1, label: "允许申请" },
-        { value: 0, label: "不能申请" }
+        { value: "允许申请", label: "允许申请" },
+        { value: "不能申请", label: "不能申请" }
       ],
       myConfig: {
         // 如果需要上传功能,找后端小伙伴要服务器接口地址
@@ -123,7 +129,7 @@ export default {
   },
   methods: {
     applyChange(val) {
-      this.isApply = val
+      this.isApply = val;
     },
     defaultValue() {
       let date = new Date();
