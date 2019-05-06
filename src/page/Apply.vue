@@ -16,7 +16,55 @@
               <el-step title="步骤 5"></el-step>
               <el-step title="步骤 6"></el-step>
             </el-steps>
-            <div v-if="active > -1" style="width:100%;height:500px;border:1px solid ;margin-top:20px;">what</div>
+            <div v-if="active > -1" style="width:100%;height:500px;border:1px solid ;margin-top:20px;padding:50px;">
+              
+              <el-form
+                label-width="100px"
+                style="width:100%;font-size:16px;font-family:'微软雅黑'"
+                :rules="rules"
+                :model="formData"
+                ref="information"
+              >
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="性别：" prop="number">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="年龄：" prop="name">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="籍贯：" prop="role">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="学院：" prop="college">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="专业：" prop="major">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="班级：" prop="grade">
+                      <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+              
+              
+              
+              </div>
             <div style="width:100%;text-align:center">
               <el-button style="margin-top: 12px;" type="success" @click="next">下一步</el-button>
             </div>
@@ -46,7 +94,10 @@ export default {
   data: function() {
     return {
       list: [],
-      active: 0
+      active: 0,
+      formData:{
+        name:'张三'
+      }
     };
   }
 };

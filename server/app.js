@@ -27,11 +27,13 @@ app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
   if(req.query.action === 'uploadimage'){
     // 这里你可以获得上传图片的信息
     var foo = req.ueditor;
-    console.log(foo.filename); // exp.png
-    console.log(foo.encoding); // 7bit
-    console.log(foo.mimetype); // image/png
     var img_url = 'images';
     res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+  }else  if(req.query.action === 'uploadfile'){
+    // 这里你可以获得上传图片的信息
+    var foo = req.ueditor;
+    var file_url = 'file';
+    res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
   }
     //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){
