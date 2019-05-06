@@ -152,6 +152,11 @@ export default {
         .catch(err => {
           this.$message.error(err.msg);
         });
+
+
+
+
+
     },
     scan() {
       this.isScan = !this.isScan;

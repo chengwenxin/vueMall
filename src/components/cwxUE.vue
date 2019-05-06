@@ -5,11 +5,6 @@
       <div class="main">
         <div v-show="!isScan">
           <el-form :model="formData" :inline="true">
-            <!-- <el-form-item label="类型" prop="type">
-                <el-select v-model="formData.type">
-                  <el-option v-for="item in typeList" :key="item" :label="item" :value="item"></el-option>
-                </el-select>
-            </el-form-item>-->
             <el-form-item label="标题：" prop="title">
               <el-input v-model="formData.title" style="width:200px;"></el-input>
             </el-form-item>
@@ -24,14 +19,14 @@
                 v-model="formData.detailDate"
               ></el-date-picker>
             </el-form-item>
-            <template v-if="this.formData.type === '资助政策'">
+            <template v-if="this.type === '资助政策'">
               <el-form-item label="申请状态：" prop="title">
-                <el-select v-model="formData.isApply" @change="applyChange">
+                <el-select v-model="formData.isApply">
                   <el-option
                     v-for="item in applyList"
-                    :key="item.value"
-                    :value="item.value"
-                    :label="item.label"
+                    :key="item"
+                    :value="item"
+                    :label="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -42,7 +37,7 @@
               <el-button @click="submit" type="success">保存修改</el-button>
             </el-form-item>
             <div
-              v-if="isApply === '允许申请' && this.formData.type === '资助政策'"
+              v-if="isApply === '允许申请'"
               style="width:100px;height:100px;"
             >
               {{isApply}}
@@ -75,25 +70,14 @@ export default {
   mixins: [mixins],
   name: "Ueditor",
   components: { VueUeditorWrap },
-  props: ["fromParam", "type"],
+  props: ["formParam", "type"],
   data() {
     return {
       isScan: false,
-      formData: this.fromParam,
-      // formData: {
-      //   type: "",
-      //   author: "",
-      //   title: "",
-      //   update_date: "",
-      //   detailDate: "",
-      //   content: "",
-      //   isApply: ""
-      // },
+      formData: this.formParam,
       isApply: "不能申请",
-      typeList: ["通知公告", "工作动态", "资助政策"],
       applyList: [
-        { value: "允许申请", label: "允许申请" },
-        { value: "不能申请", label: "不能申请" }
+       "允许申请","不能申请"
       ],
       myConfig: {
         // 如果需要上传功能,找后端小伙伴要服务器接口地址
@@ -121,9 +105,6 @@ export default {
     });
   },
   methods: {
-    applyChange(val) {
-      this.isApply = val;
-    },
     defaultValue() {
       let date = new Date();
       let year = date.getUTCFullYear();

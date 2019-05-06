@@ -3,8 +3,8 @@ import http from './public'
 
 
 // 获取资助政策
-export const getScholarList = () => {
-  return http.fetchQuickSearch('/api/scholar/policy')
+export const getScholarList = (params={pageSize:10000,currentPage:1}) => {
+  return http.fetchGet('/api/scholar/policy',{params})
 }
 //获取资助政策详情
 export const getScholarDetail = (params) => {
@@ -44,16 +44,16 @@ export const setReadingTimes = (params) => {
   return http.fetchGet('/api/scholar/readingtimes',params)
 }
 // 获取通知公告
-export const getAnnouncementList = () => {
-  return http.fetchQuickSearch('/api/scholar/announcement')
+export const getAnnouncementList = (params={pageSize:10000,currentPage:1}) => {
+return http.fetchGet('/api/scholar/announcement',{params})
 }
 //获取通知公告详情
 export const getAnnouncementListDetail = (params) => {
   return http.fetchGet('/api/scholar/announcement/detail',params)
 }
 // 获取工作动态
-export const getWorkingtList = () => {
-  return http.fetchQuickSearch('/api/scholar/working')
+export const getWorkingtList = (params={pageSize:10000,currentPage:1}) => {
+  return http.fetchGet('/api/scholar/working',{params})
 }
 //获取工作动态详情
 export const getWorkingtDetail = (params) => {

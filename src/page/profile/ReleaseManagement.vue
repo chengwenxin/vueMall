@@ -12,22 +12,22 @@
             <el-tabs type="border-card" @tab-click="tabClick">
               <el-tab-pane label="资助政策">
                 <div class="tab-item">
-                  <cwx-table :formdata="policyList" @refresh="getList"  type="资助政策"></cwx-table>
+                  <cwx-table type="资助政策"></cwx-table>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="工作动态">
                 <div class="tab-item">
-                  <cwx-table :formdata="workingtList" @refresh="getList"    type="工作动态"></cwx-table>
+                  <cwx-table type="工作动态"></cwx-table>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="通知公告">
                 <div class="tab-item">
-                  <cwx-table :formdata="AnnouncementList"  @refresh="getList"   type="通知公告"></cwx-table>
+                  <cwx-table type="通知公告"></cwx-table>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="中心简介">
                 <div class="tab-item">
-                  <cwx-table :formdata="introduction"  @refresh="getList"   type="中心简介"></cwx-table>
+                  <cwx-table type="中心简介"></cwx-table>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -41,55 +41,16 @@
   </div>
 </template>
 <script>
-import {
-  getScholarList,
-  getAnnouncementList,
-  getWorkingtList,
-  getIntroductionDetail
-} from "../../api/scholar";
 import mixins from "./mixins";
 export default {
   mixins: [mixins],
-  mounted() {
-    this.getList();
+  data: function() {
+    return {};
   },
   methods: {
-    getList() {
-      getScholarList()
-        .then(data => {
-          if (data.status === "1") {
-            this.policyList = data.content;
-          } else {
-            this.$message.error(data.msg);
-            this.$router.push("/login");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      getAnnouncementList().then(data => {
-        this.AnnouncementList = data.content;
-      });
-
-      getWorkingtList().then(data => {
-        this.workingtList = data.content;
-      });
-
-      getIntroductionDetail().then(data => {
-        this.introduction = data.content;
-      });
-    },
     tabClick(val) {
       console.log(val);
     }
-  },
-  data: function() {
-    return {
-      policyList: [],
-      AnnouncementList: [],
-      workingtList: [],
-      introduction: [],
-    };
   }
 };
 </script>

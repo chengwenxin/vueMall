@@ -139,7 +139,16 @@ router.get('/information/base',(req, res, next) => {
 //ueditor 获取content
 router.post('/ueditor/content',(req, res, next) => {
   if(req.cookies && req.cookies.number){
-   let sql = `insert into policy(author, update_date, title,content,detailDate,isApply) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}')`
+   let sql =''
+   if(req.body.type ==="资助政策"){
+    sql = `insert into policy(author, update_date, title,content,detailDate,isApply) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}')`
+   }else if(req.body.type === "通知公告"){
+    sql = `insert into announcement(author, update_date, title,content,detailDate) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}')`
+
+   }else if(req.body.type === "工作动态"){
+    sql = `insert into working(author, update_date, title,content,detailDate) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}')`
+
+   }
    pool.query(sql, (err, result) => {
      if (err) {
        res.json({

@@ -18,7 +18,6 @@ export default {
   },
   mounted(){
     this.menuList()
-    console.log(this.$store.state.role)
   },
   methods: {
     menuList() {

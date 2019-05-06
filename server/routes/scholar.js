@@ -30,20 +30,35 @@ router.get('/ueditor/img',(req, res, next) => {
 
 //资助政策
 router.get('/policy',(req, res, next) => {
-
-  let sql = `select * from policy order by update_date desc`
-  pool.query(sql, (err, result) => {
+  let totalCount = 0
+  let {pageSize,currentPage} = req.query
+  let size = pageSize * (currentPage -1 )
+  let totalCountsql = `select count(*) from policy`
+  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
         status: '-1',
         msg: err.message
       });
     } else {
-        res.json({
-          status: '1',
-          msg: '获取数据成功',
-          content: result
-        });
+      totalCount = result[0]['count(*)']
+      console.log(totalCount)
+      pool.query(sql, (err, result) => {
+        if (err) {
+          res.json({
+            status: '-1',
+            msg: err.message
+          });
+        } else {
+            res.json({
+              status: '1',
+              msg: '获取数据成功',
+              content: result,
+              totalCount
+            });
+        }
+      })
     }
   })
 })
@@ -149,8 +164,8 @@ router.post('/policy/update',(req, res, next) => {
 })
 //更新通知公告
 router.post('/announcement/update',(req, res, next) => {
-  let {author, title,content,detailDate,isApply,id,update_date} = req.body
-  let sql = `update announcement set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
+  let {author, title,content,detailDate,id,update_date} = req.body
+  let sql = `update announcement set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}', where id = ${id}`;
   console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
@@ -253,22 +268,37 @@ router.get('/introduction/readingtimes',(req, res, next) => {
   })
 })
 
-
-//通知公告
+//工作动态
 router.get('/announcement',(req, res, next) => {
-  let sql = `select * from announcement order by update_date desc`
-  pool.query(sql, (err, result) => {
+  let totalCount = 0
+  let {pageSize,currentPage} = req.query
+  let size = pageSize * (currentPage -1 )
+  let totalCountsql = `select count(*) from announcement`
+  let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
         status: '-1',
         msg: err.message
       });
     } else {
-        res.json({
-          status: '1',
-          msg: '获取数据成功',
-          content: result
-        });
+      totalCount = result[0]['count(*)']
+      console.log(totalCount)
+      pool.query(sql, (err, result) => {
+        if (err) {
+          res.json({
+            status: '-1',
+            msg: err.message
+          });
+        } else {
+            res.json({
+              status: '1',
+              msg: '获取数据成功',
+              content: result,
+              totalCount
+            });
+        }
+      })
     }
   })
 })
@@ -297,20 +327,35 @@ router.get('/announcement/detail',(req, res, next) => {
 })
 //工作动态
 router.get('/working',(req, res, next) => {
-
-  let sql = `select * from working order by update_date desc`
-  pool.query(sql, (err, result) => {
+  let totalCount = 0
+  let {pageSize,currentPage} = req.query
+  let size = pageSize * (currentPage -1 )
+  let totalCountsql = `select count(*) from working`
+  let sql =` SELECT o.* from (SELECT * from working ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
         status: '-1',
         msg: err.message
       });
     } else {
-        res.json({
-          status: '1',
-          msg: '获取数据成功',
-          content: result
-        });
+      totalCount = result[0]['count(*)']
+      console.log(totalCount)
+      pool.query(sql, (err, result) => {
+        if (err) {
+          res.json({
+            status: '-1',
+            msg: err.message
+          });
+        } else {
+            res.json({
+              status: '1',
+              msg: '获取数据成功',
+              content: result,
+              totalCount
+            });
+        }
+      })
     }
   })
 })

@@ -9,6 +9,14 @@
         <cwx-sort-left></cwx-sort-left>
         <cwx-sort-right>
           <cwx-slide-content-item paddingleft="padding-left:18px" :list="list"></cwx-slide-content-item>
+          <el-pagination
+            :total="totalCount"
+            :current-page.sync="currentPage"
+            :page-size="pageSize"
+            @current-change="currentChange"
+            @size-change="sizeChange"
+            layout="total,sizes, prev, pager, next ,jumper"
+          ></el-pagination>
         </cwx-sort-right>
       </div>
       <div class="footer">
@@ -25,18 +33,34 @@ export default {
   },
   methods: {
     getList() {
-      getAnnouncementList()
+      getAnnouncementList({
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      })
         .then(data => {
-          this.list = data.content || [];
+          this.list = data.content;
+          this.totalCount = data.totalCount;
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    //切换分页
+    currentChange(currentPage) {
+      this.currentPage = currentPage;
+      this.getList();
+    },
+    sizeChange(val) {
+      this.pageSize = val;
+      this.getList();
     }
   },
   data: function() {
     return {
-      list: []
+      list: [],
+      totalCount: 0,
+      currentPage: 1,
+      pageSize: 10
     };
   }
 };
@@ -49,7 +73,7 @@ export default {
     padding: 0px;
     width: 1200px;
     .main {
-     //height: 660px;
+      //height: 660px;
     }
     .header,
     .main {
@@ -57,5 +81,4 @@ export default {
     }
   }
 }
-
 </style>
