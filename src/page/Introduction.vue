@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import { getIntroductionDetail ,IntroductionReadingTimes} from "../api/scholar.js";
+import { getIntroductionDetail ,setReadingTimes} from "../api/scholar.js";
 export default {
   mounted() {
     this.ReadingTimes();
@@ -37,7 +37,7 @@ export default {
     },
     //统计文章阅读次数
     ReadingTimes(){
-        IntroductionReadingTimes({}).then(()=>{}).catch(err=>{})
+        setReadingTimes({params:{id:1,table:'introduction'}}).then(()=>{}).catch(err=>{})
     }
   },
   data: function() {

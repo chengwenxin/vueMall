@@ -63,8 +63,5 @@ export const getWorkingtDetail = (params) => {
 export const getIntroductionDetail = (params) => {
   return http.fetchGet('/api/scholar/introduction',params)
 }
-//获取中心简介阅读次数
-export const IntroductionReadingTimes = (params) => {
-  return http.fetchGet('/api/scholar/introduction/readingtimes',params)
-}
+
 

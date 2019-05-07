@@ -36,7 +36,7 @@ export default {
     },
     //统计文章阅读次数
     ReadingTimes(){
-        setReadingTimes({params:{id:this.id}}).then(()=>{}).catch(err=>{})
+        setReadingTimes({params:{id:this.id,table:'policy'}}).then(()=>{}).catch(err=>{})
     }
   },
   data: function() {

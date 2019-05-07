@@ -246,27 +246,7 @@ router.get('/introduction',(req, res, next) => {
     }
   })
 })
-//中心简介阅读次数
-router.get('/introduction/readingtimes',(req, res, next) => {
-  let id = 0
-  let reading_times = 0
-  let updatesql = ''
-  let sql = `select * from introduction where id = ${id}`;
-  pool.query(sql, (err, result) => {
-   if(!err){
-    if(result && result.length>0){
-      result = result[0]
-    }
-    reading_times = result.reading_times + 1
-    updatesql =`update introduction set reading_times= ${reading_times} where id =${id}`;
-    pool.query(updatesql,(err,result) => {
-      if(!err){
-        // console.log(result)
-      }
-    })
-   }
-  })
-})
+
 
 //工作动态
 router.get('/announcement',(req, res, next) => {
@@ -385,16 +365,9 @@ router.get('/working/detail',(req, res, next) => {
 //阅读次数
 router.get('/readingtimes',(req, res, next) => {
   let id = req.query.id
-  let reading_times = 0
+  let table = req.query.table
   let updatesql = ''
-  let sql = `select * from policy where id = ${id}`;
-  pool.query(sql, (err, result) => {
-   if(!err){
-    if(result && result.length>0){
-      result = result[0]
-    }
-    reading_times = result.reading_times + 1
-    updatesql =`update policy set reading_times= ${reading_times} where id =${id}`;
+    updatesql =`update ${table} set reading_times= reading_times+1 where id =${id}`;
     pool.query(updatesql,(err,result) => {
       if(!err){
         res.json({
@@ -410,8 +383,8 @@ router.get('/readingtimes',(req, res, next) => {
         });
       }
     })
-   }
-  })
+  //  }
+  // })
 })
 
 module.exports = router;
