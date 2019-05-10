@@ -62,12 +62,12 @@
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="学号：" prop="number">
-                      <el-input v-model="formData.number"></el-input>
+                      <el-input v-model="formData.number" disabled></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
                     <el-form-item label="姓名：" prop="name">
-                      <el-input v-model="formData.name"></el-input>
+                      <el-input v-model="formData.name" disabled></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
@@ -109,14 +109,14 @@
               </div>
             </div>
             <br>
-            <div v-if="!edit">
-              <el-form
-                label-width="140px"
-                style="width:100%;font-size:16px;font-family:'微软雅黑'"
-                :rules="rules"
-                :model="formData"
-                ref="information"
-              >
+            <el-form
+              label-width="140px"
+              style="width:100%;font-size:16px;font-family:'微软雅黑'"
+              :rules="rules"
+              :model="formData"
+              ref="information"
+            >
+              <div v-if="!edit">
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="性别：" prop="gender">{{formData.name}}</el-form-item>
@@ -128,7 +128,7 @@
                     <el-form-item label="类别：" prop="role">{{formData.role}}</el-form-item>
                   </el-col>
                 </el-row>
-             <el-row>
+                <el-row>
                   <el-col :span="8">
                     <el-form-item label="民族：" prop="gender">{{formData.name}}</el-form-item>
                   </el-col>
@@ -147,7 +147,7 @@
                     <el-form-item label="家庭住址：" prop="grade">{{formData.grade}}</el-form-item>
                   </el-col>
                 </el-row>
-                            <el-row>
+                <el-row>
                   <el-col :span="8">
                     <el-form-item label="身份证号：" prop="gender">{{formData.name}}</el-form-item>
                   </el-col>
@@ -158,7 +158,7 @@
                     <el-form-item label="邮箱：" prop="role">{{formData.role}}</el-form-item>
                   </el-col>
                 </el-row>
-                            <el-row>
+                <el-row>
                   <el-col :span="8">
                     <el-form-item label="外语语种：" prop="gender">{{formData.name}}</el-form-item>
                   </el-col>
@@ -166,56 +166,47 @@
                     <el-form-item label="外语水平：" prop="age">{{formData.name}}</el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="？？？：" prop="role">{{formData.role}}</el-form-item>
+                    <el-form-item label="学生类别：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="学制：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="学历：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="入学时间：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="毕业时间：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="家庭情况介绍：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="班级排名：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="年级排名：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="学分成绩：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="综测成绩：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="挂科情况：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="科研成果：" prop="role">{{formData.role}}</el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="违纪情况：" prop="role">{{formData.role}}</el-form-item>
                   </el-col>
                 </el-row>
-              </el-form>
-            </div>
-            <div v-else>
-              <el-form
-                label-width="140px"
-                style="width:100%;font-size:16px;font-family:'微软雅黑'"
-                :rules="rules"
-                :model="formData"
-                ref="information"
-              >
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="性别：" prop="number">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="年龄：" prop="name">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="籍贯：" prop="role">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="学院：" prop="college">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="专业：" prop="major">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="班级：" prop="grade">
-                      <el-input v-model="formData.name"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-form>
-            </div>
+              </div>
+            </el-form>
           </div>
         </cwx-sort-right>
       </div>
@@ -264,7 +255,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .el-form-item__label,
 .el-form-item__content {
   font-size: 18px;

@@ -8,19 +8,21 @@ var ueditor = require("ueditor")
 var index = require('./routes/index');
 var scholar = require('./routes/scholar');
 var app = express();
+// var multiparty = require("multiparty")
 
+// app.use(multiparty({uploadDir:'./public/file'}))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
+  //  读文件路径
+let  fs = require('fs');
+let fileNames=fs.readdirSync('public/file').map(file => ('127.0.0.1:8081/api/file/'));
   if(req.query.action === 'config'){
     console.log(req.query)
   }
@@ -34,6 +36,9 @@ app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
     var foo = req.ueditor;
     var file_url = 'file';
     res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+    res.send({
+      urlList:fileNames
+    })
   }
     //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){

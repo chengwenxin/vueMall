@@ -43,7 +43,6 @@ router.get('/policy',(req, res, next) => {
       });
     } else {
       totalCount = result[0]['count(*)']
-      console.log(totalCount)
       pool.query(sql, (err, result) => {
         if (err) {
           res.json({
@@ -67,7 +66,6 @@ router.get('/policy',(req, res, next) => {
 router.post('/policy/delete',(req, res, next) => {
   let id = req.body.id
   let sql = `delete from policy where id = ${id}`;
-  console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -87,7 +85,6 @@ router.post('/policy/delete',(req, res, next) => {
 router.post('/announcement/delete',(req, res, next) => {
   let id = req.body.id
   let sql = `delete from announcement where id = ${id}`;
-  console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -107,7 +104,6 @@ router.post('/announcement/delete',(req, res, next) => {
 router.post('/working/delete',(req, res, next) => {
   let id = req.body.id
   let sql = `delete from working where id = ${id}`;
-  console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -146,7 +142,6 @@ router.post('/working/update',(req, res, next) => {
 router.post('/policy/update',(req, res, next) => {
   let {author, title,content,detailDate,isApply,id,update_date} = req.body
   let sql = `update policy set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
-  console.log(sql)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -166,7 +161,6 @@ router.post('/policy/update',(req, res, next) => {
 router.post('/announcement/update',(req, res, next) => {
   let {author, title,content,detailDate,id,update_date} = req.body
   let sql = `update announcement set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}', where id = ${id}`;
-  console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -186,7 +180,6 @@ router.post('/announcement/update',(req, res, next) => {
 router.post('/introduction/update',(req, res, next) => {
   let {author, title,content,detailDate,isApply,id,update_date} = req.body
   let sql = `update introduction set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
-  console.log(id)
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -263,7 +256,6 @@ router.get('/announcement',(req, res, next) => {
       });
     } else {
       totalCount = result[0]['count(*)']
-      console.log(totalCount)
       pool.query(sql, (err, result) => {
         if (err) {
           res.json({
@@ -320,7 +312,6 @@ router.get('/working',(req, res, next) => {
       });
     } else {
       totalCount = result[0]['count(*)']
-      console.log(totalCount)
       pool.query(sql, (err, result) => {
         if (err) {
           res.json({

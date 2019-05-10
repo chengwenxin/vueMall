@@ -48,10 +48,13 @@
                 <el-button @click="scan" type="success">预览</el-button>
                 <el-button @click="submit" type="success">提交</el-button>
               </el-form-item>
-              <div v-if="isApply === '允许申请' && this.formData.type === '资助政策'" style="width:100px;height:100px;">
-                {{isApply}}
-                定制申请信息
-              </div>
+              <el-upload :on-success="uploadSuccess" multiple action="api/upload">
+                <el-button size="small" type="success">上传文件</el-button>
+              </el-upload>
+              <div
+                v-if="isApply === '允许申请' && this.formData.type === '资助政策'"
+                style="width:100px;height:100px;"
+              ></div>
               <el-form-item>
                 <template prop="content">
                   <vue-ueditor-wrap
@@ -63,7 +66,6 @@
               </el-form-item>
             </el-form>
           </div>
-
           <div v-show="isScan">
             <el-button @click="scan" type="success">返回</el-button>
             <cwx-article :detail="formData"></cwx-article>
@@ -86,6 +88,7 @@ export default {
   components: { VueUeditorWrap },
   data() {
     return {
+      temp: "",
       isScan: false,
       formData: {
         type: "",
@@ -121,13 +124,18 @@ export default {
       }
     };
   },
-
   mounted() {
     this.formData = Object.assign({}, this.formData, {
       detailDate: this.defaultValue()
     });
   },
   methods: {
+    uploadSuccess(res, file) {
+      this.temp = `<div><br><i class="el-icon-link"></i><a href="${
+        res.filename
+      }" >${file.name}</a></div>`;
+      this.formData.content += this.temp;
+    },
     applyChange(val) {
       this.isApply = val;
     },
@@ -152,11 +160,6 @@ export default {
         .catch(err => {
           this.$message.error(err.msg);
         });
-
-
-
-
-
     },
     scan() {
       this.isScan = !this.isScan;
