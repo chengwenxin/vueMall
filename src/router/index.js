@@ -83,7 +83,7 @@ export default new Router({
       component:PolicyDetail
     },   
     {
-      path:'/apply/:id',
+      path:'/apply/:id/:title',
       name:'Apply',
       component:Apply
     },

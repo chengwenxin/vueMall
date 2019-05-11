@@ -14,7 +14,7 @@ router.post('/login', function (req, res, next) {
   //对输入的密码进行加密
   let number = req.body.number || ''
   let password = req.body.password || ''
-  let sql = `select password from user where number = ${number}`
+  let sql = `select * from user where number = ${number}`
   pool.query(sql, function (err, result) {
     if (err) {
       res.json({
@@ -33,7 +33,7 @@ router.post('/login', function (req, res, next) {
           res.json({
             status: '1',
             msg: '登录成功！',
-            result: result
+            content: result
           });
         } else {
           res.json({
@@ -51,7 +51,14 @@ router.post('/login', function (req, res, next) {
     }
   })
 })
-
+//登出
+router.post('/logout',function(req,res,next){
+  res.clearCookie(req.cookies.number)
+  res.json({
+    status:'1',
+    msg:'登出成功！'
+  })
+})
 //注册
 router.post('/register', function (req, res, next) {
   let querysql = `select number from user where number = ${req.body.number}`
@@ -106,6 +113,11 @@ router.get('/apply/list', (req, res, next) => {
         });
       }
     })
+  }else{
+    res.json({
+      status: '0',
+      msg: '当前未登录,请先登录',
+    });
   }
 })
 
@@ -184,5 +196,72 @@ router.post('/ueditor/content', (req, res, next) => {
     })
   }
 })
+
+
+//新增申请
+router.post('/apply/insert', function (req, res, next) {
+  let sql = `insert into audit(number,name,category) values('${req.body.number}','${req.body.name}','${req.body.category}')`;
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      console.log(result)
+      res.json({
+        status: '1',
+        msg:result
+      });
+    }
+  })
+})
+
+
+//查询申请列表
+router.post('/apply/list', function (req, res, next) {
+  let sql=''
+  if(req.body.category){
+    sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}'`;
+    pool.query(sql, function (err, result) {
+      if (err) {
+        res.json({
+          status: '-1',
+          msg: err.message
+        });
+      } else {
+        if(result.length < 1){
+          res.json({
+            status: '1',
+            msg:"success",
+            content:result
+          });
+        }else {
+          res.json({
+            status: '0',
+            msg:"该资助项目已申请",
+          });
+        }
+      }
+    })
+  }else {
+    sql = `select * from audit where number = '${req.cookies.number}'`;
+    pool.query(sql, function (err, result) {
+      if (err) {
+        res.json({
+          status: '-1',
+          msg: err.message
+        });
+      } else {
+        res.json({
+          status: '1',
+          msg:"success",
+          content:result
+        });
+      }
+    })
+  }
+})
+
 
 module.exports = router;

@@ -64,4 +64,20 @@ export const getIntroductionDetail = (params) => {
   return http.fetchGet('/api/scholar/introduction',params)
 }
 
+//新增申请记录
+export const applyInsert = (params) => {
+  return http.fetchPost('/api/apply/insert',params)
+}
+//查询申请记录
+export const applyList = (params) => {
+  return http.fetchPost('/api/apply/list',params)
+}
+//修改申请记录
+export const applyUpdate = (params) => {
+  return http.fetchPost('/api/apply/update',params)
+}
+//删除申请记录
+export const applyDelete = (params) => {
+  return http.fetchPost('/api/apply/delete',params)
+}
 

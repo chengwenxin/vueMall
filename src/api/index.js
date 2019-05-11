@@ -4,6 +4,10 @@ import http from './public'
 export const login = (params) => {
   return http.fetchPost('/api/login',params)
 }
+//登出
+export const logoutApi = (params) => {
+  return http.fetchPost('/api/logout',params)
+}
 //注册
 export const register = (params) => {
   return http.fetchPost('/api/register',params)

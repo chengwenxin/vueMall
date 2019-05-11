@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const state = {
   isLogin: false,
-  role:''
+  role:'',
+  number:'',
+  name:''
 }
 
 export default new Vuex.Store({
@@ -13,8 +15,11 @@ export default new Vuex.Store({
     login(state, isLogin) {
       state.isLogin = isLogin;
     },
-    role(state,role){
-      state.role = role;
+    role(state,params){
+      state.role = params.role;
+      state.number = params.number;
+      state.name = params.name;
     }
+
   }
 })

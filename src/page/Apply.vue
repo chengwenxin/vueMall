@@ -473,7 +473,7 @@
               v-if="formData.Ipromise && active === 6"
               style="margin-top: 12px;"
               type="success"
-              @click="next"
+              @click="onSubmit"
             >提交申请</el-button>
           </div>
         </div>
@@ -485,7 +485,7 @@
   </div>
 </template>
 <script>
-import { getScholarList } from "../api/scholar.js";
+import { getScholarList, applyInsert} from "../api/scholar.js";
 export default {
   mounted() {
     this.getList();
@@ -518,7 +518,17 @@ export default {
           this.$router.push("/profile/applystatus");
         }
       }, 1000);
-    }
+    },
+    //提交申请
+   onSubmit(){
+     let {number,name} = this.formData
+     let form = Object.assign({},{category:this.$route.params.title},{number,name})
+     applyInsert(form).then(()=>{
+       this.next()
+     }).catch(()=>{
+       this.$message.error("申请失败！")
+     })
+   }
   },
   data: function() {
     return {
@@ -531,8 +541,8 @@ export default {
       gradeList: ["1501", "1601", "1701"],
       active: 0,
       formData: {
-        name: "张三",
-        number: 0,
+        name:  localStorage.name,
+        number: localStorage.number,
         birthday: "1996-11-26",
         role: "本科生",
         college: "信息工程学院",

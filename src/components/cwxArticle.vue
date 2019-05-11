@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import { applyList } from '../api/scholar'
 export default {
   props: ["detail","width"],
   data: function() {
@@ -22,7 +23,19 @@ export default {
   },
   methods:{
     apply(){
-      this.$router.push('/apply/' + this.detail.id)
+      applyList({category:this.detail.title}).then(data=>{
+        if(data.status === "1"){
+          this.$router.push('/apply/' + this.detail.id + '/' + this.detail.title)
+        }else if(data.status === "0"){
+          this.$message.error("当前未登录,请先登录")
+          this.$router.push('/login')
+        }
+        else{
+          this.$message.error("当前资助项目已申请，无法重复申请！")
+        }
+      }).catch(err =>{
+        console.log(err)
+      })
     }
   }
 };

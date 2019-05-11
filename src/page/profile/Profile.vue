@@ -223,7 +223,7 @@ export default {
   mixins: [mixins],
   mounted() {
     if (window.localStorage.getItem("isLogin") !== "1") {
-      this.$message.error("当前未登录！");
+      this.$message.error("当前未登录,请先登录！");
       this.$router.push("/login");
     }
     this.getList();
@@ -234,7 +234,7 @@ export default {
         .then(data => {
           if (data.status === "1") {
             this.formData = data.content;
-            this.$store.commit("role", data.content.role);
+            this.$store.commit("role", data.content);
             this.menuList();
           } else {
             this.$message.error(data.msg);

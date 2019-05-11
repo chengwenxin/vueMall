@@ -14,14 +14,25 @@
               <el-table-column align="center" prop="number" label="序号">
                 <template slot-scope="scope">{{scope.$index+1}}</template>
               </el-table-column>
+              <el-table-column align="center" prop="category" label="资助项目"></el-table-column>
               <el-table-column align="center" prop="number" label="申请学号"></el-table-column>
               <el-table-column align="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column align="center" prop="applydate" label="申请时间"></el-table-column>
-              <el-table-column align="center" prop="applystatus" label="审核状态"></el-table-column>
-              <el-table-column align="center" prop="audit" label="审核人"></el-table-column>
-              <el-table-column align="center" prop="response" label="审核回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="auditdate" label="审核时间"></el-table-column>
-              <el-table-column align="center" label="操作"></el-table-column>
+              <el-table-column align="center" prop="applyDate" label="申请时间" min-width="200">
+               <template slot-scope="scope">
+                   {{formateDate(scope.row.applyDate)}}
+               </template>
+              </el-table-column>
+              <el-table-column align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
+              <el-table-column align="center" prop="firstAudit" label="初审人"></el-table-column>
+              <el-table-column align="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
+              <el-table-column align="center" prop="firstAuditDate" label="初审时间"></el-table-column>
+                 <el-table-column align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
+              <el-table-column align="center" prop="secondAudit" label="复审人"></el-table-column>
+              <el-table-column align="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
+              <el-table-column align="center" prop="secondAuditDate" label="复审时间"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <el-button type="text" >撤销</el-button>
+              </el-table-column>
             </el-table>
           </div>
         </cwx-sort-right>
@@ -33,7 +44,7 @@
   </div>
 </template>
 <script>
-import { profileApplyList } from "../../api";
+import { applyList } from "../../api/scholar";
 import mixins from './mixins'
 export default {
   mixins:[mixins],
@@ -41,8 +52,13 @@ export default {
     this.getList();
   },
   methods: {
+    //格式化申请日期
+    formateDate(applyDate){
+      let date = new Date(applyDate)
+      return date.toLocaleString()
+    },
     getList() {
-      profileApplyList()
+      applyList()
         .then(data => {
           if(data.status === '1'){
           this.formdata = data.content;

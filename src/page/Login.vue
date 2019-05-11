@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { login } from "../api";
+import { login ,logoutApi } from "../api";
 export default {
   data: function() {
     return {
@@ -71,6 +71,8 @@ export default {
           if (data.status === "1") {
             this.$message.success(data.msg);
             window.localStorage.setItem("isLogin", '1');
+            window.localStorage.setItem("number", data.content.number);
+            window.localStorage.setItem("name",data.content.name);
             this.isLogin = '1';
             this.$router.push("./profile");
           } else {
@@ -85,8 +87,12 @@ export default {
       this.$router.push("/register");
     },
     logout() {
-      window.localStorage.setItem("isLogin", '0');
+      logoutApi().then(()=>{
+         window.localStorage.setItem("isLogin", '0');
       this.isLogin = '0';
+      }).catch(err =>{
+        console.log(err)
+      })
     }
   }
 };

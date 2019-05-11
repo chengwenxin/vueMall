@@ -63,7 +63,7 @@ app.use(function (req,res,next) { // 拦截请求
       }else{
           res.json({
             status:'10001',
-            msg:'当前未登录',
+            msg:'当前未登录,请先登录',
             result:''
           });
       }
