@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { applyList } from '../api/scholar'
+import { auditList } from '../api/scholar'
 export default {
   props: ["detail","width"],
   data: function() {
@@ -23,15 +23,14 @@ export default {
   },
   methods:{
     apply(){
-      applyList({category:this.detail.title}).then(data=>{
-        if(data.status === "1"){
+      auditList({category:this.detail.title}).then(data=>{
+         if(data.status === '0'){
+            this.$message.error(data.msg)
+            this.$router.push('/login')
+        }else if(data.status === "1"){
           this.$router.push('/apply/' + this.detail.id + '/' + this.detail.title)
-        }else if(data.status === "0"){
-          this.$message.error("当前未登录,请先登录")
-          this.$router.push('/login')
-        }
-        else{
-          this.$message.error("当前资助项目已申请，无法重复申请！")
+        }else if(data.status === "2"){
+          this.$message.error(data.msg)
         }
       }).catch(err =>{
         console.log(err)

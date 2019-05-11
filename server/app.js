@@ -57,12 +57,12 @@ app.use(function (req,res,next) { // 拦截请求
     next();
   }else{
       console.log("url:"+req.originalUrl);
-      if(req.originalUrl.indexOf('/login')>-1 || req.originalUrl.indexOf('/register')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
-      console.log("url1:"+req.originalUrl);
+      if(req.originalUrl.indexOf('/login')>-1 ||  req.originalUrl.indexOf('/register')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
           next();
       }else{
+        console.log(req.cookies.number)
           res.json({
-            status:'10001',
+            status:'0',
             msg:'当前未登录,请先登录',
             result:''
           });

@@ -66,18 +66,23 @@ export const getIntroductionDetail = (params) => {
 
 //新增申请记录
 export const applyInsert = (params) => {
-  return http.fetchPost('/api/apply/insert',params)
+  return http.fetchPost('/api/audit/insert',params)
 }
 //查询申请记录
-export const applyList = (params) => {
-  return http.fetchPost('/api/apply/list',params)
+export const auditList = (params) => {
+  return http.fetchPost('/api/audit/list',params)
 }
 //修改申请记录
-export const applyUpdate = (params) => {
-  return http.fetchPost('/api/apply/update',params)
+export const auditUpdate = (params) => {
+  return http.fetchPost('/api/audit/update',params)
 }
 //删除申请记录
-export const applyDelete = (params) => {
-  return http.fetchPost('/api/apply/delete',params)
+export const auditDelete = (params) => {
+  return http.fetchPost('/api/audit/delete',params)
+}
+
+//查询申请信息
+export const getApplyList = (params) => {
+  return http.fetchPost('/api/apply/list',params)
 }
 

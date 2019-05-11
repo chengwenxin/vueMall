@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import { applyList } from "../../api/scholar";
+import { auditList } from "../../api/scholar";
 import mixins from './mixins'
 export default {
   mixins:[mixins],
@@ -58,7 +58,7 @@ export default {
       return date.toLocaleString()
     },
     getList() {
-      applyList()
+      auditList()
         .then(data => {
           if(data.status === '1'){
           this.formdata = data.content;

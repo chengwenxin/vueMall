@@ -53,7 +53,7 @@ router.post('/login', function (req, res, next) {
 })
 //登出
 router.post('/logout',function(req,res,next){
-  res.clearCookie(req.cookies.number)
+  res.clearCookie('number')
   res.json({
     status:'1',
     msg:'登出成功！'
@@ -95,31 +95,6 @@ router.post('/register', function (req, res, next) {
 })
 
 
-//查询申请状态
-router.get('/apply/list', (req, res, next) => {
-  if (req.cookies && req.cookies.number) {
-    let sql = `select * from apply where number = ${req.cookies.number}`
-    pool.query(sql, (err, result) => {
-      if (err) {
-        res.json({
-          status: '-1',
-          msg: err.message
-        });
-      } else {
-        res.json({
-          status: '1',
-          msg: '获取数据成功',
-          content: result
-        });
-      }
-    })
-  }else{
-    res.json({
-      status: '0',
-      msg: '当前未登录,请先登录',
-    });
-  }
-})
 
 //文件上传
 router.post('/upload', multipartMiddleware, (req, res, next) => {
@@ -198,8 +173,8 @@ router.post('/ueditor/content', (req, res, next) => {
 })
 
 
-//新增申请
-router.post('/apply/insert', function (req, res, next) {
+//新增审核
+router.post('/audit/insert', function (req, res, next) {
   let sql = `insert into audit(number,name,category) values('${req.body.number}','${req.body.name}','${req.body.category}')`;
   pool.query(sql, function (err, result) {
     if (err) {
@@ -218,8 +193,8 @@ router.post('/apply/insert', function (req, res, next) {
 })
 
 
-//查询申请列表
-router.post('/apply/list', function (req, res, next) {
+//查询审核列表
+router.post('/audit/list', function (req, res, next) {
   let sql=''
   if(req.body.category){
     sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}'`;
@@ -238,7 +213,7 @@ router.post('/apply/list', function (req, res, next) {
           });
         }else {
           res.json({
-            status: '0',
+            status: '2',
             msg:"该资助项目已申请",
           });
         }
@@ -263,5 +238,26 @@ router.post('/apply/list', function (req, res, next) {
   }
 })
 
+//查询申请记录
+router.post('/apply/list', function (req, res, next) {
+  let sql = `select * from apply a LEFT JOIN user b ON  a.number = b.number where a.number ='${req.cookies.number}'`;
+  pool.query(sql, function (err, result) {
+    if(result.length>0){
+      result = result[0]
+    }
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg:"查询成功",
+        content:result
+      });
+    }
+  })
+})
 
 module.exports = router;

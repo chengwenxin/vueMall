@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     menuList() {
+      console.log(this.$store.state.role)
       if (this.$store.state.role === '学生' || this.$store.state.role === 'student') {
         this.menu= [{
             label: '个人信息',
