@@ -21,8 +21,8 @@ export default {
   },
   methods: {
     menuList() {
-      console.log(this.$store.state.role)
-      if (this.$store.state.role === '学生' || this.$store.state.role === 'student') {
+      console.log(localStorage.role)
+      if (localStorage.role === '学生' || localStorage.role === 'student') {
         this.menu= [{
             label: '个人信息',
             path: '/profile'
@@ -30,7 +30,7 @@ export default {
             label: '申请状态',
             path: '/profile/applystatus'
           }]
-      } else if (this.$store.state.role === '辅导员' || this.$store.state.role === 'instructor') {
+      } else if (localStorage.role === '辅导员' || localStorage.role === 'instructor') {
         this.menu= [{
           label: '个人信息',
           path: '/profile'
@@ -38,7 +38,7 @@ export default {
           label: '审核状态',
           path: '/profile/auditstatus'
         }]
-      } else if (this.$store.state.role === "学生处" || this.$store.state.role === 'staff') {
+      } else if (localStorage.role === "学生处" || localStorage.role === 'staff') {
         this.menu= [{
           label: '个人信息',
           path: '/profile'

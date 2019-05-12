@@ -16,9 +16,17 @@ export const register = (params) => {
 export const profileApplyList = (params) => {
   return http.fetchQuickSearch('/api/apply/list',params)
 }
+//申请状态
+export const applyAdd = (params) => {
+  return http.fetchPost('/api/apply/add',params)
+}
 // 个人基本信息
 export const baseInformation = (params) => {
   return http.fetchQuickSearch('/api/information/base',params)
+}
+// 修改基本信息
+export const updateInformation = (params) => {
+  return http.fetchPost('/api/information/update',params)
 }
 
 //添加资助政策信息

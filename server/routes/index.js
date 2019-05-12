@@ -52,11 +52,11 @@ router.post('/login', function (req, res, next) {
   })
 })
 //登出
-router.post('/logout',function(req,res,next){
+router.post('/logout', function (req, res, next) {
   res.clearCookie('number')
   res.json({
-    status:'1',
-    msg:'登出成功！'
+    status: '1',
+    msg: '登出成功！'
   })
 })
 //注册
@@ -99,8 +99,8 @@ router.post('/register', function (req, res, next) {
 //文件上传
 router.post('/upload', multipartMiddleware, (req, res, next) => {
   if (req.cookies && req.cookies.number) {
-    var dirname = __dirname.replace(/\\/g,"/")
-    var des_file = path.join(dirname ,"../public/file",req.files.file.originalFilename)
+    var dirname = __dirname.replace(/\\/g, "/")
+    var des_file = path.join(dirname, "../public/file", req.files.file.originalFilename)
     console.log("1", des_file)
     fs.readFile(req.files.file.originalFilename, function (err, data) {
       fs.writeFile(des_file, data, function (err) {
@@ -108,9 +108,9 @@ router.post('/upload', multipartMiddleware, (req, res, next) => {
           console.log(err);
         } else {
           res.json({
-            status:'1',
-            msg:"上传成功",
-            filename: "http://127.0.0.1:8081/api/file/"+ req.files.file.originalFilename
+            status: '1',
+            msg: "上传成功",
+            filename: "http://127.0.0.1:8081/api/file/" + req.files.file.originalFilename
           });
         }
       });
@@ -122,7 +122,7 @@ router.post('/upload', multipartMiddleware, (req, res, next) => {
 //查询个人基本信息
 router.get('/information/base', (req, res, next) => {
   if (req.cookies && req.cookies.number) {
-    let sql = `select * from user where number = ${req.cookies.number}`
+    let sql = `select * from user a left join information b on a.number = b.sno where a.number = '${req.cookies.number}'`
     pool.query(sql, (err, result) => {
       if (result && result.length > 0) {
         result = result[0]
@@ -143,6 +143,81 @@ router.get('/information/base', (req, res, next) => {
   }
 })
 
+
+//修改个人基本信息
+router.post('/information/update', (req, res, next) => {
+  if (req.cookies && req.cookies.number) {
+    let {
+      college,
+      major,
+      grade,
+      gender,
+      age,
+      birthday,
+      nation,
+      cardId,
+      phone,
+      mail,
+      bankCard,
+      credibility,
+      cheat,
+      rent,
+      breach,
+      political,
+      studentType,
+      isFullTime,
+      foreignLang,
+      foreignLevel,
+      foreignGrade,
+      educationalSystem,
+      educationalBackground,
+      enrolmentTime,
+      graduationTime,
+      creditScore,
+      comprehensiveResult,
+      creditClassRanking,
+      creditGradeRanking,
+      comprehensiveClassRanking,
+      comprehensiveGradeRanking,
+      result,
+      address,
+      family,
+      isPoor,
+      applyReason,
+      others,
+      home,
+      failureCourse
+    } = req.body
+    let sql = `replace into information(sno, gender,age, birthday, nation,cardId,phone,mail, bankCard, credibility, cheat,  rent,breach,political, studentType,      isFullTime, educationalSystem, educationalBackground,      enrolmentTime,      graduationTime,      creditScore,      comprehensiveResult,      creditClassRanking,      creditGradeRanking,      comprehensiveClassRanking,      comprehensiveGradeRanking,      result,      address,      family,      isPoor,      applyReason,      others,      home,      failureCourse,foreignLang,foreignLevel,foreignGrade)
+     values('${req.cookies.number}','${gender}','${age}','${birthday}','${nation}','${cardId}','${phone}','${mail}','${bankCard}','${credibility}','${cheat}','${rent}','${breach}','${political}','${studentType}','${isFullTime}','${educationalSystem}','${educationalBackground}','${enrolmentTime}', '${graduationTime}','${creditScore}','${comprehensiveResult}','${creditClassRanking}', '${creditGradeRanking}','${comprehensiveClassRanking}','${comprehensiveGradeRanking}','${result}','${address}', '${family}','${isPoor}','${applyReason}','${others}','${home}','${failureCourse}','${foreignLang}','${foreignLevel}','${foreignGrade}');`
+    let updatesql = `update user  set college = '${college}',major='${major}',grade ='${grade}' where number ='${req.cookies.number}';`
+    let i = 0
+    let err1= ''
+    pool.query(sql, (err, result) => {
+      if (!err) {
+        pool.query(updatesql, (err, result) => {
+          if (!err) {
+              res.json({
+                status: '1',
+                msg: '修改成功',
+              });
+          }else {
+            res.json({
+              status: '-1',
+              msg: err
+            });
+          }
+        })
+    }else {
+      res.json({
+        status: '-1',
+        msg: err
+      });
+    }
+    })
+
+  }
+})
 
 //ueditor 获取content
 router.post('/ueditor/content', (req, res, next) => {
@@ -186,7 +261,7 @@ router.post('/audit/insert', function (req, res, next) {
       console.log(result)
       res.json({
         status: '1',
-        msg:result
+        msg: result
       });
     }
   })
@@ -195,8 +270,8 @@ router.post('/audit/insert', function (req, res, next) {
 
 //查询审核列表
 router.post('/audit/list', function (req, res, next) {
-  let sql=''
-  if(req.body.category){
+  let sql = ''
+  if (req.body.category) {
     sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}'`;
     pool.query(sql, function (err, result) {
       if (err) {
@@ -205,22 +280,22 @@ router.post('/audit/list', function (req, res, next) {
           msg: err.message
         });
       } else {
-        if(result.length < 1){
+        if (result.length < 1) {
           res.json({
             status: '1',
-            msg:"success",
-            content:result
+            msg: "success",
+            content: result
           });
-        }else {
+        } else {
           res.json({
             status: '2',
-            msg:"该资助项目已申请",
+            msg: "该资助项目已申请，无法重复申请",
           });
         }
       }
     })
-  }else {
-    sql = `select * from audit where number = '${req.cookies.number}'`;
+  } else {
+    sql = `select * from audit where number = '${req.cookies.number}'  order by  applyDate DESC`;
     pool.query(sql, function (err, result) {
       if (err) {
         res.json({
@@ -230,8 +305,8 @@ router.post('/audit/list', function (req, res, next) {
       } else {
         res.json({
           status: '1',
-          msg:"success",
-          content:result
+          msg: "success",
+          content: result
         });
       }
     })
@@ -240,9 +315,9 @@ router.post('/audit/list', function (req, res, next) {
 
 //查询申请记录
 router.post('/apply/list', function (req, res, next) {
-  let sql = `select * from apply a LEFT JOIN user b ON  a.number = b.number where a.number ='${req.cookies.number}'`;
+  let sql = `select * from user a LEFT JOIN information   b ON  a.number = b.sno where a.number ='${req.cookies.number}' `;
   pool.query(sql, function (err, result) {
-    if(result.length>0){
+    if (result.length > 0) {
       result = result[0]
     }
     if (err) {
@@ -251,13 +326,77 @@ router.post('/apply/list', function (req, res, next) {
         msg: err.message
       });
     } else {
+      console.log(result)
       res.json({
         status: '1',
-        msg:"查询成功",
-        content:result
+        msg: "查询成功",
+        content: result
       });
     }
   })
 })
 
+//新增申请信息
+router.post('/apply/add', (req, res, next) => {
+  if (req.cookies && req.cookies.number) {
+    let {
+      category,
+      name,
+      college,
+      major,
+      grade,
+      gender,
+      age,
+      birthday,
+      nation,
+      cardId,
+      phone,
+      mail,
+      bankCard,
+      credibility,
+      cheat,
+      rent,
+      breach,
+      political,
+      studentType,
+      isFullTime,
+      foreignLang,
+      foreignLevel,
+      foreignGrade,
+      educationalSystem,
+      educationalBackground,
+      enrolmentTime,
+      graduationTime,
+      creditScore,
+      comprehensiveResult,
+      creditClassRanking,
+      creditGradeRanking,
+      comprehensiveClassRanking,
+      comprehensiveGradeRanking,
+      result,
+      address,
+      family,
+      isPoor,
+      applyReason,
+      others,
+      home,
+      failureCourse
+    } = req.body
+    let sql = `insert into apply(sno,category,name,college,major,grade, gender,age, birthday, nation,cardId,phone,mail, bankCard, credibility, cheat,  rent,breach,political, studentType,      isFullTime, educationalSystem, educationalBackground,      enrolmentTime,      graduationTime,      creditScore,      comprehensiveResult,      creditClassRanking,      creditGradeRanking,      comprehensiveClassRanking,      comprehensiveGradeRanking,      result,      address,      family,      isPoor,      applyReason,      others,      home,      failureCourse,foreignLang,foreignLevel,foreignGrade)
+     values('${req.cookies.number}','${category}','${name}','${college}','${major}','${grade}','${gender}','${age}','${birthday}','${nation}','${cardId}','${phone}','${mail}','${bankCard}','${credibility}','${cheat}','${rent}','${breach}','${political}','${studentType}','${isFullTime}','${educationalSystem}','${educationalBackground}','${enrolmentTime}', '${graduationTime}','${creditScore}','${comprehensiveResult}','${creditClassRanking}', '${creditGradeRanking}','${comprehensiveClassRanking}','${comprehensiveGradeRanking}','${result}','${address}', '${family}','${isPoor}','${applyReason}','${others}','${home}','${failureCourse}','${foreignLang}','${foreignLevel}','${foreignGrade}');`
+        pool.query(sql, (err, result) => {
+          if (!err) {
+              res.json({
+                status: '1',
+                msg: '新增成功',
+              });
+          }else {
+            res.json({
+              status: '-1',
+              msg: err
+            });
+          }
+        })
+  }
+})
 module.exports = router;

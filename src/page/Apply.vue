@@ -135,7 +135,11 @@
                   <el-col :span="20">
                     <el-form-item prop="credibility">
                       <h4>申请资助过程中弄虚作假：</h4>
-                      <el-input v-model="formData.credibility" :autosize="{ minRows: 2}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.credibility"
+                        :autosize="{ minRows: 2}"
+                        type="textarea"
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -178,7 +182,11 @@
                   <el-col :span="8">
                     <el-form-item label="政治面貌：" prop="political">
                       <el-select v-model="formData.political">
-                        <el-option v-for="item in ['中共党员','预备役党员','团员','群众']" :key="item" :value="item"></el-option>
+                        <el-option
+                          v-for="item in ['中共党员','预备役党员','团员','群众']"
+                          :key="item"
+                          :value="item"
+                        ></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -192,8 +200,8 @@
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="外语语种：" prop="foreign">
-                      <el-select v-model="formData.foreign">
+                    <el-form-item label="外语语种：" prop="foreignLang">
+                      <el-select v-model="formData.foreignLang">
                         <el-option v-for="item in ['英语','德语','日语','韩语']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
@@ -201,13 +209,17 @@
                   <el-col :span="8">
                     <el-form-item label="外语水平：" prop="foreignLevel">
                       <el-select v-model="formData.foreignLevel">
-                        <el-option v-for="item in ['CET4','CET6','托福','雅思','专业四级','专业八级']" :key="item" :value="item"></el-option>
+                        <el-option
+                          v-for="item in ['CET4','CET6','托福','雅思','专业四级','专业八级']"
+                          :key="item"
+                          :value="item"
+                        ></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
                     <el-form-item label="外语分数：" prop="foreignGrade">
-                      <el-input v-model="formData.foreignGrade" ></el-input>
+                      <el-input v-model="formData.foreignGrade"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -215,7 +227,7 @@
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="学制：" prop="educationalSystem">
-                      <el-input v-model="formData.educationalSystem" ></el-input>                 
+                      <el-input v-model="formData.educationalSystem"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
@@ -292,8 +304,11 @@
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="挂科情况：" prop="failureCourse">
-                      <el-input v-model="formData.failureCourse" :autosize="{ minRows: 2}" type="textarea"></el-input>
-                    
+                      <el-input
+                        v-model="formData.failureCourse"
+                        :autosize="{ minRows: 2}"
+                        type="textarea"
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -323,7 +338,7 @@
                     <el-form-item prop="home">
                       <!-- <el-select v-model="formData.home">
                         <el-option v-for="item in ['湖北','陕西']" :key="item" :value="item"></el-option>
-                      </el-select> -->
+                      </el-select>-->
                       <el-input v-model="formData.home"></el-input>
                     </el-form-item>
                   </el-col>
@@ -332,7 +347,11 @@
                   <el-col :span="20">
                     <h4>家庭详细地址：</h4>
                     <el-form-item prop="address" label-width="0">
-                      <el-input v-model="formData.address" :autosize="{ minRows: 3}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.address"
+                        :autosize="{ minRows: 3}"
+                        type="textarea"
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -371,7 +390,11 @@
                   <el-col :span="20">
                     <el-form-item prop="applyReason">
                       <h3>请详细说明申请理由：</h3>
-                      <el-input v-model="formData.applyReason" :autosize="{ minRows: 10}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.applyReason"
+                        :autosize="{ minRows: 10}"
+                        type="textarea"
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -390,7 +413,11 @@
                   <el-col :span="20">
                     <el-form-item prop="others">
                       <h3>其他需要特别说明的情况：</h3>
-                      <el-input v-model="formData.others" :autosize="{ minRows: 10}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.others"
+                        :autosize="{ minRows: 10}"
+                        type="textarea"
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -463,7 +490,12 @@
           </div>
 
           <div style="width:100%;text-align:center">
-            <el-button v-if="active > 0 && active < 7" style="margin-top: 12px;" type="success" @click="pre">上一步</el-button>
+            <el-button
+              v-if="active > 0 && active < 7"
+              style="margin-top: 12px;"
+              type="success"
+              @click="pre"
+            >上一步</el-button>
             <el-button v-if="active < 6" style="margin-top: 12px;" type="success" @click="next">下一步</el-button>
             <el-button
               v-if="Ipromise && active === 6"
@@ -481,7 +513,8 @@
   </div>
 </template>
 <script>
-import { getScholarList, applyInsert,getApplyList} from "../api/scholar.js";
+import { getScholarList, auditInsert, getApplyList } from "../api/scholar.js";
+import { applyAdd } from "../api";
 export default {
   mounted() {
     this.getList();
@@ -492,8 +525,8 @@ export default {
   methods: {
     getList() {
       getApplyList().then(data => {
-        this.formData = data.content
-      })
+        this.formData = data.content;
+      });
     },
     next() {
       if (this.active++ > 6) {
@@ -520,15 +553,29 @@ export default {
       }, 1000);
     },
     //提交申请
-   onSubmit(){
-     let {number,name} = this.formData
-     let form = Object.assign({},{category:this.$route.params.title},{number,name})
-     applyInsert(form).then(()=>{
-       this.next()
-     }).catch(()=>{
-       this.$message.error("申请失败！")
-     })
-   }
+    onSubmit() {
+      let { number, name } = this.formData;
+      let formInsert = Object.assign(
+        {},
+        { category: this.$route.params.title },
+        { number, name }
+      );
+      auditInsert(formInsert)
+        .then(() => {
+          this.next();
+        })
+        .catch(() => {
+          this.$message.error("审核记录插入失败！");
+        });
+      let formAdd = Object.assign({}, this.formData, {
+        category: this.$route.params.title
+      });
+      applyAdd(formAdd)
+        .then(data => {})
+        .catch(() => {
+          this.$message.error("申请失败！");
+        });
+    }
   },
   data: function() {
     return {
@@ -555,7 +602,7 @@ export default {
         // phone: "18821709973",
         // mail: "1260077156@qq.com",
       },
-        Ipromise: false
+      Ipromise: false
     };
   }
 };

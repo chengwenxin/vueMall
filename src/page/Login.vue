@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { login ,logoutApi } from "../api";
+import { login, logoutApi } from "../api";
 export default {
   data: function() {
     return {
@@ -58,22 +58,35 @@ export default {
         number: "",
         password: ""
       },
-      isLogin: '0'
+      isLogin: "0"
     };
   },
   mounted() {
-   this.isLogin =( window.localStorage.getItem("isLogin") === '0'|| window.localStorage.getItem("isLogin") === '1' ) ?window.localStorage.getItem("isLogin") : '0';
+    this.isLogin =
+      window.localStorage.getItem("isLogin") === "0" ||
+      window.localStorage.getItem("isLogin") === "1"
+        ? window.localStorage.getItem("isLogin")
+        : "0";
   },
   methods: {
+    open() {
+      this.$notify({
+        title: "登录成功",
+        message: "请尽快完善个人信息",
+        type: "success",
+        duration:0
+      });
+    },
     userLogin() {
       login(this.loginForm)
         .then(data => {
           if (data.status === "1") {
-            this.$message.success(data.msg);
-            window.localStorage.setItem("isLogin", '1');
+            window.localStorage.setItem("isLogin", "1");
             window.localStorage.setItem("number", data.content.number);
-            window.localStorage.setItem("name",data.content.name);
-            this.isLogin = '1';
+            window.localStorage.setItem("name", data.content.name);
+            window.localStorage.setItem("role", data.content.role);
+            this.isLogin = "1";
+            this.open();
             this.$router.push("./profile");
           } else {
             this.$message.error(data.msg);
@@ -87,12 +100,14 @@ export default {
       this.$router.push("/register");
     },
     logout() {
-      logoutApi().then(()=>{
-         window.localStorage.setItem("isLogin", '0');
-      this.isLogin = '0';
-      }).catch(err =>{
-        console.log(err)
-      })
+      logoutApi()
+        .then(() => {
+          window.localStorage.setItem("isLogin", "0");
+          this.isLogin = "0";
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

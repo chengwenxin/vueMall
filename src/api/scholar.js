@@ -65,7 +65,7 @@ export const getIntroductionDetail = (params) => {
 }
 
 //新增申请记录
-export const applyInsert = (params) => {
+export const auditInsert = (params) => {
   return http.fetchPost('/api/audit/insert',params)
 }
 //查询申请记录
