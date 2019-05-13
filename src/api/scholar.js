@@ -81,8 +81,11 @@ export const auditDelete = (params) => {
   return http.fetchPost('/api/audit/delete',params)
 }
 
-//查询申请信息
+//查询申请信息 第一次到申请页面是填充表单  
 export const getApplyList = (params) => {
   return http.fetchPost('/api/apply/list',params)
 }
 
+ export const firstAuditReplace = (params) => {
+  return http.fetchPost('/api/audit/first/replace',params)
+}

@@ -69,10 +69,10 @@ export default {
         : "0";
   },
   methods: {
-    open() {
+    open(msg) {
       this.$notify({
         title: "登录成功",
-        message: "请尽快完善个人信息",
+        message:msg,
         type: "success",
         duration:0
       });
@@ -86,8 +86,13 @@ export default {
             window.localStorage.setItem("name", data.content.name);
             window.localStorage.setItem("role", data.content.role);
             this.isLogin = "1";
-            this.open();
-            this.$router.push("./profile");
+            if(window.localStorage.role ==='学生'){
+            this.open("请尽快完善个人信息");
+             this.$router.push("/profile");
+            }else {
+            this.open("请您尽快审核学生资助申请");
+             this.$router.push("/profile/auditstatus");
+            }
           } else {
             this.$message.error(data.msg);
           }

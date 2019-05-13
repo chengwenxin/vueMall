@@ -19,17 +19,17 @@
               <el-table-column align="center" prop="name" label="申请人"></el-table-column>
               <el-table-column align="center" prop="applyDate" label="申请时间" min-width="200">
                <template slot-scope="scope">
-                   {{formateDate(scope.row.applyDate)}}
+                   {{formatDate(new Date(scope.row.applyDate))}}
                </template>
               </el-table-column>
               <el-table-column align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
               <el-table-column align="center" prop="firstAudit" label="初审人"></el-table-column>
               <el-table-column align="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="firstAuditDate" label="初审时间"></el-table-column>
+              <el-table-column align="center" prop="firstAuditDate" label="初审时间" min-width="200"></el-table-column>
                  <el-table-column align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
               <el-table-column align="center" prop="secondAudit" label="复审人"></el-table-column>
               <el-table-column align="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="secondAuditDate" label="复审时间"></el-table-column>
+              <el-table-column align="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
               <el-table-column align="center" label="操作">
                 <el-button type="text" >撤销</el-button>
               </el-table-column>
@@ -45,6 +45,7 @@
 </template>
 <script>
 import { auditList } from "../../api/scholar";
+import formatDate from '../../utils/formatDate'
 import mixins from './mixins'
 export default {
   mixins:[mixins],
@@ -53,12 +54,12 @@ export default {
   },
   methods: {
     //格式化申请日期
-    formateDate(applyDate){
-      let date = new Date(applyDate)
-      return date.toLocaleString()
-    },
+    // formateDate(applyDate){
+    //   let date = new Date(applyDate)
+    //   return date.toLocaleString()
+    // },
     getList() {
-      auditList()
+      auditList({role:'0'})
         .then(data => {
           if(data.status === '1'){
           this.formdata = data.content;
@@ -75,6 +76,7 @@ export default {
   data: function() {
     return {
       formdata: [],
+      formatDate:formatDate
     };
   }
 };

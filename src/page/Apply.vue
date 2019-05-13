@@ -554,7 +554,9 @@ export default {
     },
     //提交申请
     onSubmit() {
-      let { number, name } = this.formData;
+
+      if(window.localStorage.role === '学生'){
+        let { number, name } = this.formData;
       let formInsert = Object.assign(
         {},
         { category: this.$route.params.title },
@@ -575,6 +577,9 @@ export default {
         .catch(() => {
           this.$message.error("申请失败！");
         });
+      }else {
+        this.$message.error("非学生身份，只能浏览申请过程，不可提交申请！");
+      }
     }
   },
   data: function() {

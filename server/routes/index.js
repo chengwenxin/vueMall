@@ -101,7 +101,6 @@ router.post('/upload', multipartMiddleware, (req, res, next) => {
   if (req.cookies && req.cookies.number) {
     var dirname = __dirname.replace(/\\/g, "/")
     var des_file = path.join(dirname, "../public/file", req.files.file.originalFilename)
-    console.log("1", des_file)
     fs.readFile(req.files.file.originalFilename, function (err, data) {
       fs.writeFile(des_file, data, function (err) {
         if (err) {
@@ -250,21 +249,36 @@ router.post('/ueditor/content', (req, res, next) => {
 
 //新增审核
 router.post('/audit/insert', function (req, res, next) {
-  let sql = `insert into audit(number,name,category) values('${req.body.number}','${req.body.name}','${req.body.category}')`;
-  pool.query(sql, function (err, result) {
+    //辅导员对应的学生申请
+  let sql= `SELECT * from user AS a INNER JOIN (select instructor from college ,user where college.college = user.college AND  user.role = '学生' AND user.number = '${req.body.number}') AS b on a.number = b.instructor`
+  pool.query(sql,function(err,result){
     if (err) {
       res.json({
         status: '-1',
         msg: err.message
       });
     } else {
-      console.log(result)
-      res.json({
-        status: '1',
-        msg: result
-      });
+      if(result.length > 0){
+        result=result[0]
+      let insertsql = `insert into audit(number,name,category,firstAuditNumber,firstAudit) values('${req.body.number}','${req.body.name}','${req.body.category}','${result.instructor}','${result.name}')`;
+      pool.query(insertsql, function (err, result) {
+        if (err) {
+          res.json({
+            status: '-1',
+            msg: err.message
+          });
+        } else {
+          console.log(result)
+          res.json({
+            status: '1',
+            msg: result
+          });
+        }
+      })
+    }
     }
   })
+  
 })
 
 
@@ -295,7 +309,13 @@ router.post('/audit/list', function (req, res, next) {
       }
     })
   } else {
+    if(req.body.role === '0'){
     sql = `select * from audit where number = '${req.cookies.number}'  order by  applyDate DESC`;
+    } else if(req.body.role === '1'){
+      sql = `select * from audit where firstAuditNumber = '${req.cookies.number}'  order by  applyDate DESC`;
+    } else if(req.body.role === '2'){
+      sql = `select * from audit order by  applyDate DESC`;
+    } 
     pool.query(sql, function (err, result) {
       if (err) {
         res.json({
@@ -398,5 +418,44 @@ router.post('/apply/add', (req, res, next) => {
           }
         })
   }
+})
+// 查询学院专业班级
+router.get('/college/list',function(req,res,next){
+  // 内连接
+  let sql=`select * from college,major,grade where college.college = major.college AND major.major = grade.major`
+  // let sql=` select * from college a LEFT JOIN major b on a.college = b.college LEFT JOIN grade c on b.major = c.major`
+  pool.query(sql,function(err,result){
+    if(err){
+      res.json({
+        status:'-1',
+        msg:err.message
+      })
+    }else {
+      res.json({
+        status:'1',
+        msg:'success',
+        content:result
+      })
+    }
+  })
+})
+
+router.post('/audit/first/replace',function(req,res,next){
+  let {id,firstAuditStatus,firstResponse,firstAuditDate} = req.body
+  sql=`update audit set firstAuditStatus='${firstAuditStatus}',firstResponse='${firstResponse}',firstAuditDate='${firstAuditDate}' where id='${id}'`
+  pool.query(sql,function(err,result){
+    if(err){
+      res.json({
+        status:'-1',
+        msg:err.message
+      })
+    }else {
+      res.json({
+        status:'1',
+        msg:'初审成功',
+        content:result
+      })
+    }
+  })
 })
 module.exports = router;

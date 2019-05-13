@@ -17,15 +17,20 @@ import ApplyStatus from '../page/profile/ApplyStatus'
 import AuditStatus from '../page/profile/AuditStatus'
 import SecondAuditStatus from '../page/profile/SecondAuditStatus'
 import ReleaseManagement from '../page/profile/ReleaseManagement'
+import HighProfile from '../page/profile/HighProfile'
 SecondAuditStatus
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {
       path:'/profile/editor',
       name:'Editor',
       component:Editor
+    },
+    {
+      path:'/profile/high',
+      name:'HighProfile',
+      component:HighProfile
     },
     {
       path:'/login',

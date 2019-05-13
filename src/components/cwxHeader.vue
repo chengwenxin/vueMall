@@ -34,6 +34,9 @@
 </template>
 <script>
 export default {
+  mounted(){
+    console.log('1;',window.localStorage.role)
+  },
   data: function() {
     return {
       menus: [
@@ -42,7 +45,7 @@ export default {
         { index: "/announcement", label: "通 知 公 告" },
         { index: "/working", label: "工 作 动 态" },
         { index: "/policy", label: "资 助 政 策" },
-        { index: "/profile", label: "个 人 中 心" }
+        { index: window.localStorage.role ==='学生'?'/profile':'/profile/high', label: "个 人 中 心" }
       ]
     };
   }
