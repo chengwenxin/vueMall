@@ -29,7 +29,7 @@
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column sortable align="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
-      <el-table-column align="center" label="操作" fixed="right" width="200">
+      <el-table-column align="center" label="操作" fixed="right" width="100">
         <template slot-scope="scope">
           <div v-if="type === 'firstAudit'">
             <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">详情</el-button>
@@ -437,7 +437,7 @@ export default {
       this.edit = false;
       applyAdd(Object.assign({},this.formData,{isAdmin:true})).then(data =>{
           this.$message.success('诚信记录保存成功！')
-          this.visible = false
+        //   this.visible = false
       })
     },
     submitClick(data) {
