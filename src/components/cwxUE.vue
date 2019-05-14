@@ -107,13 +107,13 @@ export default {
   methods: {
     defaultValue() {
       let date = new Date();
-      let year = date.getUTCFullYear();
+      let year = date.getFullYear();
       let month =
-        date.getUTCMonth() < 9
-          ? "0" + (date.getUTCMonth() + 1)
-          : date.getUTCMonth() + 1;
+        date.getMonth() < 9
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
       let day =
-        date.getUTCDate() < 9 ? "0" + date.getUTCDate() : date.getUTCDate();
+        date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
       return "" + year + "-" + month + "-" + day;
     },
     submit() {

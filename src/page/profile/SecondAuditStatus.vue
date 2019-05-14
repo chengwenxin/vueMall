@@ -9,57 +9,127 @@
         <cwx-sort-left :menu="menu"></cwx-sort-left>
         <cwx-sort-right>
           <div>
+            <div style="margin:10px;">
+              <el-button @click="releaseVisible = true" type="success">发布获奖公告</el-button>
+
+              <div v-if="releaseVisible">
+                <el-dialog
+                title="发布获奖公告"
+                :visible.sync="releaseVisible"
+                width="50%"
+                :model="releaseData"
+                :inline="true"
+              >
+              <el-form :model="releaseData" label-width="120px">
+                <el-form-item label="资助项目：" prop="category">
+                  <el-select v-model="releaseData.category">
+                    <el-option v-for="item in ['最新政策','123','1']" :key="item" :label="item" :value="item"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="标题：" prop="title">
+                  <el-input v-model="releaseData.title"></el-input>
+                </el-form-item>
+                <el-form-item label="作者：" prop="author">
+                  <el-input v-model="releaseData.author"></el-input>
+                </el-form-item>
+
+                <el-form-item label="发布日期：" prop="detailDate">
+                  <el-date-picker
+                    :clearable="false"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    v-model="releaseData.detailDate"
+                  ></el-date-picker>
+                </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="releaseVisible = false">取 消</el-button>
+                  <el-button type="success" @click="releaseListClick">发 布</el-button>
+                </span>
+              </el-dialog>
+              </div>
+            </div>
+            <!-- <el-button @click="clearFilter">清除所有过滤器</el-button> -->
             <el-table :data="formdata" border stripe mutiple>
               <el-table-column type="selection" width="55"></el-table-column>
               <el-table-column align="center" prop="number" label="序号">
                 <template slot-scope="scope">{{scope.$index+1}}</template>
               </el-table-column>
-              <el-table-column align="center" prop="category" label="资助项目"></el-table-column>
-              <el-table-column align="center" prop="number" label="申请学号"></el-table-column>
-              <el-table-column align="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column align="center" prop="applyDate" label="申请时间" min-width="200">
-               <template slot-scope="scope">
-                   {{formateDate(scope.row.applyDate)}}
-               </template>
+              <el-table-column sortable align="center" prop="category" label="资助项目"></el-table-column>
+              <el-table-column sortable align="center" prop="number" label="申请学号"></el-table-column>
+              <el-table-column sortable align="center" prop="name" label="申请人"></el-table-column>
+              <el-table-column
+                sortable
+                align="center"
+                prop="applyDate"
+                label="申请时间"
+                min-width="200"
+              >
+                <!-- <template slot-scope="scope">{{formatDate(new Date(scope.row.applyDate))}}</template> -->
               </el-table-column>
-              <el-table-column align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
-              <el-table-column align="center" prop="firstAudit" label="初审人"></el-table-column>
-              <el-table-column align="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="firstAuditDate" label="初审时间">
-              </el-table-column>
-                 <el-table-column align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
-              <el-table-column align="center" prop="secondAudit" label="复审人"></el-table-column>
-              <el-table-column align="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="secondAuditDate" label="复审时间"></el-table-column>
-              <el-table-column align="center" label="操作">
-               <template slot-scope="scope">
-                 <el-button type="text" @click="firstAudit(scope.row)" >初审</el-button>
-               </template>
+              <el-table-column sortable align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
+              <el-table-column sortable align="center" prop="firstAudit" label="初审人"></el-table-column>
+              <el-table-column
+                align="center"
+                prop="firstResponse"
+                label="初审回复"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                sortable
+                align="center"
+                prop="firstAuditDate"
+                label="初审时间"
+                min-width="200"
+              ></el-table-column>
+              <el-table-column sortable align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
+              <el-table-column sortable align="center" prop="secondAudit" label="复审人"></el-table-column>
+              <el-table-column
+                align="center"
+                prop="secondResponse"
+                label="复审回复"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                sortable
+                align="center"
+                prop="secondAuditDate"
+                label="复审时间"
+                min-width="200"
+              ></el-table-column>
+              <el-table-column align="center" label="操作" fixed="right">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="secondAudit(scope.row)">复审</el-button>
+                </template>
               </el-table-column>
             </el-table>
-         <div v-if="firstVisible">
+            <div v-if="secondVisible">
               <el-dialog
-            :visible.sync="firstVisible"
-            title="初审"
-            width="50%"
-            :close-on-click-modal='false'
-            >
-              <el-form :model="params" label-width="140px">
-              <el-form-item  prop="firstAuditStatus" label="初审状态:">
-                <el-select v-model="params.firstAuditStatus" >
-                  <el-option v-for="item in ['暂无审核','申请通过','申请驳回']" :key="item" :value="item"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item  prop="firstResponse" label="初审回复:" show-overflow-tooltip>
-                <el-input v-model="params.firstResponse" type="textarea" :autosize="{minRows:3}"></el-input>
-              </el-form-item>
-              </el-form>
-               <span slot="footer" class="dialog-footer">
-    <el-button @click="firstVisible = false">取 消</el-button>
-    <el-button type="success" @click="firstAuditSubmit">确 定</el-button>
-  </span>
-            </el-dialog>
-         </div>
+                :visible.sync="secondVisible"
+                title="复审"
+                width="50%"
+                :close-on-click-modal="false"
+              >
+                <el-form :model="params" label-width="140px">
+                  <el-form-item prop="secondAuditStatus" label="初审状态:">
+                    <el-select v-model="params.secondAuditStatus">
+                      <el-option v-for="item in ['暂未审核','复审通过','复审驳回']" :key="item" :value="item"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item prop="secondResponse" label="初审回复:" show-overflow-tooltip>
+                    <el-input
+                      v-model="params.secondResponse"
+                      type="textarea"
+                      :autosize="{minRows:3}"
+                    ></el-input>
+                  </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="secondVisible = false">取 消</el-button>
+                  <el-button type="success" @click="secondAuditSubmit">确 定</el-button>
+                </span>
+              </el-dialog>
+            </div>
           </div>
         </cwx-sort-right>
       </div>
@@ -70,47 +140,82 @@
   </div>
 </template>
 <script>
-import { auditList,firstAuditReplace } from "../../api/scholar";
-import formatDate from '../../utils/formatDate'
-import mixins from './mixins'
+import { addPolicy } from "../../api";
+import { auditList, secondAuditReplace } from "../../api/scholar";
+import formatDate from "../../utils/formatDate";
+import mixins from "./mixins";
 export default {
-  mixins:[mixins],
+  mixins: [mixins],
   mounted() {
     this.getList();
+    this.releaseData = Object.assign({}, this.releaseData, {
+      detailDate: this.defaultValue(),
+      author:window.localStorage.name
+    });
   },
   methods: {
+    //默认日期
+        defaultValue() {
+      let date = new Date();
+      let year = date.getFullYear();
+      let month =
+        date.getMonth() < 9
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      let day =
+        date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
+      return "" + year + "-" + month + "-" + day;
+    },
+    //发布提交
+    releaseListClick(){
+      this.releaseVisible = false
+       let update_date = this.releaseData.detailDate.slice(5);
+       let content = ''
 
-firstAuditSubmit(){
-  let firstAuditDate = new Date()
-  firstAuditDate = formatDate(firstAuditDate)
-this.params = Object.assign({},this.params,{firstAuditDate})
-  firstAuditReplace(this.params).then(data => {
-    this.getList()
-    this.firstVisible=false
-          this.$message.success('复审完成')
+       for(let i=0;i<5;i++){
+          content+='<a href="http://www.baidu.com">'+i+'</a>'
+       }
+      Object.assign(this.releaseData, { update_date,type:'通知公告',content });
+      addPolicy(this.releaseData)
+        .then(data => {
+          this.$message.success(data.msg);
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
+    },
+    secondAuditSubmit() {
+      let secondAuditDate = new Date();
+      secondAuditDate = formatDate(secondAuditDate);
+      this.params = Object.assign({}, this.params, {
+        secondAuditDate,
+        secondAudit: window.localStorage.name
+      });
+      secondAuditReplace(this.params)
+        .then(data => {
+          this.getList();
+          this.secondVisible = false;
+          this.$message.success("复审完成");
         })
         .catch(err => {
           console.log(err);
         });
-},
-    //弹窗
-    firstAudit(val){
-      this.firstVisible = true
-      this.params = val
     },
-    //格式化申请日期
-    formateDate(applyDate){
-      let date = new Date(applyDate)
-      return date.toLocaleString()
+    //弹窗
+    secondAudit(val) {
+      this.secondVisible = true;
+      this.params = val;
     },
     getList() {
-      auditList({role:'1'})
+      auditList({ role: "2" })
         .then(data => {
-          if(data.status === '1'){
-          this.formdata = data.content;
-          }else {
-            this.$message.error(data.msg)
-            this.$router.push('/login')
+          if (data.status === "1") {
+            this.formdata = data.content.filter(
+              item => item.firstAuditStatus === "初审通过"
+            );
+          } else {
+            this.$message.error(data.msg);
+            this.$router.push("/login");
           }
         })
         .catch(err => {
@@ -120,9 +225,18 @@ this.params = Object.assign({},this.params,{firstAuditDate})
   },
   data: function() {
     return {
-      firstVisible:false,
-      params:{},
+      secondVisible: false,
+      params: {
+        type:'',
+        title:'',
+        author:'',
+        detailDate:'',
+        content:''
+      },
       formdata: [],
+      formatDate: formatDate,
+      releaseVisible:false,
+      releaseData:{}
     };
   }
 };
@@ -143,16 +257,15 @@ body .el-table th.gutter {
     }
   }
 }
-
 </style>
 <style>
-.el-dialog__header{
-  background:#67C23A;
-  color:#FFFFFF;
+.el-dialog__header {
+  background: #67c23a;
+  color: #ffffff;
 }
 .el-dialog__title {
-    line-height: 24px;
-    font-size: 20px;
-    color: #ffffff;
+  line-height: 24px;
+  font-size: 20px;
+  color: #ffffff;
 }
 </style>

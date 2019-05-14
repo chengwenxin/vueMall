@@ -5,7 +5,8 @@ const state = {
   isLogin: false,
   role:'',
   number:'',
-  name:''
+  name:'',
+  lastLoginTime:'',
 }
 
 export default new Vuex.Store({
@@ -19,6 +20,9 @@ export default new Vuex.Store({
       state.role = params.role;
       state.number = params.number;
       state.name = params.name;
+    },
+    lastLogin(state,time){
+      state.lastLoginTime = time
     }
 
   }

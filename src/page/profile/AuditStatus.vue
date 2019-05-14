@@ -10,28 +10,28 @@
         <cwx-sort-right>
           <div>
             <el-table :data="formdata" border stripe mutiple>
-              <el-table-column type="selection" width="55"></el-table-column>
-              <el-table-column align="center" prop="number" label="序号">
+              <el-table-column       sortabletype="selection" width="55"></el-table-column>
+              <el-table-column       sortablealign="center" prop="number" label="序号">
                 <template slot-scope="scope">{{scope.$index+1}}</template>
               </el-table-column>
-              <el-table-column align="center" prop="category" label="资助项目"></el-table-column>
-              <el-table-column align="center" prop="number" label="申请学号"></el-table-column>
-              <el-table-column align="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column align="center" prop="applyDate" label="申请时间" min-width="200">
-               <template slot-scope="scope">
-                   {{formateDate(scope.row.applyDate)}}
-               </template>
+              <el-table-column   sortable    sortablealign="center" prop="category" label="资助项目"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="number" label="申请学号"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="name" label="申请人"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="applyDate" label="申请时间" min-width="200">
+               <!-- <template slot-scope="scope">
+                   {{formatDate(new Date(scope.row.applyDate))}}
+               </template> -->
               </el-table-column>
-              <el-table-column align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
-              <el-table-column align="center" prop="firstAudit" label="初审人"></el-table-column>
-              <el-table-column align="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="firstAuditDate" label="初审时间">
+              <el-table-column   sortable    sortablealign="center" prop="firstAuditStatus" label="初审状态"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="firstAudit" label="初审人"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="firstAuditDate" label="初审时间" min-width="200">
               </el-table-column>
-                 <el-table-column align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
-              <el-table-column align="center" prop="secondAudit" label="复审人"></el-table-column>
-              <el-table-column align="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="secondAuditDate" label="复审时间"></el-table-column>
-              <el-table-column align="center" label="操作">
+                 <el-table-column   sortable    sortablealign="center" prop="secondAuditStatus" label="复审状态"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="secondAudit" label="复审人"></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
+              <el-table-column   sortable    sortablealign="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
+              <el-table-column       sortablealign="center" label="操作" fixed="right">
                <template slot-scope="scope">
                  <el-button type="text" @click="firstAudit(scope.row)" >初审</el-button>
                </template>
@@ -47,7 +47,7 @@
               <el-form :model="params" label-width="140px">
               <el-form-item  prop="firstAuditStatus" label="初审状态:">
                 <el-select v-model="params.firstAuditStatus" >
-                  <el-option v-for="item in ['暂无审核','申请通过','申请驳回']" :key="item" :value="item"></el-option>
+                  <el-option v-for="item in ['暂未审核','初审通过','初审驳回']" :key="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item  prop="firstResponse" label="初审回复:" show-overflow-tooltip>
@@ -98,11 +98,7 @@ this.params = Object.assign({},this.params,{firstAuditDate})
       this.firstVisible = true
       this.params = val
     },
-    //格式化申请日期
-    formateDate(applyDate){
-      let date = new Date(applyDate)
-      return date.toLocaleString()
-    },
+
     getList() {
       auditList({role:'1'})
         .then(data => {
@@ -123,6 +119,7 @@ this.params = Object.assign({},this.params,{firstAuditDate})
       firstVisible:false,
       params:{},
       formdata: [],
+      formatDate:formatDate
     };
   }
 };

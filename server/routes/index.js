@@ -260,7 +260,7 @@ router.post('/audit/insert', function (req, res, next) {
     } else {
       if(result.length > 0){
         result=result[0]
-      let insertsql = `insert into audit(number,name,category,firstAuditNumber,firstAudit) values('${req.body.number}','${req.body.name}','${req.body.category}','${result.instructor}','${result.name}')`;
+      let insertsql = `insert into audit(number,name,category,firstAuditNumber,firstAudit,applyDate) values('${req.body.number}','${req.body.name}','${req.body.category}','${result.instructor}','${result.name}','${req.body.applyDate}')`;
       pool.query(insertsql, function (err, result) {
         if (err) {
           res.json({
@@ -439,10 +439,31 @@ router.get('/college/list',function(req,res,next){
     }
   })
 })
-
+//初审
 router.post('/audit/first/replace',function(req,res,next){
   let {id,firstAuditStatus,firstResponse,firstAuditDate} = req.body
   sql=`update audit set firstAuditStatus='${firstAuditStatus}',firstResponse='${firstResponse}',firstAuditDate='${firstAuditDate}' where id='${id}'`
+  console.log('复审：',sql)  
+  pool.query(sql,function(err,result){
+    if(err){
+      res.json({
+        status:'-1',
+        msg:err.message
+      })
+    }else {
+      res.json({
+        status:'1',
+        msg:'初审成功',
+        content:result
+      })
+    }
+  })
+})
+//复审
+router.post('/audit/second/replace',function(req,res,next){
+  let {id,secondAuditStatus,secondResponse,secondAuditDate,secondAudit} = req.body
+  sql=`update audit set secondAuditStatus='${secondAuditStatus}',secondResponse='${secondResponse}',secondAuditDate='${secondAuditDate}',secondAudit='${secondAudit}' where id='${id}'`
+  console.log('复审：',sql)
   pool.query(sql,function(err,result){
     if(err){
       res.json({

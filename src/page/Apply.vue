@@ -515,6 +515,7 @@
 <script>
 import { getScholarList, auditInsert, getApplyList } from "../api/scholar.js";
 import { applyAdd } from "../api";
+import formatDate from '../utils/formatDate'
 export default {
   mounted() {
     this.getList();
@@ -554,13 +555,15 @@ export default {
     },
     //提交申请
     onSubmit() {
-
       if(window.localStorage.role === '学生'){
+        let applyDate = formatDate(new Date())
+        console.log(applyDate)
         let { number, name } = this.formData;
       let formInsert = Object.assign(
         {},
         { category: this.$route.params.title },
-        { number, name }
+        { number, name },
+        {applyDate}
       );
       auditInsert(formInsert)
         .then(() => {

@@ -51,9 +51,12 @@
 </template>
 <script>
 import { login, logoutApi } from "../api";
+import { auditList } from "../api/scholar";
+import formatDate from "../utils/formatDate"
 export default {
   data: function() {
     return {
+      applyNotice:[],
       loginForm: {
         number: "",
         password: ""
@@ -69,36 +72,73 @@ export default {
         : "0";
   },
   methods: {
-    open(msg) {
+    getAuditList() {
+      auditList({role:'0'})
+        .then(data => {
+          if(data.status === '1'){
+            let time = this.$store.state.lastLoginTime 
+            time = new  Date(time)
+
+          this.applyNotice = data.content.filter(item => (item.secondAuditDate < formatDate(time)));
+          this.applyNotice.forEach(item =>{
+            let type="success"
+            if(item.secondAuditStatus !== "复审通过"){
+              type="error"
+            } 
+            //有重叠问题
+            this.$nextTick(this.open(item.category,item.secondAuditStatus,type))
+          })
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onClick(){this.$router.push('/profile/applystatus')},
+    open(msg,title="登录成功",type="success") {
+      const h = this.$createElement
       this.$notify({
-        title: "登录成功",
-        message:msg,
-        type: "success",
-        duration:0
+        title,
+        message:h('a',{
+          on:{
+            click:this.onClick
+          },
+        },msg),
+        type,
+        duration:0,
       });
     },
     userLogin() {
       login(this.loginForm)
         .then(data => {
           if (data.status === "1") {
+            // 获取上次登录时间
+            this.$store.commit('lastLogin',window.localStorage.getItem(data.content.number))
+            this.getAuditList()
             window.localStorage.setItem("isLogin", "1");
             window.localStorage.setItem("number", data.content.number);
+            // 存储每次登陆时间
+            window.localStorage.setItem(data.content.number, new Date());
             window.localStorage.setItem("name", data.content.name);
             window.localStorage.setItem("role", data.content.role);
             this.isLogin = "1";
             if(window.localStorage.role ==='学生'){
             this.open("请尽快完善个人信息");
              this.$router.push("/profile");
-            }else {
+            }else if(window.localStorage.role ==='辅导员'){
             this.open("请您尽快审核学生资助申请");
              this.$router.push("/profile/auditstatus");
+            }else if(window.localStorage.role ==='学生处'){
+               this.open("请您尽快审核学生资助申请");
+             this.$router.push("/profile/secondauditstatus");
             }
           } else {
             this.$message.error(data.msg);
           }
         })
         .catch(err => {
-          this.$message.error(err.msg);
+          // this.$message.error(err.msg);
+          console.log(err)
         });
     },
     register() {

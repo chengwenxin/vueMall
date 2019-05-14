@@ -85,7 +85,11 @@ export const auditDelete = (params) => {
 export const getApplyList = (params) => {
   return http.fetchPost('/api/apply/list',params)
 }
-
- export const firstAuditReplace = (params) => {
+//初审
+export const firstAuditReplace = (params) => {
   return http.fetchPost('/api/audit/first/replace',params)
+} 
+// 复审
+export const secondAuditReplace = (params) => {
+  return http.fetchPost('/api/audit/second/replace',params)
 }
