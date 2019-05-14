@@ -432,17 +432,7 @@ router.post('/apply/add', (req, res, next) => {
     }else {
       updatesql = `update information  set credibility='${req.body.credibility}', cheat='${req.body.cheat}',  rent='${req.body.rent}',breach='${req.body.breach}' where sno ='${req.body.sno}'`
       pool.query(updatesql, (err, result) => {
-        if (!err) {
-            res.json({
-              status: '1',
-              msg: '新增成功',
-            });
-        }else {
-          res.json({
-            status: '-1',
-            msg: err
-          });
-        }
+        console.log(err)
       })
      
      

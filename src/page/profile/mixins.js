@@ -35,7 +35,7 @@ export default {
           label: '个人信息',
           path: '/profile/high'
         }, {
-          label: '审核状态',
+          label: '初审管理',
           path: '/profile/auditstatus'
         }]
       } else if (localStorage.role === "学生处" || localStorage.role === 'staff') {
@@ -43,7 +43,7 @@ export default {
           label: '个人信息',
           path: '/profile/high'
         }, {
-          label: '复审状态',
+          label: '复审管理',
           path: '/profile/secondauditstatus'
         }, {
           label: '发布信息',

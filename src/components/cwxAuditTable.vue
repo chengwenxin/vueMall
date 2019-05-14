@@ -126,7 +126,7 @@
             <el-card>
               <div style="padding-top:10px;">
                 <h1 style="color:#438F49;padding-left:20px; display:inline-block">诚信记录</h1>
-                <div style="padding-left:500px; display:inline-block">
+                <div style="padding-left:500px; display:inline-block" v-if="role!=='学生'">
                   <el-button type="success" @click="edit = true">编辑</el-button>
                   <el-button type="success" @click="handleTrust">保存</el-button>
                 </div>
@@ -429,7 +429,8 @@ export default {
     return {
       visible: false,
       formData: {},
-      edit: false
+      edit: false,
+      role:window.localStorage.role
     };
   },
   methods: {
