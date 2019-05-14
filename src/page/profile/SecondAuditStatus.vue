@@ -14,43 +14,47 @@
 
               <div v-if="releaseVisible">
                 <el-dialog
-                title="发布获奖公告"
-                :visible.sync="releaseVisible"
-                width="50%"
-                :model="releaseData"
-                :inline="true"
-              >
-              <el-form :model="releaseData" label-width="120px">
-                <el-form-item label="资助项目：" prop="category">
-                  <el-select v-model="releaseData.category">
-                    <el-option v-for="item in ['最新政策','123','1']" :key="item" :label="item" :value="item"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="标题：" prop="title">
-                  <el-input v-model="releaseData.title"></el-input>
-                </el-form-item>
-                <el-form-item label="作者：" prop="author">
-                  <el-input v-model="releaseData.author"></el-input>
-                </el-form-item>
+                  title="发布获奖公告"
+                  :visible.sync="releaseVisible"
+                  width="50%"
+                  :model="releaseData"
+                  :inline="true"
+                >
+                  <el-form :model="releaseData" label-width="120px">
+                    <el-form-item label="资助项目：" prop="category">
+                      <el-select v-model="releaseData.category">
+                        <el-option
+                          v-for="item in ['最新政策','123','1']"
+                          :key="item"
+                          :label="item"
+                          :value="item"
+                        ></el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="标题：" prop="title">
+                      <el-input v-model="releaseData.title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="作者：" prop="author">
+                      <el-input v-model="releaseData.author"></el-input>
+                    </el-form-item>
 
-                <el-form-item label="发布日期：" prop="detailDate">
-                  <el-date-picker
-                    :clearable="false"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    v-model="releaseData.detailDate"
-                  ></el-date-picker>
-                </el-form-item>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                  <el-button @click="releaseVisible = false">取 消</el-button>
-                  <el-button type="success" @click="releaseListClick">发 布</el-button>
-                </span>
-              </el-dialog>
+                    <el-form-item label="发布日期：" prop="detailDate">
+                      <el-date-picker
+                        :clearable="false"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        v-model="releaseData.detailDate"
+                      ></el-date-picker>
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="releaseVisible = false">取 消</el-button>
+                    <el-button type="success" @click="releaseListClick">发 布</el-button>
+                  </span>
+                </el-dialog>
               </div>
             </div>
-            <!-- <el-button @click="clearFilter">清除所有过滤器</el-button> -->
-            <el-table :data="formdata" border stripe mutiple>
+            <!-- <el-table :data="formdata" border stripe mutiple>
               <el-table-column type="selection" width="55"></el-table-column>
               <el-table-column align="center" prop="number" label="序号">
                 <template slot-scope="scope">{{scope.$index+1}}</template>
@@ -65,7 +69,6 @@
                 label="申请时间"
                 min-width="200"
               >
-                <!-- <template slot-scope="scope">{{formatDate(new Date(scope.row.applyDate))}}</template> -->
               </el-table-column>
               <el-table-column sortable align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
               <el-table-column sortable align="center" prop="firstAudit" label="初审人"></el-table-column>
@@ -102,7 +105,9 @@
                   <el-button type="text" @click="secondAudit(scope.row)">复审</el-button>
                 </template>
               </el-table-column>
-            </el-table>
+            </el-table> -->
+            <cwx-audit-table :formdata="formdata" type="secondAudit" @secondAudit="secondAudit"></cwx-audit-table>
+
             <div v-if="secondVisible">
               <el-dialog
                 :visible.sync="secondVisible"
@@ -150,39 +155,55 @@ export default {
     this.getList();
     this.releaseData = Object.assign({}, this.releaseData, {
       detailDate: this.defaultValue(),
-      author:window.localStorage.name
+      author: window.localStorage.name
     });
   },
   methods: {
     //默认日期
-        defaultValue() {
+    defaultValue() {
       let date = new Date();
       let year = date.getFullYear();
       let month =
-        date.getMonth() < 9
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1;
-      let day =
-        date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
+        date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+      let day = date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
       return "" + year + "-" + month + "-" + day;
     },
     //发布提交
-    releaseListClick(){
-      this.releaseVisible = false
-       let update_date = this.releaseData.detailDate.slice(5);
-       let content = ''
-
-       for(let i=0;i<5;i++){
-          content+='<a href="http://www.baidu.com">'+i+'</a>'
-       }
-      Object.assign(this.releaseData, { update_date,type:'通知公告',content });
-      addPolicy(this.releaseData)
-        .then(data => {
-          this.$message.success(data.msg);
-        })
-        .catch(err => {
-          this.$message.error(err.msg);
+    releaseListClick() {
+      this.releaseVisible = false;
+      let update_date = this.releaseData.detailDate.slice(5);
+      // let content = "";
+      let list = [];
+      let isList = false;
+      list = this.formdata.filter(item => item.firstAuditStatus === "初审通过");
+      isList = list.every(item => item.secondAuditStatus !== "暂未审核");
+      if (isList) {
+        list = list.filter(
+          item =>
+            item.secondAuditStatus === "复审通过" &&
+            item.category === this.releaseData.category
+        );
+        if(list.length > 0){
+                  window.localStorage.setItem("scholarList", JSON.stringify(list));
+        Object.assign(this.releaseData, {
+          update_date,
+          type: "通知公告",
+          content: "0"
         });
+        addPolicy(this.releaseData)
+          .then(data => {
+            this.$message.success(data.msg);
+          })
+          .catch(err => {
+            this.$message.error(err.msg);
+          });
+        }else {
+          this.$message.error("发布名单为空，无法发布！");
+        }
+
+      } else {
+        this.$message.error("还有申请未复审，无法发布！");
+      }
     },
     secondAuditSubmit() {
       let secondAuditDate = new Date();
@@ -227,16 +248,16 @@ export default {
     return {
       secondVisible: false,
       params: {
-        type:'',
-        title:'',
-        author:'',
-        detailDate:'',
-        content:''
+        type: "",
+        title: "",
+        author: "",
+        detailDate: "",
+        content: ""
       },
       formdata: [],
       formatDate: formatDate,
-      releaseVisible:false,
-      releaseData:{}
+      releaseVisible: false,
+      releaseData: {}
     };
   }
 };

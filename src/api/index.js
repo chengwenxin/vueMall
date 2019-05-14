@@ -16,6 +16,10 @@ export const register = (params) => {
 export const applyAdd = (params) => {
   return http.fetchPost('/api/apply/add',params)
 }
+//申请状态
+export const applyDetail = (params) => {
+  return http.fetchPost('/api/apply/detail',params)
+}
 // 个人基本信息
 export const baseInformation = (params) => {
   return http.fetchQuickSearch('/api/information/base',params)

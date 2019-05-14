@@ -8,6 +8,7 @@ import SortLeft from './cwxSortLeft'
 import SortRight from './cwxSortRight'
 import Article from './cwxArticle'
 import Table from './cwxTable'
+import AuditTable from './cwxAuditTable'
 import UE from './cwxUE'
 Vue.component('cwx-header',Header)
 Vue.component('cwx-footer',Footer)
@@ -19,3 +20,4 @@ Vue.component('cwx-sort-right',SortRight)
 Vue.component('cwx-article',Article)
 Vue.component('cwx-table',Table)
 Vue.component('cwx-ue',UE)
+Vue.component('cwx-audit-table',AuditTable)

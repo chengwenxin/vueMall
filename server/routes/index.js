@@ -333,20 +333,20 @@ router.post('/audit/list', function (req, res, next) {
   }
 })
 
-//查询申请记录
+//查询申请记录  两个表左联
 router.post('/apply/list', function (req, res, next) {
   let sql = `select * from user a LEFT JOIN information   b ON  a.number = b.sno where a.number ='${req.cookies.number}' `;
   pool.query(sql, function (err, result) {
-    if (result.length > 0) {
-      result = result[0]
-    }
+
     if (err) {
       res.json({
         status: '-1',
         msg: err.message
       });
     } else {
-      console.log(result)
+     if (result.length > 0) {
+        result = result[0]
+      }
       res.json({
         status: '1',
         msg: "查询成功",
@@ -356,6 +356,28 @@ router.post('/apply/list', function (req, res, next) {
   })
 })
 
+//查询申请记录   apply表
+router.post('/apply/detail', function (req, res, next) {
+  let sql = `select * from apply where sno ='${req.body.sno}' and category ='${req.body.category}' `;
+  pool.query(sql, function (err, result) {
+
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      if (result.length > 0) {
+        result = result[0]
+      }
+      res.json({
+        status: '1',
+        msg: "查询成功",
+        content: result
+      });
+    }
+  })
+})
 //新增申请信息
 router.post('/apply/add', (req, res, next) => {
   if (req.cookies && req.cookies.number) {
@@ -402,8 +424,14 @@ router.post('/apply/add', (req, res, next) => {
       home,
       failureCourse
     } = req.body
-    let sql = `insert into apply(sno,category,name,college,major,grade, gender,age, birthday, nation,cardId,phone,mail, bankCard, credibility, cheat,  rent,breach,political, studentType,      isFullTime, educationalSystem, educationalBackground,      enrolmentTime,      graduationTime,      creditScore,      comprehensiveResult,      creditClassRanking,      creditGradeRanking,      comprehensiveClassRanking,      comprehensiveGradeRanking,      result,      address,      family,      isPoor,      applyReason,      others,      home,      failureCourse,foreignLang,foreignLevel,foreignGrade)
-     values('${req.cookies.number}','${category}','${name}','${college}','${major}','${grade}','${gender}','${age}','${birthday}','${nation}','${cardId}','${phone}','${mail}','${bankCard}','${credibility}','${cheat}','${rent}','${breach}','${political}','${studentType}','${isFullTime}','${educationalSystem}','${educationalBackground}','${enrolmentTime}', '${graduationTime}','${creditScore}','${comprehensiveResult}','${creditClassRanking}', '${creditGradeRanking}','${comprehensiveClassRanking}','${comprehensiveGradeRanking}','${result}','${address}', '${family}','${isPoor}','${applyReason}','${others}','${home}','${failureCourse}','${foreignLang}','${foreignLevel}','${foreignGrade}');`
+    let sql =''
+    if(!req.body.isAdmin){
+       sql = `insert into apply(sno,category,name,college,major,grade, gender,age, birthday, nation,cardId,phone,mail, bankCard, credibility, cheat,  rent,breach,political, studentType,      isFullTime, educationalSystem, educationalBackground,      enrolmentTime,      graduationTime,      creditScore,      comprehensiveResult,      creditClassRanking,      creditGradeRanking,      comprehensiveClassRanking,      comprehensiveGradeRanking,      result,      address,      family,      isPoor,      applyReason,      others,      home,      failureCourse,foreignLang,foreignLevel,foreignGrade)
+      values('${req.cookies.number}','${category}','${name}','${college}','${major}','${grade}','${gender}','${age}','${birthday}','${nation}','${cardId}','${phone}','${mail}','${bankCard}','${credibility}','${cheat}','${rent}','${breach}','${political}','${studentType}','${isFullTime}','${educationalSystem}','${educationalBackground}','${enrolmentTime}', '${graduationTime}','${creditScore}','${comprehensiveResult}','${creditClassRanking}', '${creditGradeRanking}','${comprehensiveClassRanking}','${comprehensiveGradeRanking}','${result}','${address}', '${family}','${isPoor}','${applyReason}','${others}','${home}','${failureCourse}','${foreignLang}','${foreignLevel}','${foreignGrade}');`
+   
+    }else {
+     sql = `update apply  set credibility='${req.body.credibility}', cheat='${req.body.cheat}',  rent='${req.body.rent}',breach='${req.body.breach}' where id ='${req.body.id}'`
+    }
         pool.query(sql, (err, result) => {
           if (!err) {
               res.json({

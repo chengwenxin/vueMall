@@ -9,28 +9,7 @@
         <cwx-sort-left :menu="menu"></cwx-sort-left>
         <cwx-sort-right>
           <div>
-            <el-table :data="formdata" border stripe mutiple>
-              <el-table-column     type="selection" width="55"></el-table-column>
-              <el-table-column     align="center" prop="number" label="序号">
-                <template slot-scope="scope">{{scope.$index+1}}</template>
-              </el-table-column>
-              <el-table-column     align="center" prop="category" label="资助项目"></el-table-column>
-              <el-table-column     align="center" prop="number" label="申请学号"></el-table-column>
-              <el-table-column     align="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column   sortable  align="center" prop="applyDate" label="申请时间" min-width="200">
-              </el-table-column>
-              <el-table-column   sortable  align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
-              <el-table-column   sortable  align="center" prop="firstAudit" label="初审人"></el-table-column>
-              <el-table-column   sortable  align="center" prop="firstResponse" label="初审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column   sortable  align="center" prop="firstAuditDate" label="初审时间" min-width="200"></el-table-column>
-                 <el-table-column   sortable  align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
-              <el-table-column   sortable  align="center" prop="secondAudit" label="复审人"></el-table-column>
-              <el-table-column   sortable  align="center" prop="secondResponse" label="复审回复" show-overflow-tooltip></el-table-column>
-              <el-table-column   sortable  align="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
-              <el-table-column     align="center" label="操作" fixed="right">
-                <el-button type="text" >撤销</el-button>
-              </el-table-column>
-            </el-table>
+            <cwx-audit-table :formdata="formdata" ></cwx-audit-table>
           </div>
         </cwx-sort-right>
       </div>

@@ -7,7 +7,15 @@
           :style="paddingleft"
         >
           <span>{{item.update_date}}</span>
-          <router-link :to="item.path+'/'+item.id">{{item.title}}</router-link>
+          <router-link :to="item.path+'/'+item.id">
+          <div  v-if="item.content === '0'" style="color:#078F48;">
+          {{item.title}}
+            </div> 
+            <div v-else>
+          {{item.title}}
+
+              </div>         
+          </router-link>
         </li>
       </ul>
     </div>
