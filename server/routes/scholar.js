@@ -34,7 +34,7 @@ router.get('/policy',(req, res, next) => {
   let {pageSize,currentPage} = req.query
   let size = pageSize * (currentPage -1 )
   let totalCountsql = `select count(*) from policy`
-  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY detailDate DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
@@ -121,8 +121,8 @@ router.post('/working/delete',(req, res, next) => {
 })
 //更新工作动态
 router.post('/working/update',(req, res, next) => {
-  let {author, title,content,detailDate,isApply,id,update_date} = req.body
-  let sql = `update working set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
+  let {author, title,content,detailDate,id,update_date} = req.body
+  let sql = `update working set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}' where id = ${id}`;
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -178,8 +178,8 @@ router.post('/announcement/update',(req, res, next) => {
 })
 //更新中心简介
 router.post('/introduction/update',(req, res, next) => {
-  let {author, title,content,detailDate,isApply,id,update_date} = req.body
-  let sql = `update introduction set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
+  let {author, title,content,detailDate,id,update_date} = req.body
+  let sql = `update introduction set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}' where id = ${id}`;
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({

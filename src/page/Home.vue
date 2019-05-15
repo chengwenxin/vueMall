@@ -65,9 +65,9 @@ export default {
       announcementList: [],
       workingList: [],
       images: [
-        { src: "../../static/1.jpg", path: "/goodslist" },
-        { src: "../../static/2.jpg", path: "/goodslist" },
-        { src: "../../static/3.jpg", path: "/goodslist" }
+        { src: "../../static/1.jpg", path: "/working/detail/144" },
+        { src: "../../static/2.jpg", path: "/working/detail/143" },
+        { src: "../../static/3.jpg", path: "/working/detail/142" }
       ]
     };
   }
