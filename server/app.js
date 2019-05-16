@@ -8,9 +8,6 @@ var ueditor = require("ueditor")
 var index = require('./routes/index');
 var scholar = require('./routes/scholar');
 var app = express();
-// var multiparty = require("multiparty")
-
-// app.use(multiparty({uploadDir:'./public/file'}))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
