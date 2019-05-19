@@ -515,13 +515,18 @@
 <script>
 import { getScholarList, auditInsert, getApplyList } from "../api/scholar.js";
 import { applyAdd } from "../api";
-import formatDate from '../utils/formatDate'
+import formatDate from "../utils/formatDate";
 export default {
   mounted() {
     this.getList();
   },
   destroyed() {
     clearInterval(this.interval);
+  },
+  computed: {
+    role() {
+      return this.$store.state.role;
+    }
   },
   methods: {
     getList() {
@@ -555,32 +560,32 @@ export default {
     },
     //提交申请
     onSubmit() {
-      if(window.localStorage.role === '学生'){
-        let applyDate = formatDate(new Date())
-        console.log(applyDate)
+      if (this.role === "学生") {
+        let applyDate = formatDate(new Date());
+
         let { number, name } = this.formData;
-      let formInsert = Object.assign(
-        {},
-        { category: this.$route.params.title },
-        { number, name },
-        {applyDate}
-      );
-      auditInsert(formInsert)
-        .then(() => {
-          this.next();
-        })
-        .catch(() => {
-          this.$message.error("审核记录插入失败！");
+        let formInsert = Object.assign(
+          {},
+          { category: this.$route.params.title },
+          { number, name },
+          { applyDate }
+        );
+        auditInsert(formInsert)
+          .then(() => {
+            this.next();
+          })
+          .catch(() => {
+            this.$message.error("审核记录插入失败！");
+          });
+        let formAdd = Object.assign({}, this.formData, {
+          category: this.$route.params.title
         });
-      let formAdd = Object.assign({}, this.formData, {
-        category: this.$route.params.title
-      });
-      applyAdd(formAdd)
-        .then(data => {})
-        .catch(() => {
-          this.$message.error("申请失败！");
-        });
-      }else {
+        applyAdd(formAdd)
+          .then(data => {})
+          .catch(() => {
+            this.$message.error("申请失败！");
+          });
+      } else {
         this.$message.error("非学生身份，只能浏览申请过程，不可提交申请！");
       }
     }
@@ -596,8 +601,6 @@ export default {
       gradeList: ["1501", "1601", "1701"],
       active: 0,
       formData: {
-        // name:  localStorage.name,
-        // number: localStorage.number,
         // birthday: "1996-11-26",
         // role: "本科生",
         // college: "信息工程学院",

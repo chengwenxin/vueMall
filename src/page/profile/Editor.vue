@@ -124,10 +124,15 @@ export default {
       }
     };
   },
+  computed: {
+    name() {
+      return this.$store.state.name;
+    }
+  },
   mounted() {
     this.formData = Object.assign({}, this.formData, {
       detailDate: this.defaultValue(),
-      author:window.localStorage.name
+      author: this.name
     });
   },
   methods: {
@@ -144,11 +149,8 @@ export default {
       let date = new Date();
       let year = date.getFullYear();
       let month =
-        date.getMonth() < 9
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1;
-      let day =
-        date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
+        date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+      let day = date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
       return "" + year + "-" + month + "-" + day;
     },
     submit() {

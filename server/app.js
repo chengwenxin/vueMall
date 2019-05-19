@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -54,10 +53,9 @@ app.use(function (req,res,next) { // 拦截请求
     next();
   }else{
       console.log("url:"+req.originalUrl);
-      if(req.originalUrl.indexOf('/login')>-1 ||  req.originalUrl.indexOf('/register')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
+      if(req.originalUrl.indexOf('/login')>-1 ||  req.originalUrl.indexOf('/register')>-1 ||  req.originalUrl.indexOf('/college')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
           next();
       }else{
-        console.log(req.cookies.number)
           res.json({
             status:'0',
             msg:'当前未登录,请先登录',
@@ -66,6 +64,7 @@ app.use(function (req,res,next) { // 拦截请求
       }
   }
 });
+
 
 app.use('/', index);
 app.use('/scholar', scholar);

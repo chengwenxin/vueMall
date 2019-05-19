@@ -11,7 +11,7 @@
           <div>
             <!-- 基本信息 -->
             <div class="shadow">
-              <div style="padding-top:10px;"> 
+              <div style="padding-top:10px;">
                 <h1 style="color:#438F49;padding-left:20px; display:inline-block">基本信息</h1>
                 <div style="padding-left:500px; display:inline-block">
                   <el-button type="success" @click="edit1 = true">编辑</el-button>
@@ -38,7 +38,7 @@
                         <el-input v-model="formData.name" disabled></el-input>
                       </el-form-item>
                     </el-col>
-                     <el-col :span="8">
+                    <el-col :span="8">
                       <el-form-item label="身份：" prop="role">
                         <el-select v-model="formData.role">
                           <el-option v-for="item in ['本科生','研究生']" :key="item" :value="item"></el-option>
@@ -104,7 +104,7 @@
                     </el-col>
                     <el-col :span="8">
                       <el-form-item label="银行卡号：" prop="bankCard">
-                         <el-input v-model="formData.bankCard"></el-input>
+                        <el-input v-model="formData.bankCard"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
@@ -142,7 +142,7 @@
                     <el-col :span="8">
                       <el-form-item label="姓名：" prop="name">{{formData.name}}</el-form-item>
                     </el-col>
-                        <el-col :span="8">
+                    <el-col :span="8">
                       <el-form-item label="身份：" prop="role">{{formData.role}}</el-form-item>
                     </el-col>
                   </el-row>
@@ -159,7 +159,6 @@
                   </el-row>
 
                   <el-row>
-                
                     <el-col :span="8">
                       <el-form-item label="性别：" prop="gender">{{formData.gender}}</el-form-item>
                     </el-col>
@@ -175,9 +174,7 @@
                       <el-form-item label="出生日期：" prop="birthday">{{formData.birthday}}</el-form-item>
                     </el-col>
                     <el-col :span="8">
-                      <el-form-item label="银行卡号：" prop="bankCard">
-                      {{formData.bankCard}}
-                      </el-form-item>
+                      <el-form-item label="银行卡号：" prop="bankCard">{{formData.bankCard}}</el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
@@ -347,13 +344,7 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                      <el-form-item label="民族：" prop="nation">
-                        <el-select v-model="formData.nation">
-                          <el-option v-for="item in ['汉族','少数民族']" :key="item" :value="item"></el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
+      
                   </el-row>
                   <el-row>
                     <el-col :span="8">
@@ -476,9 +467,7 @@
                         prop="educationalBackground"
                       >{{formData.educationalBackground}}</el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                      <el-form-item label="民族：" prop="nation">{{formData.nation}}</el-form-item>
-                    </el-col>
+    
                   </el-row>
                   <el-row>
                     <el-col :span="8">
@@ -685,25 +674,21 @@
   </div>
 </template>
 <script>
-import { baseInformation, updateInformation ,getCollegeList} from "../../api";
+import { baseInformation, updateInformation, getCollegeList } from "../../api";
 import mixins from "./mixins";
 export default {
   mixins: [mixins],
   mounted() {
-    if (window.localStorage.getItem("isLogin") !== "1") {
-      this.$message.error("当前未登录,请先登录！");
-      this.$router.push("/login");
-    }
     this.getList();
   },
   methods: {
     onSubmit(edit) {
       if (this[edit]) {
         this[edit] = false;
-        console.log(this.formData)
-        for(let i in this.formData){
-          if(this.formData[i] === null){
-            this.formData[i] = ''
+        console.log(this.formData);
+        for (let i in this.formData) {
+          if (this.formData[i] === null) {
+            this.formData[i] = "";
           }
         }
         updateInformation(this.formData).then(data => {
@@ -719,7 +704,6 @@ export default {
         .then(data => {
           if (data.status === "1") {
             this.formData = data.content;
-            this.$store.commit("role", data.content);
             this.menuList();
           } else {
             this.$message.error(data.msg);
@@ -729,73 +713,73 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    //学院 专业 班级信息
-getCollegeList().then(data => {
-          if (data.status === "1") {
-            let collegeList=[]
-            let majorList=[]
-            let gradeList=[]
-            this.allCollegeList = data.content
-            data.content.forEach(item => {
-              collegeList.push(item.college)
-              majorList.push(item.major)
-              gradeList.push(item.grade)
-            });
-            this.collegeList=Array.from(new Set(collegeList))
-            this.majorList =Array.from(new Set(majorList))
-            this.gradeList = Array.from(new Set(gradeList))
-          } else {
-            this.$message.error(data.msg);
-          }
-        })
+      //学院 专业 班级信息
+      getCollegeList().then(data => {
+        if (data.status === "1") {
+          let collegeList = [];
+          let majorList = [];
+          let gradeList = [];
+          this.allCollegeList = data.content;
+          data.content.forEach(item => {
+            collegeList.push(item.college);
+            majorList.push(item.major);
+            gradeList.push(item.grade);
+          });
+          this.collegeList = Array.from(new Set(collegeList));
+          this.majorList = Array.from(new Set(majorList));
+          this.gradeList = Array.from(new Set(gradeList));
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
     }
   },
   data: function() {
     return {
-      allCollegeList:[],
-        collegeList: ["信息工程学院", "动物科技学院"],
+      allCollegeList: [],
+      collegeList: ["信息工程学院", "动物科技学院"],
       majorList: ["电子商务", "软件工程"],
       gradeList: ["1501", "1601", "1701"],
       formData: {
-        college:'',
-        major:'',
-        grade:'',
-        gender:'',
-        age:'',
-        birthday:'',
-        nation:'',
-        cardId:'',
-        phone:'',
-        mail:'',
-        bankCard:'',
-        credibility:'无',
-        cheat:'无',
-        rent:'无',
-        breach:'无',
-        political:'',
-        studentType:'',
-        isFullTime:'',
-        foreignLang:'',
-        foreignLevel:'',
-        foreignGrade:'',
-        educationalSystem:'',
-        educationalBackground:'',
-        enrolmentTime:'',
-        graduationTime:'',
-        creditScore:'',
-        comprehensiveResult:'',
-        creditClassRanking:'',
-        creditGradeRanking:'',
-        comprehensiveClassRanking:'',
-        comprehensiveGradeRanking:'',
-        result:'',
-        address:'',
-        family:'',
-        isPoor:'',
-        applyReason:'',
-        others:'',
-        home:'',
-        failureCourse:'',
+        college: "",
+        major: "",
+        grade: "",
+        gender: "",
+        age: "",
+        birthday: "",
+        nation: "",
+        cardId: "",
+        phone: "",
+        mail: "",
+        bankCard: "",
+        credibility: "无",
+        cheat: "无",
+        rent: "无",
+        breach: "无",
+        political: "",
+        studentType: "",
+        isFullTime: "",
+        foreignLang: "",
+        foreignLevel: "",
+        foreignGrade: "",
+        educationalSystem: "",
+        educationalBackground: "",
+        enrolmentTime: "",
+        graduationTime: "",
+        creditScore: "",
+        comprehensiveResult: "",
+        creditClassRanking: "",
+        creditGradeRanking: "",
+        comprehensiveClassRanking: "",
+        comprehensiveGradeRanking: "",
+        result: "",
+        address: "",
+        family: "",
+        isPoor: "",
+        applyReason: "",
+        others: "",
+        home: "",
+        failureCourse: ""
       },
       edit1: false,
       edit2: false,
@@ -827,8 +811,8 @@ body .el-table th.gutter {
     width: 1200px;
     .header,
     .main {
-      .el-date-editor.el-input{
-        width:179.33px;
+      .el-date-editor.el-input {
+        width: 179.33px;
       }
       position: relative;
       .shadow {

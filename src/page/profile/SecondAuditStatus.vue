@@ -105,7 +105,7 @@
                   <el-button type="text" @click="secondAudit(scope.row)">复审</el-button>
                 </template>
               </el-table-column>
-            </el-table> -->
+            </el-table>-->
             <cwx-audit-table :formdata="formdata" type="secondAudit" @secondAudit="secondAudit"></cwx-audit-table>
 
             <div v-if="secondVisible">
@@ -118,7 +118,7 @@
                 <el-form :model="params" label-width="140px">
                   <el-form-item prop="secondAuditStatus" label="初审状态:">
                     <el-select v-model="params.secondAuditStatus">
-                      <el-option v-for="item in ['暂未审核','复审通过','复审驳回']" :key="item" :value="item"></el-option>
+                      <el-option v-for="item in ['复审通过','复审驳回']" :key="item" :value="item"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item prop="secondResponse" label="初审回复:" show-overflow-tooltip>
@@ -155,8 +155,13 @@ export default {
     this.getList();
     this.releaseData = Object.assign({}, this.releaseData, {
       detailDate: this.defaultValue(),
-      author: window.localStorage.name
+      author: this.name
     });
+  },
+  computed: {
+    name() {
+      return this.$store.state.name;
+    }
   },
   methods: {
     //默认日期
@@ -176,31 +181,30 @@ export default {
       let list = [];
       let isList = false;
       list = this.formdata.filter(item => item.firstAuditStatus === "初审通过");
-      isList = list.every(item => item.secondAuditStatus !== "暂未审核");
+      isList = list.every(item => item.secondAuditStatus !== "");
       if (isList) {
         list = list.filter(
           item =>
             item.secondAuditStatus === "复审通过" &&
             item.category === this.releaseData.category
         );
-        if(list.length > 0){
-                  window.localStorage.setItem("scholarList", JSON.stringify(list));
-        Object.assign(this.releaseData, {
-          update_date,
-          type: "通知公告",
-          content: "0"
-        });
-        addPolicy(this.releaseData)
-          .then(data => {
-            this.$message.success(data.msg);
-          })
-          .catch(err => {
-            this.$message.error(err.msg);
+        if (list.length > 0) {
+          window.localStorage.setItem("scholarList", JSON.stringify(list));
+          Object.assign(this.releaseData, {
+            update_date,
+            type: "通知公告",
+            content: "0"
           });
-        }else {
+          addPolicy(this.releaseData)
+            .then(data => {
+              this.$message.success(data.msg);
+            })
+            .catch(err => {
+              this.$message.error(err.msg);
+            });
+        } else {
           this.$message.error("发布名单为空，无法发布！");
         }
-
       } else {
         this.$message.error("还有申请未复审，无法发布！");
       }
@@ -210,7 +214,7 @@ export default {
       secondAuditDate = formatDate(secondAuditDate);
       this.params = Object.assign({}, this.params, {
         secondAuditDate,
-        secondAudit: window.localStorage.name
+        secondAudit: this.name
       });
       secondAuditReplace(this.params)
         .then(data => {
@@ -252,7 +256,8 @@ export default {
         title: "",
         author: "",
         detailDate: "",
-        content: ""
+        content: "",
+        secondResponse: ""
       },
       formdata: [],
       formatDate: formatDate,

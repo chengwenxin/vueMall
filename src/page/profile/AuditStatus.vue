@@ -78,7 +78,7 @@
                 <el-form :model="params" label-width="140px">
                   <el-form-item prop="firstAuditStatus" label="初审状态:">
                     <el-select v-model="params.firstAuditStatus">
-                      <el-option v-for="item in ['暂未审核','初审通过','初审驳回']" :key="item" :value="item"></el-option>
+                      <el-option v-for="item in ['初审通过','初审驳回']" :key="item" :value="item"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item prop="firstResponse" label="初审回复:" show-overflow-tooltip>
@@ -108,8 +108,9 @@
 import { auditList, firstAuditReplace } from "../../api/scholar";
 import formatDate from "../../utils/formatDate";
 import mixins from "./mixins";
+import socketMixins from './socketMixins'
 export default {
-  mixins: [mixins],
+  mixins: [mixins,socketMixins],
   mounted() {
     this.getList();
   },
@@ -123,6 +124,8 @@ export default {
           this.getList();
           this.firstVisible = false;
           this.$message.success("初审完成");
+          //实时推送
+         this.firstAuditSend(this.params)
         })
         .catch(err => {
           console.log(err);

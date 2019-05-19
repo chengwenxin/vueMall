@@ -5,11 +5,20 @@
       <el-table-column align="center" prop="number" label="序号">
         <template slot-scope="scope">{{scope.$index+1}}</template>
       </el-table-column>
-      <el-table-column align="center" prop="category" label="资助项目"></el-table-column>
-      <el-table-column align="center" prop="number" label="申请学号"></el-table-column>
-      <el-table-column align="center" prop="name" label="申请人"></el-table-column>
+      <el-table-column align="center" prop="category" label="资助项目" show-overflow-tooltip width="200"></el-table-column>
+      <el-table-column align="center" prop="number" label="申请学号" sortable></el-table-column>
+      <el-table-column align="center" prop="name" label="申请人" sortable></el-table-column>
       <el-table-column sortable align="center" prop="applyDate" label="申请时间" min-width="200"></el-table-column>
-      <el-table-column sortable align="center" prop="firstAuditStatus" label="初审状态"></el-table-column>
+      <el-table-column sortable align="center" prop="firstAuditStatus" label="初审状态">
+        <template slot-scope="scope">
+           <div v-if="scope.row.firstAuditStatus.includes('驳回')">
+           <el-button type="text"><span style="color:red;">{{scope.row.firstAuditStatus}}</span></el-button>
+           </div>
+           <div v-else>
+           <el-button type="text"><span style="color:#078F48;">{{scope.row.firstAuditStatus}}</span></el-button>
+           </div>
+        </template>
+      </el-table-column>
       <el-table-column sortable align="center" prop="firstAudit" label="初审人"></el-table-column>
       <el-table-column
         sortable
@@ -19,7 +28,16 @@
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column sortable align="center" prop="firstAuditDate" label="初审时间" min-width="200"></el-table-column>
-      <el-table-column sortable align="center" prop="secondAuditStatus" label="复审状态"></el-table-column>
+      <el-table-column sortable align="center" prop="secondAuditStatus" label="复审状态">
+          <template slot-scope="scope">
+           <div v-if="scope.row.firstAuditStatus.includes('驳回')">
+           <el-button type="text"><span style="color:red;">{{scope.row.secondAuditStatus}}</span></el-button>
+           </div>
+           <div v-else>
+           <el-button type="text"><span style="color:#078F48;">{{scope.row.secondAuditStatus}}</span></el-button>
+           </div>
+        </template>
+      </el-table-column>
       <el-table-column sortable align="center" prop="secondAudit" label="复审人"></el-table-column>
       <el-table-column
         sortable
@@ -430,8 +448,12 @@ export default {
       visible: false,
       formData: {},
       edit: false,
-      role:window.localStorage.role
     };
+  },
+  computed:{
+    role(){
+      return this.$store.state.role
+    }
   },
   methods: {
     handleTrust() {

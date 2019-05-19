@@ -7,48 +7,30 @@
       <div class="main">
         <div class="banner" style="display:inline-block;height:500px;">
           <div style="float:left">
-            <img src="../../static/banner1.jpg" height="500px" width="800px">
+            <img src="../../../static/banner1.jpg" height="500px" width="800px">
           </div>
           <div class="right">
             <div class="right-content">
               <el-form label-width="100px" :rules="rules" :model="formData" ref="registerref">
-                <div
-                  style="display:inline-block;text-align:center;padding:0px 0px 20px 100px;font-size:20px;"
-                >
-                  <img src="../../static/yhdl.png" style="padding-right:15px;">用户注册
-                </div>
                 <el-form-item label="学 院" prop="college">
                   <el-select v-model="formData.college" placeholder="请选择学院" style="width:200px">
                     <el-option v-for="(item,index) in collegeList" :key="index" :value="item"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-row>
-                  <el-col>
-                    <el-form-item label="专业班级" prop="major">
-                     <el-col :span="10">
-                          <el-select v-model="formData.major" placeholder="专业" style="width:100%">
-                        <el-option v-for="(item,index) in majorList" :key="index" :value="item"></el-option>
-                      </el-select>
-                     </el-col>
-                      <el-col :span="8">
-                        <el-select v-model="formData.grade" placeholder="班级" style="width:100%">
-                        <el-option v-for="(item,index) in gradeList" :key="index" :value="item"></el-option>
-                      </el-select>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                  <!-- <el-col >
-                    <el-form-item label="" prop="grade" >
-                      <el-select v-model="formData.grade" placeholder="请选择班级" style="width:200px">
-                        <el-option v-for="(item,index) in gradeList" :key="index" :value="item"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>-->
-                </el-row>
+                <el-form-item label="年级" prop="grade">
+                  <el-select v-model="formData.grade" placeholder="年级" style="width:200px">
+                    <el-option
+                      v-for="(item,index) in ['14','15','16','17','18']"
+                      :key="index"
+                      :value="item"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+
                 <el-form-item label="账 户" prop="number">
                   <el-input v-model.trim="formData.number" placeholder="学号/职工号" style="width:200px"></el-input>
-                </el-form-item>    
-                   <el-form-item label="姓 名" prop="name">
+                </el-form-item>
+                <el-form-item label="姓 名" prop="name">
                   <el-input v-model.trim="formData.name" placeholder="学号/职工号" style="width:200px"></el-input>
                 </el-form-item>
                 <el-form-item label="密 码" prop="password">
@@ -58,21 +40,21 @@
                     style="width:200px"
                   ></el-input>
                 </el-form-item>
-                <el-form-item label="密码确认" prop="passwordsecond">
+                <!-- <el-form-item label="密码确认" prop="passwordsecond">
                   <el-input
                     v-model.trim="formData.passwordsecond"
                     placeholder="请再次输入密码"
                     style="width:200px"
                   ></el-input>
-                </el-form-item>
-                <!-- <el-form-item label="账户类型" prop="role">
+                </el-form-item> -->
+                <el-form-item label="账户类型" prop="role">
                   <el-select v-model="formData.role" placeholder="请选择账户类型" style="width:200px">
                     <el-option v-for="(item,index) in roleList" :key="index" :value="item"></el-option>
                   </el-select>
-                </el-form-item> -->
+                </el-form-item>
                 <el-form-item label-width="100px" size="medium">
                   <el-button @click="resetForm">重置</el-button>
-                  <el-button type="success" @click="onSubmit">注 册</el-button>
+                  <el-button type="success" @click="onSubmit">分 配</el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -86,7 +68,7 @@
   </div>
 </template>
 <script>
-import { register ,getCollegeList} from "../api";
+import { register, getCollegeList } from "../../api";
 export default {
   data: function() {
     let secondPassword = (rule, value, callback) => {
@@ -112,7 +94,7 @@ export default {
             required: true
           }
         ],
-                number: [
+        number: [
           {
             message: "请输入账号",
             required: true
@@ -159,8 +141,8 @@ export default {
         college: "",
         grade: "",
         major: "",
-        name:"",
-        role:"学生"
+        name: "",
+        role: "学生"
       },
       collegeList: [],
       gradeList: [],
@@ -168,29 +150,29 @@ export default {
       roleList: ["学生", "辅导员", "学生处"]
     };
   },
-  mounted(){
-    this.getList()
+  mounted() {
+    this.getList();
   },
   methods: {
-    getList(){
-         getCollegeList().then(data => {
-          let collegeList = [];
-          let majorList = [];
-          let gradeList = [];
-          this.allCollegeList = data.content;
-          data.content.forEach(item => {
-            collegeList.push(item.college);
-            majorList.push(item.major);
-            gradeList.push(item.grade);
-          });
-          this.collegeList = Array.from(new Set(collegeList));
-          this.majorList = Array.from(new Set(majorList));
-          this.gradeList = Array.from(new Set(gradeList));
- 
+    getList() {
+      getCollegeList().then(data => {
+        console.log(data);
+        let collegeList = [];
+        let majorList = [];
+        let gradeList = [];
+        this.allCollegeList = data.content;
+        data.content.forEach(item => {
+          collegeList.push(item.college);
+          majorList.push(item.major);
+          gradeList.push(item.grade);
+        });
+        this.collegeList = Array.from(new Set(collegeList));
+        this.majorList = Array.from(new Set(majorList));
+        this.gradeList = Array.from(new Set(gradeList));
       });
     },
-    resetForm(){
-    this.$refs["registerref"].resetFields()
+    resetForm() {
+      this.$refs["registerref"].resetFields();
     },
     onSubmit() {
       this.$refs["registerref"].validate(valid => {
@@ -205,8 +187,7 @@ export default {
       register(this.formData)
         .then(data => {
           if (data.status === "1") {
-            this.$message.success(data.msg);
-            this.$router.push("./login");
+            this.$message.success('分配成功');
           } else {
             this.$message.error(data.msg);
           }

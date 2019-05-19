@@ -4,25 +4,20 @@ export default {
       menu: [{
         label: '个人信息',
         path: '/profile'
-      }, {
-        label: '申请状态',
-        path: '/profile/applystatus'
-      }, {
-        label: '发布信息',
-        path: '/profile/editor'
-      },{
-        label: '发布管理',
-        path: '/profile/releasemanagement'
       }]
     }
   },
   mounted(){
     this.menuList()
   },
+  computed:{
+    role(){
+      return this.$store.state.role
+    }
+  },
   methods: {
     menuList() {
-      console.log(localStorage.role)
-      if (localStorage.role === '学生' || localStorage.role === 'student') {
+      if (this.role === '学生' || this.role === 'student') {
         this.menu= [{
             label: '个人信息',
             path: '/profile'
@@ -30,7 +25,7 @@ export default {
             label: '申请状态',
             path: '/profile/applystatus'
           }]
-      } else if (localStorage.role === '辅导员' || localStorage.role === 'instructor') {
+      } else if (this.role === '辅导员' || this.role === 'instructor') {
         this.menu= [{
           label: '个人信息',
           path: '/profile/high'
@@ -38,7 +33,7 @@ export default {
           label: '初审管理',
           path: '/profile/auditstatus'
         }]
-      } else if (localStorage.role === "学生处" || localStorage.role === 'staff') {
+      } else if (this.role === "学生处" || this.role === 'staff') {
         this.menu= [{
           label: '个人信息',
           path: '/profile/high'
@@ -51,6 +46,14 @@ export default {
         }, {
           label: '发布管理',
           path: '/profile/releasemanagement'
+        }]
+      }else {
+        this.menu= [{
+          label: '个人信息',
+          path: '/profile/high'
+        }, {
+          label: '分配账户',
+          path: '/profile/distribution'
         }]
       }
     }

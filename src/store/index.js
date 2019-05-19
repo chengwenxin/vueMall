@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Router from '../router'
 Vue.use(Vuex)
 const state = {
-  isLogin: false,
+  // 登录状态
+  login: false,
   role:'',
   number:'',
   name:'',
@@ -13,10 +15,10 @@ export default new Vuex.Store({
   state,
   mutations: {
     // 登录
-    login(state, isLogin) {
-      state.isLogin = isLogin;
+    changeLogin(state, isLogin) {
+      state.login = isLogin;
     },
-    role(state,params){
+    setBase(state,params){
       state.role = params.role;
       state.number = params.number;
       state.name = params.name;
@@ -27,3 +29,5 @@ export default new Vuex.Store({
 
   }
 })
+
+

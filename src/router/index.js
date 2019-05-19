@@ -18,7 +18,8 @@ import AuditStatus from '../page/profile/AuditStatus'
 import SecondAuditStatus from '../page/profile/SecondAuditStatus'
 import ReleaseManagement from '../page/profile/ReleaseManagement'
 import HighProfile from '../page/profile/HighProfile'
-SecondAuditStatus
+import Admin from '../page/profile/Admin'
+import Distribution from '../page/profile/Distribution'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -88,9 +89,18 @@ export default new Router({
       component:PolicyDetail
     },   
     {
-      path:'/apply/:id/:title',
+      path:'/profile/apply/:id/:title',
       name:'Apply',
       component:Apply
+    },
+    {
+      path:'/profile/admin',
+      name:'Admin',
+      component:Admin
+    },    {
+      path:'/profile/distribution',
+      name:'Distribution',
+      component:Distribution
     },
     {
       path:'/announcement',

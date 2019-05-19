@@ -8,6 +8,9 @@ import vueResource from 'vue-resource'
 import vueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import Base64 from 'js-base64'
+import {
+  Message
+} from 'element-ui';
 import "./assets/css/base.css"
 
 //ueditor文件
@@ -23,17 +26,37 @@ import './components'
 import elementUI from 'element-ui'
 Vue.use(elementUI)
 Vue.use(vueResource)
-Vue.use(vueLazyLoad,{
-	loading:"./static/loading-svg/loading-bars.svg"  // 设置图片懒加载
+Vue.use(vueLazyLoad, {
+  loading: "./static/loading-svg/loading-bars.svg" // 设置图片懒加载
 })
 Vue.use(infiniteScroll)
 Vue.use(Base64)
 Vue.config.productionTip = false
+
+// 全局路由守卫
+router.beforeResolve((to, from, next) => {
+  if (to.path.toLowerCase().indexOf('profile') > -1) {
+    console.log(store.state.login)
+    console.log('to:',to.path)
+    console.log('from:',from.path)
+    if (!store.state.login) {
+      Message.error('暂未登录，请您先登录')   
+      if(from.name === 'Login'){
+        router.go(0)
+      }else {
+        router.push('/login')
+      }
+    }
+  }
+  next()
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })

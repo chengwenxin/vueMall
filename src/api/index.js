@@ -38,3 +38,16 @@ export const addPolicy = (params) => {
 export const getCollegeList = () => {
   return http.fetchQuickSearch('/api/college/list')
 }
+
+//查询 用户表
+export const userList = (params) => {
+  return http.fetchPost('/api/user/list',params)
+}
+//update  用户表
+export const userUpdate = (params) => {
+  return http.fetchPost('/api/user/update',params)
+}
+//delete  用户表
+export const userDelete = (params) => {
+  return http.fetchPost('/api/user/delete',params)
+}
