@@ -17,7 +17,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="标题：" prop="title">
-                <el-input v-model="formData.title"></el-input>
+                <el-input v-model="formData.title" placeholder="请输入标题"></el-input>
               </el-form-item>
               <el-form-item label="作者：" prop="author">
                 <el-input v-model="formData.author"></el-input>

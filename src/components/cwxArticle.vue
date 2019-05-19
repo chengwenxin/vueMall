@@ -66,15 +66,19 @@
         </el-table-column>
       </el-table>
 
-      <p>
-        备注：按照学校相关规定，针对“挑战杯”获奖学生单独设立“挑战”创新先锋奖学金。今年，根据学院、研究生院、团委《复旦大学大学生创新创业类大赛支持办法》（复旦学院通字〔2018〕11号），将对“挑战杯”获奖团队配发奖金。将按照奖励金额就高，不重复发放的原则发放。
-        特此公示。公示期为即日起至2018年11月27日（周二）。如有疑问，请于公示期内联系学生处。
-        联系人：池迅由之
-        联系地址：北校区三号部1号楼115室
-        联系电话：55664312
-        西北农林科技大学学生处
-        2018年11月21日
-      </p>
+      <div style="font-size:16px;text-align:right;">
+         <div style="width:500px;float:right;">
+            <br>
+        <p style="font-size:18px;font-weight:bold;">特此公示。公示期为<span style="color:red;"> {{detail.publicDay}}天</span> 即日起至<span style="color:red;">{{ldate}}</span></p>
+        <br><p> 如有疑问，请于公示期内联系学生处</p>
+        <p>联系地址：北校区三号部1号楼115室</p>
+        <p>联系电话：55664312</p>
+        <p style="padding-right:28px;">联系人：张大彪</p>
+<br>
+        <p>西北农林科技大学学生处</p>
+        <p style="padding-right:28px;">{{rdate}}</p>
+         </div>
+      </div>
     </div>
     <div v-else>
       <div class="cont" v-html="detail.content"></div>
@@ -90,6 +94,21 @@ export default {
       tableData: JSON.parse(window.localStorage.getItem("scholarList")),
       auditVisible: [false]
     };
+  },
+  computed:{
+    rdate(){
+      let date = this.detail.detailDate.split('-')
+      return date[0] + '年' + date[1] + '月' + date[2] + '日'
+    },
+    ldate(){
+      let week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+      let date = this.detail.detailDate.split('-')
+      let today = new Date()
+      today.setFullYear(date[0])
+      today.setMonth(date[1])
+      today.setDate(Number(date[2]) + this.detail.publicDay)
+      return today.getFullYear() + '年' + today.getMonth() + '月' + today.getDate() + '日'+'('+week[today.getDay()]+')'
+    }
   },
   methods: {
     handleClick(val) {

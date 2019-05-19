@@ -22,9 +22,10 @@
                 >
                   <el-form :model="releaseData" label-width="120px">
                     <el-form-item label="资助项目：" prop="category">
-                      <el-select v-model="releaseData.category">
+                      <el-select v-model="releaseData.category" style="width:300px;">
                         <el-option
-                          v-for="item in ['最新政策','123','1']"
+                        
+                          v-for="item in categoryList"
                           :key="item"
                           :label="item"
                           :value="item"
@@ -32,19 +33,23 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="标题：" prop="title">
-                      <el-input v-model="releaseData.title"></el-input>
+                      <el-input v-model="releaseData.title" style="width:300px;" placeholder="请输入标题"></el-input>
                     </el-form-item>
                     <el-form-item label="作者：" prop="author">
-                      <el-input v-model="releaseData.author"></el-input>
+                      <el-input v-model="releaseData.author" style="width:300px;"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="发布日期：" prop="detailDate">
+                    <el-form-item label="发布日期：" prop="detailDate" >
                       <el-date-picker
+                      style="width:300px;"
                         :clearable="false"
                         type="date"
                         value-format="yyyy-MM-dd"
                         v-model="releaseData.detailDate"
                       ></el-date-picker>
+                    </el-form-item>
+                        <el-form-item label="公示期：" prop="author">
+                      <el-input v-model.number="releaseData.publicDay" style="width:100px;"></el-input>天
                     </el-form-item>
                   </el-form>
                   <span slot="footer" class="dialog-footer">
@@ -54,58 +59,6 @@
                 </el-dialog>
               </div>
             </div>
-            <!-- <el-table :data="formdata" border stripe mutiple>
-              <el-table-column type="selection" width="55"></el-table-column>
-              <el-table-column align="center" prop="number" label="序号">
-                <template slot-scope="scope">{{scope.$index+1}}</template>
-              </el-table-column>
-              <el-table-column sortable align="center" prop="category" label="资助项目"></el-table-column>
-              <el-table-column sortable align="center" prop="number" label="申请学号"></el-table-column>
-              <el-table-column sortable align="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column
-                sortable
-                align="center"
-                prop="applyDate"
-                label="申请时间"
-                min-width="200"
-              >
-              </el-table-column>
-              <el-table-column sortable align="center" prop="firstAuditStatus" label="初核状态"></el-table-column>
-              <el-table-column sortable align="center" prop="firstAudit" label="初审人"></el-table-column>
-              <el-table-column
-                align="center"
-                prop="firstResponse"
-                label="初审回复"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                sortable
-                align="center"
-                prop="firstAuditDate"
-                label="初审时间"
-                min-width="200"
-              ></el-table-column>
-              <el-table-column sortable align="center" prop="secondAuditStatus" label="复核状态"></el-table-column>
-              <el-table-column sortable align="center" prop="secondAudit" label="复审人"></el-table-column>
-              <el-table-column
-                align="center"
-                prop="secondResponse"
-                label="复审回复"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                sortable
-                align="center"
-                prop="secondAuditDate"
-                label="复审时间"
-                min-width="200"
-              ></el-table-column>
-              <el-table-column align="center" label="操作" fixed="right">
-                <template slot-scope="scope">
-                  <el-button type="text" @click="secondAudit(scope.row)">复审</el-button>
-                </template>
-              </el-table-column>
-            </el-table>-->
             <cwx-audit-table :formdata="formdata" type="secondAudit" @secondAudit="secondAudit"></cwx-audit-table>
 
             <div v-if="secondVisible">
@@ -177,7 +130,6 @@ export default {
     releaseListClick() {
       this.releaseVisible = false;
       let update_date = this.releaseData.detailDate.slice(5);
-      // let content = "";
       let list = [];
       let isList = false;
       list = this.formdata.filter(item => item.firstAuditStatus === "初审通过");
@@ -197,7 +149,7 @@ export default {
           });
           addPolicy(this.releaseData)
             .then(data => {
-              this.$message.success(data.msg);
+              this.$message.success('发布成功！');
             })
             .catch(err => {
               this.$message.error(err.msg);
@@ -238,6 +190,11 @@ export default {
             this.formdata = data.content.filter(
               item => item.firstAuditStatus === "初审通过"
             );
+            let categoryList = []
+            this.formdata.forEach(item =>{
+              categoryList.push(item.category)
+            })
+            this.categoryList = Array.from(new Set(categoryList))
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");
@@ -259,6 +216,7 @@ export default {
         content: "",
         secondResponse: ""
       },
+      categoryList:[],
       formdata: [],
       formatDate: formatDate,
       releaseVisible: false,

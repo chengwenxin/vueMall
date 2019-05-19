@@ -307,7 +307,9 @@ router.post('/user/delete', function (req, res, next) {
         if (req.body.type === "资助政策") {
           sql = `insert into policy(author, update_date, title,content,detailDate,isApply) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}')`
         } else if (req.body.type === "通知公告") {
-          sql = `insert into announcement(author, update_date, title,content,detailDate) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}')`
+          let publicDay = req.body.publicDay?req.body.publicDay:0
+          sql = `insert into announcement(author, update_date, title,content,detailDate,publicDay) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}',${publicDay})`
+          console.log(sql)
         } else if (req.body.type === "工作动态") {
           sql = `insert into working(author, update_date, title,content,detailDate) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}')`
         }
@@ -367,7 +369,7 @@ router.post('/user/delete', function (req, res, next) {
     router.post('/audit/list', function (req, res, next) {
       let sql = ''
       if (req.body.category) {
-        sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}'`;
+        sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}' order by id  desc`;
         pool.query(sql, function (err, result) {
           if (err) {
             res.json({

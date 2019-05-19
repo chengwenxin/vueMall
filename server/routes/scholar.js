@@ -34,7 +34,7 @@ router.get('/policy',(req, res, next) => {
   let {pageSize,currentPage} = req.query
   let size = pageSize * (currentPage -1 )
   let totalCountsql = `select count(*) from policy`
-  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY detailDate DESC LIMIT ${size},${pageSize}`
+  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY  id DESC,detailDate DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
@@ -247,7 +247,7 @@ router.get('/announcement',(req, res, next) => {
   let {pageSize,currentPage} = req.query
   let size = pageSize * (currentPage -1 )
   let totalCountsql = `select count(*) from announcement`
-  let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY id DESC, update_date DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
@@ -303,7 +303,7 @@ router.get('/working',(req, res, next) => {
   let {pageSize,currentPage} = req.query
   let size = pageSize * (currentPage -1 )
   let totalCountsql = `select count(*) from working`
-  let sql =` SELECT o.* from (SELECT * from working ) o ORDER BY update_date DESC LIMIT ${size},${pageSize}`
+  let sql =` SELECT o.* from (SELECT * from working ) o ORDER BY  id DESC, update_date DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
