@@ -30,6 +30,7 @@ import {
   getAnnouncementList,
   getWorkingtList
 } from "../api/scholar.js";
+import  formatDate from '../utils/formatDate'
 export default {
   mounted() {
     this.getList();
@@ -38,21 +39,21 @@ export default {
     getList() {
       getScholarList()
         .then(data => {
-          this.scholarList = data.content || [];
+          this.scholarList = data.content.filter(item => (item.detailDate < formatDate(new Date()))) ;
         })
         .catch(err => {
           console.log(err);
         });
       getAnnouncementList()
         .then(data => {
-          this.announcementList = data.content || [];
+          this.announcementList = data.content.filter(item => (item.detailDate < formatDate(new Date())))
         })
         .catch(err => {
           console.log(err);
         });
       getWorkingtList()
         .then(data => {
-          this.workingList = data.content || [];
+          this.workingList = data.content.filter(item => (item.detailDate < formatDate(new Date())))
         })
         .catch(err => {
           console.log(err);

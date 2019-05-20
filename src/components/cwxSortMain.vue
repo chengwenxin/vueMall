@@ -2,7 +2,7 @@
   <div class="sort_main">
     <div class="sort_main2">
       <div class="name">{{title}}</div>
-      <div class="name_r2">预留面包屑</div>
+      <div class="name_r2">&nbsp;</div>
       <div class="name_right">&nbsp;</div>
     </div>
   </div>

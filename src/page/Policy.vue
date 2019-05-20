@@ -27,6 +27,7 @@
 </template>
 <script>
 import { getScholarList } from "../api/scholar.js";
+import formatDate from "../utils/formatDate"
 export default {
   mounted() {
     this.getList();
@@ -35,7 +36,7 @@ export default {
     getList() {
       getScholarList({ currentPage: this.currentPage, pageSize: this.pageSize })
         .then(data => {
-          this.list = data.content
+          this.list = data.content.filter(item => (item.detailDate <= formatDate(new Date())))
           this.totalCount = data.totalCount
         })
         .catch(err => {

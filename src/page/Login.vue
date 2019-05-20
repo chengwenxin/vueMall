@@ -26,7 +26,7 @@
                     <el-input v-model.trim="loginForm.number" placeholder="学号/职工号"></el-input>
                   </el-form-item>
                   <el-form-item label="密 码：" prop="password">
-                    <el-input v-model.trim="loginForm.password" placeholder="请输入密码"></el-input>
+                    <el-input v-model.trim="loginForm.password" type="password" placeholder="请输入密码"></el-input>
                   </el-form-item>
                   <!-- 验证码 -->
                   <el-form-item label="验证码：" prop="checkCode" >
@@ -68,27 +68,26 @@
   </div>
 </template>
 <script>
-import { login, logoutApi } from "../api";
+import { login, logoutApi ,exportExcel} from "../api";
 import { auditList } from "../api/scholar";
 import formatDate from "../utils/formatDate";
 import { mapState } from "vuex";
 export default {
   data: function() {
      var validatorCheckCode = (rule, value, callback) => {
-       console.log(this.checkCoder)
-        if (value === '') {
-          callback(new Error('请输入验证码'));
-        } else if (value !== this.checkCoder) {
-          callback(new Error('验证码输入错误!'));
-        } else {
+        // if (value === '') {
+        //   callback(new Error('请输入验证码'));
+        // } else if (value !== this.checkCoder) {
+        //   callback(new Error('验证码输入错误!'));
+        // } else {
           callback();
-        }
+        // }
       };
     return {
       applyNotice: [],
       loginForm: {
-        number: "",
-        password: "",
+        number: "2015110",
+        password: "2015110",
         checkCode:null
       },
       checkCoder: Math.round(Math.random()*899999 + 100000),
@@ -127,14 +126,16 @@ watch: {
     },
     //登录成功后 获取审核的数据 过滤出审核通过的notice   0 表示学生
     getAuditList() {
-      auditList({ role: "0" })
+      auditList({ role: "0" ,pageSize:100,currentPage:1})
         .then(data => {
+          console.log(data)
           if (data.status === "1") {
             let time = this.$store.state.lastLoginTime;
             time = new Date(time);
             this.applyNotice = data.content.filter(
-              item => item.secondAuditDate < formatDate(time)
+              item => item.secondAuditDate > formatDate(time)
             );
+            console.log(this.applyNotice)
             this.applyNotice.forEach(item => {
               let type = "success";
               if (item.secondAuditStatus !== "复审通过") {

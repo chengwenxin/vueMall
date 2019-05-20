@@ -12,6 +12,7 @@ import {
   Message
 } from 'element-ui';
 import "./assets/css/base.css"
+import 'element-ui/lib/theme-chalk/index.css'
 
 //ueditor文件
 // import '../static/ue/ueditor.parse.min.js'
@@ -36,9 +37,6 @@ Vue.config.productionTip = false
 // 全局路由守卫
 router.beforeResolve((to, from, next) => {
   if (to.path.toLowerCase().indexOf('profile') > -1) {
-    console.log(store.state.login)
-    console.log('to:',to.path)
-    console.log('from:',from.path)
     if (!store.state.login) {
       Message.error('暂未登录，请您先登录')   
       if(from.name === 'Login'){

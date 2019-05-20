@@ -13,7 +13,17 @@
       <template v-if="type === '资助政策'">
          <el-table-column align="center" prop="isApply" label="申请状态" width="80"></el-table-column>
       </template>
-      <el-table-column align="center" prop="detailDate" label="发布日期" width="120"></el-table-column>
+      <el-table-column align="center" prop="detailDate" label="发布日期" width="120">
+      <template slot-scope="scope">
+         <div v-if="scope.row.detailDate > formatDate(new Date())">
+           <span style="color:red">{{scope.row.detailDate}}</span>
+         </div>
+         <div v-else>
+           <span>{{scope.row.detailDate}}</span>
+         </div>
+      </template>
+
+      </el-table-column>
       <el-table-column prop="content" label="发布内容" width="80">
         <template slot-scope="scope">
           <el-button type="text" @click="handleContent(scope.row.content)">发布详情</el-button>
@@ -66,10 +76,12 @@ import {
   deleteWorking,
   deleteAnnouncement
 } from "../api/scholar";
+import formatDate from '../utils/formatDate'
 export default {
   props: ["type"],
   data() {
     return {
+      formatDate:formatDate,
       formParam:{},
       totalCount: 0,
       currentPage: 1,

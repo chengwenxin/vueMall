@@ -22,6 +22,9 @@ export default {
             label: '个人信息',
             path: '/profile'
           }, {
+            label: '修改密码',
+            path: '/profile/modifypassword'
+          },{
             label: '申请状态',
             path: '/profile/applystatus'
           }]
@@ -30,6 +33,9 @@ export default {
           label: '个人信息',
           path: '/profile/high'
         }, {
+          label: '修改密码',
+          path: '/profile/modifypassword'
+        },{
           label: '初审管理',
           path: '/profile/auditstatus'
         }]
@@ -37,7 +43,10 @@ export default {
         this.menu= [{
           label: '个人信息',
           path: '/profile/high'
-        }, {
+        },{
+          label: '修改密码',
+          path: '/profile/modifypassword'
+        },{
           label: '复审管理',
           path: '/profile/secondauditstatus'
         }, {

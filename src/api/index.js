@@ -51,3 +51,11 @@ export const userUpdate = (params) => {
 export const userDelete = (params) => {
   return http.fetchPost('/api/user/delete',params)
 }
+//修改密码
+export const modifyPassword = (params) => {
+  return http.fetchPost('/api/modifypassword',params)
+}
+//修改密码
+export const exportExcel = (params) => {
+  return http.fetchPost('/api/export',params)
+}

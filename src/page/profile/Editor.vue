@@ -158,7 +158,7 @@ export default {
       Object.assign(this.formData, { update_date });
       addPolicy(this.formData)
         .then(data => {
-          this.$message.success(data.msg);
+          this.$message.success("发布成功");
         })
         .catch(err => {
           this.$message.error(err.msg);

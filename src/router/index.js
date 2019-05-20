@@ -20,6 +20,7 @@ import ReleaseManagement from '../page/profile/ReleaseManagement'
 import HighProfile from '../page/profile/HighProfile'
 import Admin from '../page/profile/Admin'
 import Distribution from '../page/profile/Distribution'
+import ModifyPassword from '../page/profile/ModifyPassword'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -27,6 +28,11 @@ export default new Router({
       path:'/profile/editor',
       name:'Editor',
       component:Editor
+    },
+    {
+      path:'/profile/modifypassword',
+      name:'ModifyPassword',
+      component:ModifyPassword
     },
     {
       path:'/profile/high',

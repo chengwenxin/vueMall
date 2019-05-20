@@ -53,7 +53,7 @@ app.use(function (req,res,next) { // 拦截请求
     next();
   }else{
       console.log("url:"+req.originalUrl);
-      if(req.originalUrl.indexOf('/login')>-1 ||  req.originalUrl.indexOf('/register')>-1 ||  req.originalUrl.indexOf('/college')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
+      if(req.originalUrl.indexOf('/login')>-1 ||   req.originalUrl.indexOf('/register')>-1 ||  req.originalUrl.indexOf('/college')>-1 || req.originalUrl.indexOf('/logout')>-1 || req.originalUrl.indexOf('/scholar')>-1 ){
           next();
       }else{
           res.json({

@@ -66,8 +66,17 @@
                   <el-button type="text" @click="firstAudit(scope.row)">初审</el-button>
                 </template>
               </el-table-column>
-            </el-table> -->
+            </el-table>-->
             <cwx-audit-table :formdata="formdata" type="firstAudit" @firstAudit="firstAudit"></cwx-audit-table>
+            <el-pagination
+              :total="totalCount"
+              :current-page.sync="currentPage"
+              :page-size="pageSize"
+              @current-change="currentChange"
+              @size-change="sizeChange"
+              layout="total,sizes, prev, pager, next ,jumper"
+            ></el-pagination>
+
             <div v-if="firstVisible">
               <el-dialog
                 :visible.sync="firstVisible"
@@ -108,13 +117,22 @@
 import { auditList, firstAuditReplace } from "../../api/scholar";
 import formatDate from "../../utils/formatDate";
 import mixins from "./mixins";
-import socketMixins from './socketMixins'
+import socketMixins from "./socketMixins";
 export default {
-  mixins: [mixins,socketMixins],
+  mixins: [mixins, socketMixins],
   mounted() {
     this.getList();
   },
   methods: {
+    //切换分页
+    currentChange(currentPage) {
+      this.currentPage = currentPage;
+      this.query();
+    },
+    sizeChange(val) {
+      this.pageSize = val;
+      this.query();
+    },
     firstAuditSubmit() {
       let firstAuditDate = new Date();
       firstAuditDate = formatDate(firstAuditDate);
@@ -125,7 +143,7 @@ export default {
           this.firstVisible = false;
           this.$message.success("初审完成");
           //实时推送
-         this.firstAuditSend(this.params)
+          this.firstAuditSend(this.params);
         })
         .catch(err => {
           console.log(err);
@@ -138,10 +156,15 @@ export default {
     },
 
     getList() {
-      auditList({ role: "1" })
+      auditList({
+        role: "1",
+        pageSize: this.pageSize,
+        currentPage: this.currentPage
+      })
         .then(data => {
           if (data.status === "1") {
             this.formdata = data.content;
+            this.totalCount = data.totalCount
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");
@@ -154,6 +177,9 @@ export default {
   },
   data: function() {
     return {
+      totalCount: 0,
+      currentPage: 1,
+      pageSize: 10,
       firstVisible: false,
       params: {},
       formdata: [],

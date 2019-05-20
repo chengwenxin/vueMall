@@ -11,7 +11,8 @@
           <div>
             <div style="margin:10px;">
               <el-button @click="releaseVisible = true" type="success">发布获奖公告</el-button>
-
+              <el-button type="success" @click="exportFile">导 出</el-button>
+               <!-- <a href="http://127.0.0.1:8081/api/file/what.xlsx" ref="filePath">下载</a> -->
               <div v-if="releaseVisible">
                 <el-dialog
                   title="发布获奖公告"
@@ -24,7 +25,6 @@
                     <el-form-item label="资助项目：" prop="category">
                       <el-select v-model="releaseData.category" style="width:300px;">
                         <el-option
-                        
                           v-for="item in categoryList"
                           :key="item"
                           :label="item"
@@ -33,22 +33,26 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="标题：" prop="title">
-                      <el-input v-model="releaseData.title" style="width:300px;" placeholder="请输入标题"></el-input>
+                      <el-input
+                        v-model="releaseData.title"
+                        style="width:300px;"
+                        placeholder="请输入标题"
+                      ></el-input>
                     </el-form-item>
                     <el-form-item label="作者：" prop="author">
                       <el-input v-model="releaseData.author" style="width:300px;"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="发布日期：" prop="detailDate" >
+                    <el-form-item label="发布日期：" prop="detailDate">
                       <el-date-picker
-                      style="width:300px;"
+                        style="width:300px;"
                         :clearable="false"
                         type="date"
                         value-format="yyyy-MM-dd"
                         v-model="releaseData.detailDate"
                       ></el-date-picker>
                     </el-form-item>
-                        <el-form-item label="公示期：" prop="author">
+                    <el-form-item label="公示期：" prop="author">
                       <el-input v-model.number="releaseData.publicDay" style="width:100px;"></el-input>天
                     </el-form-item>
                   </el-form>
@@ -60,6 +64,14 @@
               </div>
             </div>
             <cwx-audit-table :formdata="formdata" type="secondAudit" @secondAudit="secondAudit"></cwx-audit-table>
+            <el-pagination
+              :total="totalCount"
+              :current-page.sync="currentPage"
+              :page-size="pageSize"
+              @current-change="currentChange"
+              @size-change="sizeChange"
+              layout="total,sizes, prev, pager, next ,jumper"
+            ></el-pagination>
 
             <div v-if="secondVisible">
               <el-dialog
@@ -98,7 +110,7 @@
   </div>
 </template>
 <script>
-import { addPolicy } from "../../api";
+import { addPolicy, exportExcel } from "../../api";
 import { auditList, secondAuditReplace } from "../../api/scholar";
 import formatDate from "../../utils/formatDate";
 import mixins from "./mixins";
@@ -114,9 +126,35 @@ export default {
   computed: {
     name() {
       return this.$store.state.name;
-    }
+    },
+    number(){
+      return this.$store.state.number
+    } 
   },
   methods: {
+    // 文件导出功能
+    exportFile() {
+      exportExcel({ category: "测试奖学金" }).then(data => {
+         if(data.status === '1'){
+            this.filePath = data.path
+            this.$message.success("导出成功！");
+            let a = document.createElement('a')
+            a.href=this.filePath
+             document.body.appendChild(a)
+            a.download=this.filePath
+            a.click()
+         }
+      });
+    },
+    //切换分页
+    currentChange(currentPage) {
+      this.currentPage = currentPage;
+      this.query();
+    },
+    sizeChange(val) {
+      this.pageSize = val;
+      this.query();
+    },
     //默认日期
     defaultValue() {
       let date = new Date();
@@ -149,7 +187,7 @@ export default {
           });
           addPolicy(this.releaseData)
             .then(data => {
-              this.$message.success('发布成功！');
+              this.$message.success("发布成功！");
             })
             .catch(err => {
               this.$message.error(err.msg);
@@ -166,7 +204,8 @@ export default {
       secondAuditDate = formatDate(secondAuditDate);
       this.params = Object.assign({}, this.params, {
         secondAuditDate,
-        secondAudit: this.name
+        secondAudit: this.name,
+        secondAuditNumber:this.number
       });
       secondAuditReplace(this.params)
         .then(data => {
@@ -184,17 +223,20 @@ export default {
       this.params = val;
     },
     getList() {
-      auditList({ role: "2" })
+      auditList({
+        role: "2",
+        pageSize: this.pageSize,
+        currentPage: this.currentPage
+      })
         .then(data => {
           if (data.status === "1") {
-            this.formdata = data.content.filter(
-              item => item.firstAuditStatus === "初审通过"
-            );
-            let categoryList = []
-            this.formdata.forEach(item =>{
-              categoryList.push(item.category)
-            })
-            this.categoryList = Array.from(new Set(categoryList))
+            this.formdata = data.content;
+            this.totalCount = data.totalCount;
+            let categoryList = [];
+            this.formdata.forEach(item => {
+              categoryList.push(item.category);
+            });
+            this.categoryList = Array.from(new Set(categoryList));
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");
@@ -207,6 +249,10 @@ export default {
   },
   data: function() {
     return {
+      filePath:'',
+      totalCount: 0,
+      currentPage: 1,
+      pageSize: 10,
       secondVisible: false,
       params: {
         type: "",
@@ -216,7 +262,7 @@ export default {
         content: "",
         secondResponse: ""
       },
-      categoryList:[],
+      categoryList: [],
       formdata: [],
       formatDate: formatDate,
       releaseVisible: false,
