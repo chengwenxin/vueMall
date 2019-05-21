@@ -5,9 +5,9 @@
         <cwx-header></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="工作动态"></cwx-sort-main>
-        <cwx-sort-left></cwx-sort-left>
-        <cwx-sort-right>
+        <!-- <cwx-sort-main title="工作动态"></cwx-sort-main> -->
+        <!-- <cwx-sort-left></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <cwx-article :detail="detail"></cwx-article>
         </cwx-sort-right>
       </div>

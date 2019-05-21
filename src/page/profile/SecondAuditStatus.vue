@@ -2,16 +2,43 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
-            <div style="margin:10px;">
-              <el-button @click="releaseVisible = true" type="success">发布获奖公告</el-button>
-              <el-button type="success" @click="exportFile">导 出</el-button>
+
+            <div style="margin:5px;">
+  <el-form :inline="true" :model="queryData" class="demo-form-inline" style="margin-left:40px;">
+            <el-form-item label="项目名称：">
+              <el-select v-model="queryData.region" placeholder="请选择项目">
+                <el-option label="信息工程学院" value="shanghai"></el-option>
+                <el-option label="动物科技学院" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="院系：">
+              <el-select v-model="queryData.region" placeholder="请选择院系">
+                <el-option label="信息工程学院" value="shanghai"></el-option>
+                <el-option label="动物科技学院" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="姓名：">
+               <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+            </el-form-item>
+            <el-form-item>
+               <el-button type="primary" @click="releaseVisible" style="background:#438F48;">发布获奖公告</el-button>
+              <el-button type="primary" @click="exportFile" style="background:#438F48;">导出</el-button>
+            </el-form-item>
+          </el-form>
+
+
+              <!-- <el-button @click="releaseVisible = true" type="success">发布获奖公告</el-button>
+              <el-button type="success" @click="exportFile">导 出</el-button> -->
                <!-- <a href="http://127.0.0.1:8081/api/file/what.xlsx" ref="filePath">下载</a> -->
               <div v-if="releaseVisible">
                 <el-dialog
@@ -129,9 +156,15 @@ export default {
     },
     number(){
       return this.$store.state.number
+    } , 
+     role(){
+      return this.$store.state.role
     } 
   },
   methods: {
+    onSubmit(){
+
+    },
     // 文件导出功能
     exportFile() {
       exportExcel({ category: "测试奖学金" }).then(data => {
@@ -262,6 +295,7 @@ export default {
         content: "",
         secondResponse: ""
       },
+      queryData:{},
       categoryList: [],
       formdata: [],
       formatDate: formatDate,

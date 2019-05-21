@@ -18,7 +18,7 @@ export default {};
   bottom: 0px;
   font-size: 14px;
   height: 80px;
-  background: #078f48 /*#e5f3fa*/;
+  background: #438F49 /*#e5f3fa*/;
   margin-top: 20px;
   p {
     text-align: center;

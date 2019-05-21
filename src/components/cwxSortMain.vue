@@ -12,9 +12,11 @@ export default {
   props: ["title"]
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .sort_main {
   width: 1200px;
+  min-height:460px;
+  border:1px solid #438F48;
   margin: 0 auto;
   padding-top: 20px;
   padding-bottom: 20px;

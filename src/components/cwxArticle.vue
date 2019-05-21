@@ -2,10 +2,10 @@
   <div class="article">
     <template v-if="detail.isApply === '允许申请'">
       <el-button type="success" @click="apply" style="float:right;margin-right:20px;">在线申请</el-button>
-      <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#078f48;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
+      <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#438F49;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
     </template>
     <h1
-      style="font-size: 22px;font-family:'微软雅黑';color:#078f48;text-align:center;padding-top:20px;font-weight:bold;"
+      style="font-size: 22px;font-family:'微软雅黑';color:#438F49;text-align:center;padding-top:20px;font-weight:bold;"
     >{{detail.title}}</h1>
 
     <div class="line"></div>
@@ -142,7 +142,7 @@ export default {
   margin-bottom: 20px;
   .h3-class {
     margin-bottom: 5px;
-    color: #078f48;
+    color: #438F49;
   }
   .line {
     width: 820px;

@@ -2,7 +2,7 @@
   <div class="login-form">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header ></cwx-header>
       </div>
       <div class="main">
         <div class="banner" style="display:inline-block">
@@ -246,7 +246,7 @@ watch: {
     width: 1200px;
     margin: 0 auto;
     .main {
-      min-height: 660px;
+      min-height: 440px;
       .right {
         padding: 7px;
         width: 400px;

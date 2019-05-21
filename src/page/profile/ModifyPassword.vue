@@ -2,12 +2,12 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
             <!-- 基本信息 -->
             <div class="shadow">
@@ -18,7 +18,7 @@
               <div>
                 <el-form
                   label-width="100px"
-                  style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:100px;margin-left:200px;"
+                  style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:100px;margin-left:350px;"
                   :rules="rules"
                   :model="formData"
                   ref="information"

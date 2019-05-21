@@ -2,12 +2,12 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header  :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
             <!-- 基本信息 -->
             <div class="shadow">
@@ -685,7 +685,6 @@ export default {
     onSubmit(edit) {
       if (this[edit]) {
         this[edit] = false;
-        console.log(this.formData);
         for (let i in this.formData) {
           if (this.formData[i] === null) {
             this.formData[i] = "";
@@ -704,7 +703,6 @@ export default {
         .then(data => {
           if (data.status === "1") {
             this.formData = data.content;
-            this.menuList();
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");

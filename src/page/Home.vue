@@ -2,10 +2,10 @@
   <div class="home">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header ></cwx-header>
       </div>
       <div class="mainer">
-        <div style="width:550px;height:300px;float:left;margin:0 25px;">
+        <!-- <div style="width:550px;height:300px;float:left;margin:0 25px;">
           <el-carousel trigger="click" height="300px" width="550px">
             <el-carousel-item v-for="item in images" :key="item.src">
               <router-link :to="item.path">
@@ -13,10 +13,15 @@
               </router-link>
             </el-carousel-item>
           </el-carousel>
+        </div> -->
+        <div style="width:50%;min-height:460px;float:left;">
+       
+          <cwx-slide-content title="获奖通知公告" path="/announcement" :list="announcementList.slice(0,5)"></cwx-slide-content> 
+          <cwx-slide-content title="奖助学金政策" path="/policy" :list="scholarList.slice(0,5)"></cwx-slide-content>
         </div>
-        <cwx-slide-content title="通知公告" path="/announcement" :list="announcementList.slice(0,7)"></cwx-slide-content>
-        <cwx-slide-content title="工作动态" path="/working" :list="workingList.slice(0,7)"></cwx-slide-content>
-        <cwx-slide-content title="资助政策" path="/policy" :list="scholarList.slice(0,7)"></cwx-slide-content>
+       <div style="width:50%;min-height:460px;float:left;">
+        <cwx-slide-content title="在线申请指南" path="/working" :list="workingList.slice(0,5)"></cwx-slide-content>
+         </div>       
       </div>
       <div class="footer">
         <cwx-footer></cwx-footer>
@@ -83,7 +88,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     .mainer {
-     min-height: 660px;
+     min-height: 40px;
     }
     .header,
     .main {

@@ -2,71 +2,37 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
-            <!-- <el-table :data="formdata" border stripe mutiple>
-              <el-table-column sortabletype="selection" width="55"></el-table-column>
-              <el-table-column sortablealign="center" prop="number" label="序号">
-                <template slot-scope="scope">{{scope.$index+1}}</template>
-              </el-table-column>
-              <el-table-column sortable sortablealign="center" prop="category" label="资助项目"></el-table-column>
-              <el-table-column sortable sortablealign="center" prop="number" label="申请学号"></el-table-column>
-              <el-table-column sortable sortablealign="center" prop="name" label="申请人"></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="applyDate"
-                label="申请时间"
-                min-width="200"
-              ></el-table-column>
-              <el-table-column sortable sortablealign="center" prop="firstAuditStatus" label="初审状态"></el-table-column>
-              <el-table-column sortable sortablealign="center" prop="firstAudit" label="初审人"></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="firstResponse"
-                label="初审回复"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="firstAuditDate"
-                label="初审时间"
-                min-width="200"
-              ></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="secondAuditStatus"
-                label="复审状态"
-              ></el-table-column>
-              <el-table-column sortable sortablealign="center" prop="secondAudit" label="复审人"></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="secondResponse"
-                label="复审回复"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                sortable
-                sortablealign="center"
-                prop="secondAuditDate"
-                label="复审时间"
-                min-width="200"
-              ></el-table-column>
-              <el-table-column sortablealign="center" label="操作" fixed="right">
-                <template slot-scope="scope">
-                  <el-button type="text" @click="firstAudit(scope.row)">初审</el-button>
-                </template>
-              </el-table-column>
-            </el-table>-->
+                      <div style="margin:5px;">
+  <el-form :inline="true" :model="queryData" class="demo-form-inline" style="margin-left:40px;">
+            <el-form-item label="项目名称：">
+              <el-select v-model="queryData.region" placeholder="请选择项目">
+                <el-option label="信息工程学院" value="shanghai"></el-option>
+                <el-option label="动物科技学院" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="院系：">
+              <el-select v-model="queryData.region" placeholder="请选择院系">
+                <el-option label="信息工程学院" value="shanghai"></el-option>
+                <el-option label="动物科技学院" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="姓名：">
+               <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+            </el-form-item>
+        
+          </el-form>
+</div>
+
             <cwx-audit-table :formdata="formdata" type="firstAudit" @firstAudit="firstAudit"></cwx-audit-table>
             <el-pagination
               :total="totalCount"
@@ -183,7 +149,8 @@ export default {
       firstVisible: false,
       params: {},
       formdata: [],
-      formatDate: formatDate
+      formatDate: formatDate,
+      queryData:{}
     };
   }
 };

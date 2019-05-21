@@ -2,12 +2,12 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
             <el-tabs type="border-card" @tab-click="tabClick">
               <el-tab-pane label="资助政策">

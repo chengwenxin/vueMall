@@ -24,7 +24,7 @@
           </div>
           <div v-else>
             <el-button type="text">
-              <span style="color:#078F48;">{{scope.row.firstAuditStatus}}</span>
+              <span style="color:#438F49;">{{scope.row.firstAuditStatus}}</span>
             </el-button>
           </div>
         </template>
@@ -47,7 +47,7 @@
           </div>
           <div v-else>
             <el-button type="text">
-              <span style="color:#078F48;">{{scope.row.secondAuditStatus}}</span>
+              <span style="color:#438F49;">{{scope.row.secondAuditStatus}}</span>
             </el-button>
           </div>
         </template>
@@ -61,18 +61,18 @@
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column sortable align="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
-      <el-table-column align="center" label="操作" fixed="right" width="100">
+      <el-table-column align="center" label="操作" fixed="right" width="120">
         <template slot-scope="scope">
           <div v-if="type === 'firstAudit'">
-            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">详情</el-button>
+            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">申请书</el-button>
             <el-button type="text" @click="submitClick(scope.row)">初审</el-button>
           </div>
           <div v-else-if="type === 'secondAudit'">
-            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">详情</el-button>
+            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">申请书</el-button>
             <el-button type="text" @click="submitClick(scope.row)">复审</el-button>
           </div>
           <div v-else>
-            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">详情</el-button>
+            <el-button type="text" @click="getDetail(scope.row.number,scope.row.category)">申请书</el-button>
             <el-button type="text">撤销</el-button>
           </div>
         </template>
@@ -80,7 +80,10 @@
     </el-table>
 
     <div v-if="visible">
-      <el-dialog width="70%" :visible.sync="visible" title="申请信息详情">
+      <el-dialog width="70%" :visible.sync="visible"  center>
+        <div slot="title" >
+          <span style="color:#fff;font-weight:bold;font-size:24px;"> 申 请 书</span>
+        </div>
         <div>
           <!-- 基本信息 -->
           <div style="margin-bottom:10px;">

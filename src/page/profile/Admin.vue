@@ -2,7 +2,7 @@
   <div class="register-form">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
         <div class="banner" style="display:inline-block;height:500px;">

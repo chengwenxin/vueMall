@@ -2,30 +2,54 @@
   <div class="profile">
     <div class="container">
       <div class="header">
-        <cwx-header></cwx-header>
+        <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="个人中心"></cwx-sort-main>
-        <cwx-sort-left :menu="menu"></cwx-sort-left>
-        <cwx-sort-right>
+        <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
+        <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
-            <div style="padding:20px;20px;">
-              <el-button
-                size="small"
-                type="success"
-                @click="handleEdit({number:'',name:'',role:'',college:'',grade:''})"
-              >创建</el-button>
-
-              <el-popover placement="top" width="300" v-model="visible2">
-                <i class="el-icon-warning" style="color:red;font-size:20px;"></i>
-                <span style="font-size:20px;">确定删除这些账户吗？</span>
-                <div style="text-align: right; margin-top:20px;">
-                  <el-button size="mini" @click="visible2 = false" >取消</el-button>
-                  <el-button type="primary" size="mini" @click="handleDelete">确定</el-button>
-                </div>
-                <el-button size="small" type="danger" slot="reference" :disabled="ids.length<1">删除</el-button>
-              </el-popover>
+            <div style="margin:5px;">
+              <el-form
+                :inline="true"
+                :model="queryData"
+                class="demo-form-inline"
+                style="margin-left:40px;"
+              >
+                <el-form-item label="院系：">
+                  <el-select v-model="queryData.region" placeholder="请选择院系">
+                    <el-option label="信息工程学院" value="shanghai"></el-option>
+                    <el-option label="动物科技学院" value="beijing"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="姓名：">
+                  <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button
+                    type="success"
+                    @click="handleEdit({number:'',name:'',role:'',college:'',grade:''})"
+                  >创建</el-button>
+                  <el-popover placement="top" width="300" v-model="visible2">
+                    <i class="el-icon-warning" style="color:red;font-size:20px;"></i>
+                    <span style="font-size:20px;">确定删除这些账户吗？</span>
+                    <div style="text-align: right; margin-top:20px;">
+                      <el-button size="mini" @click="visible2 = false">取消</el-button>
+                      <el-button type="primary" size="mini" @click="handleDelete">确定</el-button>
+                    </div>
+                    <el-button
+                      type="danger"
+                      slot="reference"
+                      :disabled="ids.length<1"
+                    >删除</el-button>
+                  </el-popover>
+                </el-form-item>
+              </el-form>
             </div>
+
             <el-table :data="formdata" border stripe @selection-change="handleSelectionChange">
               <el-table-column type="selection"></el-table-column>
               <el-table-column align="center" label="序号" width="50">
@@ -53,7 +77,7 @@
             ></el-pagination>
 
             <div v-if="dialogVisible">
-              <el-dialog  :visible.sync="dialogVisible" width="1200">
+              <el-dialog :visible.sync="dialogVisible" width="1200">
                 <div slot="title" style="font-size:20px;color:#fff">账户分配</div>
                 <div>
                   <el-form
@@ -215,7 +239,8 @@ export default {
   },
   data: function() {
     return {
-      ids:[],
+      queryData: {},
+      ids: [],
       visible2: false,
       formdata: [],
       totalCount: 0,

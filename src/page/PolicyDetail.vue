@@ -5,7 +5,7 @@
         <cwx-header></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="学生资助"></cwx-sort-main>
+        <!-- <cwx-sort-main title="学生资助"></cwx-sort-main> -->
         <cwx-sort-left></cwx-sort-left>
         <cwx-sort-right>
           <cwx-article :detail="detail"></cwx-article>

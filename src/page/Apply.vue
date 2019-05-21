@@ -5,7 +5,7 @@
         <cwx-header></cwx-header>
       </div>
       <div class="main">
-        <cwx-sort-main title="学生资助"></cwx-sort-main>
+        <!-- <cwx-sort-main title="学生资助"></cwx-sort-main> -->
         <div style="float:left;width:100%;min-height:645px;">
           <div style="width:90%;margin:0 auto;padding-top:20px;">
             <el-steps :active="active" finish-status="success" align-center>
@@ -463,13 +463,42 @@
                 width="50%"
                 style="hegiht:50%;"
               >
+                <pre>
+                  欢迎您申报国家公派出国留学。 
+        请您仔细阅读以下条款，如果您对任何条款表示异议，您可以选择不提交申请。
+当您成功提交申请表，无论是否被录取，均意味着您（即「用户」）完全接受以下全部条款。 
+        使用规则 
+        1. 用户注册成功后，留学基金委将给予每个用户一个用户帐号及相应的密码，
+该用户帐号和密码由用户负责保管；用户应当对以其用户帐号进行的所有活动和事件负法律责任。 
+        2. 用户须对在本系统的注册、提交信息的真实性、合法性、有效性承担全部责任，
+用户不得冒充他人；不得利用他人的名义提交任何信息；否则留学基金委有权立即停止提供服务，
+收回其帐号并由用户独自承担由此而产生的一切法律责任。 
+        3. 用户承诺不得以任何方式利用本系统直接或间接从事违反中国法律以及社会公德的行为，
+留学基金委有权对违反上述承诺的内容予以删除。 
+        4. 若今后留学基金委为被录取的留学人员办理用于接收奖学金的银行卡，
+当用户的“个人税收居民身份”发生变化时，请在30日内通知相应的发卡商业银行。 
+        个人隐私 
+        尊重用户个人隐私信息的私有性是留学基金委的一贯原则，留学基金委将通过技术手段、
+强化内部管理等办法充分保护用户的个人隐私信息，除法律或有法律赋予权限的政府部门要求或事
+先得到用户明确授权等原因外，留学基金委保证不对外公开或向第三方透露用户个人隐私信息，
+或用户在使用服务时存储的非公开内容。同时，为了运营和改善留学基金委的技术与服务，
+留学基金委将可能会自行收集使用或向第三方提供用户的非个人隐私信息，这将有助于留学基
+金委向用户提供更好的用户体验和服务质量。 
+        用户一旦被留学基金委录取，其部分个人信息将被提供给教育部留学服务中心、
+教育部出国人员上海集训部、广州留学人员服务中心、驻外使（领）馆及承担发放奖学金
+职责的商业银行以提高服务质量。 
+        免责申明 
+        1. 留学基金委不保证网络服务一定能满足用户的要求，也不保证网络服务不会中断。 
+        2. 对于因不可抗力或留学基金委不能控制的原因造成的网络服务中断或其它缺陷，
+留学基金委不承担任何责任，但将尽力减少因此而给用户造成的损失和影响。
+              </pre>
                 <span>第一条 不同意西北农林科技大学资助申请诚信协议就查你水表</span>
                 <br v-for="i in  16" :key="i">
               </el-dialog>
             </div>
 
             <!-- 完成页面 -->
-            <div v-else-if="active === 7" style="text-align:center;color:#078F48">
+            <div v-else-if="active === 7" style="text-align:center;color:#438F49">
               <el-form
                 label-width="140px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -506,9 +535,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <cwx-footer></cwx-footer>
+      <div>
+        <cwx-footer></cwx-footer>
+      </div>
     </div>
   </div>
 </template>
@@ -623,6 +652,7 @@ export default {
   background: #fff;
   width: 100%;
   .container {
+    margin: 0 auto;
     padding: 0px;
     width: 1200px;
     .header,
