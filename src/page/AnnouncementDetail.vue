@@ -6,7 +6,7 @@
       </div>
       <div class="main">
         <!-- <cwx-sort-main title="通知公告"></cwx-sort-main> -->
-        <cwx-sort-left></cwx-sort-left>
+        <!-- <cwx-sort-left></cwx-sort-left> -->
         <cwx-sort-right>
           <cwx-article :detail="detail"></cwx-article>
         </cwx-sort-right>

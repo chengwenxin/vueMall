@@ -411,9 +411,15 @@ router.post('/information/update', (req, res, next) => {
 //ueditor 获取content
 router.post('/ueditor/content', (req, res, next) => {
   if (req.cookies && req.cookies.number) {
+    let {announcementTime,auditTime,college,grade,validTime} = req.body
+    college=college.join(';')
+    grade=grade.join(';')
+    let startTime = validTime[0] 
+    let endTime = validTime[1]
     let sql = ''
     if (req.body.type === "资助政策") {
-      sql = `insert into policy(author, update_date, title,content,detailDate,isApply) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}')`
+      sql = `insert into policy(author, update_date, title,content,detailDate,isApply,announcementTime,auditTime,startTime,endTime,college,grade) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
+      '${announcementTime}','${auditTime}','${startTime}','${endTime}','${college}','${grade}')`
     } else if (req.body.type === "通知公告") {
       let publicDay = req.body.publicDay ? req.body.publicDay : 0
       sql = `insert into announcement(author, update_date, title,content,detailDate,publicDay) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}',${publicDay})`
@@ -735,5 +741,21 @@ router.post('/audit/second/replace', function (req, res, next) {
       })
     }
   })
+})
+router.get('/enum/college',function(req,res){
+  let sql = `select college from college`
+  let policySql = `select title from policy` 
+  pool.query(sql,function(err,college){
+    if(err) throw err
+    pool.query(policySql,function(err,category){
+      if(err) throw err
+      res.json({
+        status:'1',
+        content:{college,category}
+      })
+    })
+  })
+
+
 })
 module.exports = router;

@@ -9,25 +9,25 @@
         <!-- <cwx-sort-left></cwx-sort-left> -->
         <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
 
-          <el-form :inline="true" :model="queryData" class="demo-form-inline" style="margin-left:40px;">
-            <el-form-item label="项目名称：">
-              <el-input v-model="queryData.user" placeholder="请输入项目名称"></el-input>
-            </el-form-item>
-            <el-form-item label="院系：">
-              <el-select v-model="queryData.region" placeholder="请选择院系">
-                <el-option label="信息工程学院" value="shanghai"></el-option>
-                <el-option label="动物科技学院" value="beijing"></el-option>
+          <el-form :inline="true" ref="queryDataRef" :model="queryData" class="demo-form-inline" style="margin-left:40px;">
+            <el-form-item label="项目名称：" prop="category">
+              <el-select clearable  v-model="queryData.category" placeholder="请选择项目名称">
+                <el-option v-for="(item,index) in categoryList" :key="index" :label="item.title" :value="item.title"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="年级：">
-              <el-select v-model="queryData.region" placeholder="请选择院系">
-                <el-option label="大一" value="shanghai"></el-option>
-                <el-option label="大二" value="beijing"></el-option>
-                <el-option label="研究生" value="beijing"></el-option>
+            <el-form-item label="院系：" prop="college">
+              <el-select clearable v-model="queryData.college" placeholder="请选择院系">
+                <el-option v-for="(item,index) in collegeList" :key="index" :label="item.college" :value="item.college"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="年级：" prop="grade">
+              <el-select clearable v-model="queryData.grade" placeholder="请选择年级">
+                <el-option v-for="(item,index) in ['本科生','研究生','14级','15级','16级','17级','18级']" :key="index" :label="item" :value="item"></el-option>          
               </el-select>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+              <el-button @click="onReset">重置</el-button>
             </el-form-item>
           </el-form>
 
@@ -58,7 +58,6 @@ export default {
   computed:{
   policyMenu(){
     let isLogin =  this.$store.state.login
-    console.log (isLogin?this.menuc:[])
     return isLogin?this.menuc:[]
   }
   },
@@ -66,8 +65,15 @@ export default {
     this.getList();
   },
   methods: {
+    onReset(){
+      this.$refs["queryDataRef"].resetFields();
+    },
+    //提交搜索
+    onSubmit(){
+      this.getList()
+    },
     getList() {
-      getScholarList({ currentPage: this.currentPage, pageSize: this.pageSize })
+      getScholarList(Object.assign({ currentPage: this.currentPage, pageSize: this.pageSize },this.queryData))
         .then(data => {
           this.list = data.content.filter(
             item => item.detailDate <= formatDate(new Date())
@@ -91,12 +97,16 @@ export default {
   data: function() {
     return {
       queryData:{
-
+       category:'',
+       college:'',
+       grade:''
       },
       list: [],
       totalCount: 0,
       currentPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      collegeList:JSON.parse(window.localStorage.collegeEnum),
+      categoryList:JSON.parse(window.localStorage.categoryEnum),
     };
   }
 };

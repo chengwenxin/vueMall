@@ -93,3 +93,7 @@ export const firstAuditReplace = (params) => {
 export const secondAuditReplace = (params) => {
   return http.fetchPost('/api/audit/second/replace',params)
 }
+//查询所有院系
+export const getCollegeEnum = () => {
+  return http.fetchQuickSearch('/api/enum/college')
+}

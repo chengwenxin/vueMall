@@ -1,9 +1,9 @@
 <template>
   <div class="article">
-    <template v-if="detail.isApply === '允许申请'">
-      <el-button type="success" @click="apply" style="float:right;margin-right:20px;">在线申请</el-button>
-      <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#438F49;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
-    </template>
+    <!-- <template v-if="detail.isApply === '允许申请'"> -->
+    <!-- <el-button type="success" @click="apply" style="float:right;margin-right:20px;">在线申请</el-button> -->
+    <!-- <input @click="apply" type="button" style="float:right;margin-right:20px;color:#fff;background-color:#438F49;font-size:18px;padding:5px;font-weight:bold;" value="在线申请"> -->
+    <!-- </template> -->
     <h1
       style="font-size: 22px;font-family:'微软雅黑';color:#438F49;text-align:center;padding-top:20px;font-weight:bold;"
     >{{detail.title}}</h1>
@@ -67,17 +67,22 @@
       </el-table>
 
       <div style="font-size:16px;text-align:right;">
-         <div style="width:500px;float:right;">
-            <br>
-        <p style="font-size:18px;font-weight:bold;">特此公示。公示期为<span style="color:red;"> {{detail.publicDay}}天</span> 即日起至<span style="color:red;">{{ldate}}</span></p>
-        <br><p> 如有疑问，请于公示期内联系学生处</p>
-        <p>联系地址：北校区三号部1号楼115室</p>
-        <p>联系电话：55664312</p>
-        <p style="padding-right:28px;">联系人：张大彪</p>
-<br>
-        <p>西北农林科技大学学生处</p>
-        <p style="padding-right:28px;">{{rdate}}</p>
-         </div>
+        <div style="width:500px;float:right;">
+          <br>
+          <p style="font-size:18px;font-weight:bold;">
+            特此公示。公示期为
+            <span style="color:red;">{{detail.publicDay}}天</span> 即日起至
+            <span style="color:red;">{{ldate}}</span>
+          </p>
+          <br>
+          <p>如有疑问，请于公示期内联系学生处</p>
+          <p>联系地址：北校区三号部1号楼115室</p>
+          <p>联系电话：55664312</p>
+          <p style="padding-right:28px;">联系人：张大彪</p>
+          <br>
+          <p>西北农林科技大学学生处</p>
+          <p style="padding-right:28px;">{{rdate}}</p>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -95,19 +100,37 @@ export default {
       auditVisible: [false]
     };
   },
-  computed:{
-    rdate(){
-      let date = this.detail.detailDate.split('-')
-      return date[0] + '年' + date[1] + '月' + date[2] + '日'
+  computed: {
+    rdate() {
+      let date = this.detail.detailDate.split("-");
+      return date[0] + "年" + date[1] + "月" + date[2] + "日";
     },
-    ldate(){
-      let week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
-      let date = this.detail.detailDate.split('-')
-      let today = new Date()
-      today.setFullYear(date[0])
-      today.setMonth(date[1])
-      today.setDate(Number(date[2]) + this.detail.publicDay)
-      return today.getFullYear() + '年' + today.getMonth() + '月' + today.getDate() + '日'+'('+week[today.getDay()]+')'
+    ldate() {
+      let week = [
+        "星期日",
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四",
+        "星期五",
+        "星期六"
+      ];
+      let date = this.detail.detailDate.split("-");
+      let today = new Date();
+      today.setFullYear(date[0]);
+      today.setMonth(date[1]);
+      today.setDate(Number(date[2]) + this.detail.publicDay);
+      return (
+        today.getFullYear() +
+        "年" +
+        today.getMonth() +
+        "月" +
+        today.getDate() +
+        "日" +
+        "(" +
+        week[today.getDay()] +
+        ")"
+      );
     }
   },
   methods: {
@@ -142,10 +165,10 @@ export default {
   margin-bottom: 20px;
   .h3-class {
     margin-bottom: 5px;
-    color: #438F49;
+    color: #438f49;
   }
   .line {
-    width: 820px;
+    width: 1130px;
     border-bottom: 1px solid #d6d6d6;
     margin-left: 20px;
     margin-top: 30px;
@@ -160,7 +183,7 @@ export default {
   }
   .cont {
     clear: both;
-    width: 820px;
+    width: 1100px;
     color: #333333;
     padding: 20px;
   }

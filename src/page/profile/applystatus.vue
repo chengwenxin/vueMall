@@ -5,39 +5,45 @@
         <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
         <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
-
-
-
-
 
         <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
             <div style="margin:5px;">
-  <el-form :inline="true" :model="queryData" class="demo-form-inline" style="margin-left:40px;">
-            <el-form-item label="项目名称：">
-              <el-select v-model="queryData.region" placeholder="请选择项目">
-                <el-option label="信息工程学院" value="shanghai"></el-option>
-                <el-option label="动物科技学院" value="beijing"></el-option>
+              <el-form
+                :inline="true"
+                :model="queryData"
+                class="demo-form-inline"
+                style="margin-left:40px;"
+              >
+                <el-form-item label="项目名称：" prop="category">
+                  <el-select clearable v-model="queryData.category" placeholder="请选择项目名称">
+                    <el-option
+                      v-for="(item,index) in categoryList"
+                      :key="index"
+                      :label="item.title"
+                      :value="item.title"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="初审状态：">
+              <el-select v-model="queryData.firstAuditStatus" clearable  placeholder="请选择初审状态">
+                <el-option label="初审通过" value="初审通过"></el-option>
+                <el-option label="初审驳回" value="初审驳回"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="院系：">
-              <el-select v-model="queryData.region" placeholder="请选择院系">
-                <el-option label="信息工程学院" value="shanghai"></el-option>
-                <el-option label="动物科技学院" value="beijing"></el-option>
+            <el-form-item label="复审状态：">
+             <el-select v-model="queryData.secondAuditStatus" clearable placeholder="请选择复审状态">
+                <el-option label="复审通过" value="复审通过"></el-option>
+                <el-option label="复审驳回" value="复审驳回"></el-option>
               </el-select>
-            </el-form-item>
-            <el-form-item label="姓名：">
-               <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
-            </el-form-item>
-          </el-form>
-
-</div>
-
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
 
             <cwx-audit-table :formdata="formdata"></cwx-audit-table>
             <el-pagination
@@ -90,8 +96,7 @@ export default {
         .then(data => {
           if (data.status === "1") {
             this.formdata = data.content;
-            this.totalCount = data.totalCount
-
+            this.totalCount = data.totalCount;
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");
@@ -104,12 +109,13 @@ export default {
   },
   data: function() {
     return {
+      categoryList:JSON.parse(window.localStorage.categoryEnum),
       formdata: [],
       formatDate: formatDate,
       totalCount: 0,
       currentPage: 1,
       pageSize: 10,
-      queryData:{}
+      queryData: {}
     };
   }
 };

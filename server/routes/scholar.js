@@ -32,9 +32,12 @@ router.get('/ueditor/img',(req, res, next) => {
 router.get('/policy',(req, res, next) => {
   let totalCount = 0
   let {pageSize,currentPage} = req.query
+  let college = req.query.college?'%'+req.query.college+'%':'%%'
+  let category = req.query.category?'%'+req.query.category+'%':'%%'
+  let grade = req.query.grade?'%'+req.query.grade+'%':'%%'
   let size = pageSize * (currentPage -1 )
-  let totalCountsql = `select count(*) from policy`
-  let sql =` SELECT o.* from (SELECT * from policy ) o ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+  let totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade like '${grade}'`
+  let sql =` SELECT * from policy where college like '${college}' and title like '${category}' and grade like '${grade}' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({

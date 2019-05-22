@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container">
       <div class="header">
-        <cwx-header ></cwx-header>
+        <cwx-header></cwx-header>
       </div>
       <div class="mainer">
         <!-- <div style="width:550px;height:300px;float:left;margin:0 25px;">
@@ -13,15 +13,18 @@
               </router-link>
             </el-carousel-item>
           </el-carousel>
-        </div> -->
+        </div>-->
         <div style="width:50%;min-height:460px;float:left;">
-       
-          <cwx-slide-content title="获奖通知公告" path="/announcement" :list="announcementList.slice(0,5)"></cwx-slide-content> 
+          <cwx-slide-content
+            title="获奖通知公告"
+            path="/announcement"
+            :list="announcementList.slice(0,5)"
+          ></cwx-slide-content>
           <cwx-slide-content title="奖助学金政策" path="/policy" :list="scholarList.slice(0,5)"></cwx-slide-content>
         </div>
-       <div style="width:50%;min-height:460px;float:left;">
-        <cwx-slide-content title="在线申请指南" path="/working" :list="workingList.slice(0,5)"></cwx-slide-content>
-         </div>       
+        <div style="width:50%;min-height:460px;float:left;">
+          <cwx-slide-content title="在线申请指南" path="/working" :list="workingList.slice(0,5)"></cwx-slide-content>
+        </div>
       </div>
       <div class="footer">
         <cwx-footer></cwx-footer>
@@ -33,36 +36,52 @@
 import {
   getScholarList,
   getAnnouncementList,
-  getWorkingtList
+  getWorkingtList,
+  getCollegeEnum
 } from "../api/scholar.js";
-import  formatDate from '../utils/formatDate'
+import formatDate from "../utils/formatDate";
 export default {
   mounted() {
     this.getList();
   },
   methods: {
     getList() {
+      //将所有院系信息存入本地
+      getCollegeEnum()
+        .then(data => {
+          window.localStorage.setItem('collegeEnum',JSON.stringify(data.content.college))
+          window.localStorage.setItem('categoryEnum',JSON.stringify(data.content.category))
+        })
+        .catch(err => {
+          console.log(err);
+        });
       getScholarList()
         .then(data => {
-          this.scholarList = data.content.filter(item => (item.detailDate < formatDate(new Date()))) ;
+          this.scholarList = data.content.filter(
+            item => item.detailDate < formatDate(new Date())
+          );
         })
         .catch(err => {
           console.log(err);
         });
       getAnnouncementList()
         .then(data => {
-          this.announcementList = data.content.filter(item => (item.detailDate < formatDate(new Date())))
+          this.announcementList = data.content.filter(
+            item => item.detailDate < formatDate(new Date())
+          );
         })
         .catch(err => {
           console.log(err);
         });
       getWorkingtList()
         .then(data => {
-          this.workingList = data.content.filter(item => (item.detailDate < formatDate(new Date())))
+          this.workingList = data.content.filter(
+            item => item.detailDate < formatDate(new Date())
+          );
         })
         .catch(err => {
           console.log(err);
-       });
+        });
     }
   },
   data: function() {
@@ -88,7 +107,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     .mainer {
-     min-height: 40px;
+      min-height: 40px;
     }
     .header,
     .main {

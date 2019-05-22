@@ -78,6 +78,8 @@
       <!-- <cwx-slide-content-item :list="list"></cwx-slide-content-item> -->
       <div v-if="title === '获奖通知公告'">
         <router-link to="/announcement">
+          <h1>公示栏包含获奖公示名单，接受所有人监督，如有异议，可按照公示内容中的联系方式进行举报</h1>
+
           <el-button
             style="background:#438F49;color:#fff;font-size:24px;margin-left:0px;width:500px;margin-top:10px;"
           >
@@ -88,6 +90,8 @@
       </div>
       <div v-else>
         <router-link to="/policy">
+          <h1>项目栏包含所有资助项目的信息，可以搜索想要了解的奖助学金项目以及项目的申请有效期</h1>
+
           <el-button
             style="background:#438F49;color:#fff;font-size:24px;margin-left:0px;width:500px;margin-top:10px;"
           >

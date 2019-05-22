@@ -13,6 +13,11 @@
           </p>
         </div>
       </div>-->
+      <router-link to="/">
+       <div style="width:250px;;margin-left:60px;height:80px;">
+
+       </div>
+      </router-link>
     </el-header>
     <div v-if="menu.length> 0">
       <el-menu

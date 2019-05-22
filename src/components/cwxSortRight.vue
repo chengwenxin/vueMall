@@ -11,7 +11,7 @@ export default {
     width:{
       type:String,
       default(){ 
-        return 'width:1078px'
+        return 'width:1200px'
         }
     }
   }
@@ -20,7 +20,7 @@ export default {
 <style lang="scss" >
 .sort_right {
   position: relative;
-  width: 1078px;
+  width: 1200px;
   min-height: 600px;
   // margin-right: 20px;
   float: left;
@@ -30,6 +30,7 @@ export default {
   // border-left: 1px dashed;
   border-bottom: 1px dashed;
   border-right: 1px dashed;
+  border-left: 1px dashed;
   border-color: #2569af;
   .sort_rightcont {
     padding: 8px;

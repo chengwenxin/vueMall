@@ -6,56 +6,143 @@
         <cwx-header :menu="menuc"></cwx-header>
       </div>
       <div class="main">
-         <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
+        <!-- <cwx-sort-main title="个人中心"></cwx-sort-main> -->
         <!-- <cwx-sort-left :menu="menu"></cwx-sort-left> -->
         <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div v-show="!isScan">
             <el-form :model="formData" :inline="true">
-              <el-form-item label="类型" prop="type">
-                <el-select v-model="formData.type">
-                  <el-option v-for="item in typeList" :key="item" :label="item" :value="item"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="标题：" prop="title">
-                <el-input v-model="formData.title" placeholder="请输入标题"></el-input>
-              </el-form-item>
-              <el-form-item label="作者：" prop="author">
-                <el-input v-model="formData.author"></el-input>
-              </el-form-item>
-
-              <el-form-item label="发布日期：" prop="detailDate">
-                <el-date-picker
-                  :clearable="false"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  v-model="formData.detailDate"
-                ></el-date-picker>
-              </el-form-item>
-              <template v-if="this.formData.type === '资助政策'">
-                <el-form-item label="申请状态：" prop="title">
-                  <el-select v-model="formData.isApply" @change="applyChange">
-                    <el-option
-                      v-for="item in applyList"
-                      :key="item.value"
-                      :value="item.value"
-                      :label="item.label"
-                    ></el-option>
+              <el-card>
+                <div slot="header" class="clearfix">
+                  <h1 style="color:#438F49;padding-left:20px; display:inline-block">基本定制</h1>
+                </div>
+                <el-form-item label="类型" prop="type">
+                  <el-select v-model="formData.type">
+                    <el-option v-for="item in ['资助政策']" :key="item" :label="item" :value="item"></el-option>
                   </el-select>
                 </el-form-item>
-              </template>
+                <el-form-item label="标题：" prop="title">
+                  <el-input v-model="formData.title" placeholder="请输入标题"></el-input>
+                </el-form-item>
+                <el-form-item label="作者：" prop="author">
+                  <el-input v-model="formData.author"></el-input>
+                </el-form-item>
+                <el-form-item label="发布日期：" prop="detailDate">
+                  <el-date-picker
+                    :clearable="false"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    v-model="formData.detailDate"
+                  ></el-date-picker>
+                </el-form-item>
+
+                <template v-if="formData.type === '资助政策'">
+                  <el-form-item prop="title">
+                    <el-switch
+                      v-model="formData.isApply"
+                      active-color="#438F49"
+                      active-text="允许申请"
+                      inactive-text="不能申请"
+                      active-value="允许申请"
+                      inactive-value="不能申请"
+                      @change="applyChange"
+                    ></el-switch>
+                  </el-form-item>
+                </template>
+
+                <el-form-item>
+                  <el-button @click="scan" type="success">预览</el-button>
+                  <el-button @click="submit" type="success">提交</el-button>
+                </el-form-item>
+
+                <div v-if="this.formData.isApply === '允许申请' && formData.type === '资助政策'">
+                  <el-form-item label="申请开始/截止时间时间：" prop="validTime">
+                    <el-date-picker
+                      :clearable="false"
+                      type="datetimerange"
+                      v-model="formData.validTime"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                    ></el-date-picker>
+                  </el-form-item>
+
+                  <el-form-item label="评审时间：" prop="auditTime">
+                    <el-date-picker
+                    :clearable="false"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    v-model="formData.auditTime"
+                  ></el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="名单公示时间：" prop="announcementTime">
+                  <el-date-picker
+                    :clearable="false"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    v-model="formData.announcementTime"
+                  ></el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="可申请院系：" prop="college">
+                    <el-select
+                      v-model="formData.college"
+                      multiple
+                      filterable
+                      allow-create
+                      default-first-option
+                      placeholder="请选择可申请院系"
+                    >
+                      <el-option
+                        v-for="(item,index) in collegeList"
+                        :key="index"
+                        :label="item.college"
+                        :value="item.college"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="可申请年级：" prop="grade">
+                    <el-select
+                      v-model="formData.grade"
+                      multiple
+                      filterable
+                      allow-create
+                      default-first-option
+                      placeholder="请选择可申请年级"
+                    >
+                      <el-option
+                        v-for="item in ['所有年级','本科生','研究生','14级','15级','16级','17级','18级']"
+                        :key="item.value"
+                        :label="item"
+                        :value="item"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-card>
+              <div v-if="formData.isApply === '允许申请' && formData.type === '资助政策'">
+                <el-card>
+                  <div slot="header" class="clearfix">
+                    <h1 style="color:#438F49;padding-left:20px; display:inline-block">个人信息定制</h1>
+                  </div>
+                </el-card>
+                <el-card>
+                  <div slot="header" class="clearfix">
+                    <h1 style="color:#438F49;padding-left:20px; display:inline-block">诚信记录定制</h1>
+                  </div>
+                </el-card>
+                <el-card>
+                  <div slot="header" class="clearfix">
+                    <h1 style="color:#438F49;padding-left:20px; display:inline-block">学习信息定制</h1>
+                  </div>
+                </el-card>
+                <el-card>
+                  <div slot="header" class="clearfix">
+                    <h1 style="color:#438F49;padding-left:20px; display:inline-block">家庭信息定制</h1>
+                  </div>
+                </el-card>
+              </div>
 
               <el-form-item>
-                <el-button @click="scan" type="success">预览</el-button>
-                <el-button @click="submit" type="success">提交</el-button>
-              </el-form-item>
-              <el-upload :on-success="uploadSuccess" multiple action="api/upload">
-                <el-button size="small" type="success">上传文件</el-button>
-              </el-upload>
-              <div
-                v-if="isApply === '允许申请' && this.formData.type === '资助政策'"
-                style="width:100px;height:100px;"
-              ></div>
-              <el-form-item>
+                <el-upload :on-success="uploadSuccess" multiple action="api/upload">
+                  <el-button size="small" type="success">上传文件</el-button>
+                </el-upload>
                 <template prop="content">
                   <vue-ueditor-wrap
                     v-model="formData.content"
@@ -97,9 +184,8 @@ export default {
         update_date: "",
         detailDate: "",
         content: "",
-        isApply: ""
+        isApply: "不能申请"
       },
-      isApply: "不能申请",
       typeList: ["通知公告", "工作动态", "资助政策"],
       applyList: [
         { value: "允许申请", label: "允许申请" },
@@ -127,6 +213,11 @@ export default {
   computed: {
     name() {
       return this.$store.state.name;
+    },
+    collegeList() {
+      let collegeEnum = JSON.parse(window.localStorage.collegeEnum);
+      collegeEnum.unshift({ college: "所有院系" });
+      return collegeEnum;
     }
   },
   mounted() {
@@ -143,7 +234,7 @@ export default {
       this.formData.content += this.temp;
     },
     applyChange(val) {
-      this.isApply = val;
+      this.formData.isApply = val;
     },
     defaultValue() {
       let date = new Date();
