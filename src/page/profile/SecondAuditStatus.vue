@@ -15,19 +15,25 @@
                 :model="queryData"
                 class="demo-form-inline"
                 style="margin-left:40px;"
+                ref="tableRef"
               >
-                <el-form-item label="项目名称：">
-                  <el-select clearable v-model="queryData.category" placeholder="请选择项目名称">
+                <el-form-item label="项目名称：" prop="category">
+                  <el-select
+                    clearable
+                    filterable
+                    v-model="queryData.category"
+                    placeholder="请选择项目名称"
+                  >
                     <el-option
-                      v-for="(item,index) in categoryList1"
+                      v-for="(item,index) in categoryList"
                       :key="index"
                       :label="item.title"
                       :value="item.title"
                     ></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="院系：">
-                  <el-select clearable v-model="queryData.college" placeholder="请选择院系">
+                <el-form-item label="院系：" prop="college">
+                  <el-select clearable filterable v-model="queryData.college" placeholder="请选择院系">
                     <el-option
                       v-for="(item,index) in collegeList"
                       :key="index"
@@ -36,51 +42,117 @@
                     ></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="姓名：">
-                  <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
+                <el-form-item>
+                  <el-button type="text" @click="isDown=!isDown">
+                    更多查询
+                    <i :class="{'el-icon-arrow-down':isDown,'el-icon-arrow-up':!isDown}"></i>
+                  </el-button>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+                  <el-button type="primary" @click="onReset" style="background:#438F48;">重置</el-button>
                 </el-form-item>
-                <el-form-item>
-                  <el-button
-                    type="primary"
-                    @click="releaseVisible"
-                    style="background:#438F48;"
-                  >发布获奖公告</el-button>
-                  <el-button type="primary" @click="exportFile" style="background:#438F48;">导出</el-button>
-                </el-form-item>
+
+                <div v-show="!isDown">
+                  <el-form-item label="复审状态：" prop="secondAuditStatus">
+                    <el-select
+                      v-model="queryData.secondAuditStatus"
+                      clearable
+                      placeholder="请选择复审状态"
+                    >
+                      <el-option label="复审通过" value="复审通过"></el-option>
+                      <el-option label="复审驳回" value="复审驳回"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="专业：" prop="major">
+                    <el-input v-model="queryData.major" clearable placeholder="请输入专业"></el-input>
+                  </el-form-item>
+                  <el-form-item label="班级：" prop="grade">
+                    <el-input v-model="queryData.grade" clearable placeholder="请输入班级"></el-input>
+                  </el-form-item>
+
+                  <el-form-item label="学号：" prop="number">
+                    <el-input v-model="queryData.number" clearable placeholder="请输入学号"></el-input>
+                  </el-form-item>
+                  <el-form-item label="姓名：" prop="name">
+                    <el-input v-model="queryData.name" clearable placeholder="请输入姓名"></el-input>
+                  </el-form-item>
+                </div>
+                <el-row>
+                  <el-form-item>
+                    <el-button
+                      type="primary"
+                      @click="releaseVisible = true"
+                      style="background:#438F48;"
+                    >发布复审获奖公告</el-button>
+                    <el-button
+                      type="primary"
+                      @click="exportVisible = true"
+                      style="background:#438F48;"
+                    >导出</el-button>
+                  </el-form-item>
+                </el-row>
               </el-form>
 
-              <!-- <el-button @click="releaseVisible = true" type="success">发布获奖公告</el-button>
-              <el-button type="success" @click="exportFile">导 出</el-button>-->
-              <!-- <a href="http://127.0.0.1:8081/api/file/what.xlsx" ref="filePath">下载</a> -->
+              <div v-if="exportVisible">
+                <el-dialog
+                  :visible.sync="exportVisible"
+                  width="40%"
+                  :model="releaseData"
+                  :inline="true"
+                  center
+                >
+                  <div slot="title">
+                    <span style="color:#fff;font-weight:bold;font-size:24px;">导出获奖名单</span>
+                  </div>
+                  <el-form label-width="120px">
+                    <el-form-item label="导出资助项目：" prop="category">
+                      <el-select v-model="exportCategory" style="width:300px;">
+                        <el-option
+                          v-for="(item,index) in categoryList"
+                          :key="index"
+                          :label="item.title"
+                          :value="item.title"
+                        ></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="exportVisible = false">取 消</el-button>
+                    <el-button type="success" @click="exportFile">发 布</el-button>
+                  </span>
+                </el-dialog>
+              </div>
+
               <div v-if="releaseVisible">
                 <el-dialog
-                  title="发布获奖公告"
                   :visible.sync="releaseVisible"
                   width="50%"
                   :model="releaseData"
                   :inline="true"
+                  center
                 >
+                  <div slot="title">
+                    <span style="color:#fff;font-weight:bold;font-size:24px;">发布复审获奖公告</span>
+                  </div>
                   <el-form :model="releaseData" label-width="120px">
                     <el-form-item label="资助项目：" prop="category">
                       <el-select v-model="releaseData.category" style="width:300px;">
                         <el-option
-                          v-for="item in categoryList"
-                          :key="item"
-                          :label="item"
-                          :value="item"
+                          v-for="(item,index) in categoryList"
+                          :key="index"
+                          :label="item.title"
+                          :value="item.title"
                         ></el-option>
                       </el-select>
                     </el-form-item>
-                    <el-form-item label="标题：" prop="title">
+                    <!-- <el-form-item label="标题：" prop="title">
                       <el-input
                         v-model="releaseData.title"
                         style="width:300px;"
                         placeholder="请输入标题"
                       ></el-input>
-                    </el-form-item>
+                    </el-form-item>-->
                     <el-form-item label="作者：" prop="author">
                       <el-input v-model="releaseData.author" style="width:300px;"></el-input>
                     </el-form-item>
@@ -88,14 +160,34 @@
                     <el-form-item label="发布日期：" prop="detailDate">
                       <el-date-picker
                         style="width:300px;"
-                        :clearable="false"
+                        clearable
                         type="date"
                         value-format="yyyy-MM-dd"
                         v-model="releaseData.detailDate"
                       ></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="公示期：" prop="author">
-                      <el-input v-model.number="releaseData.publicDay" style="width:100px;"></el-input>天
+                    <el-form-item label="公示期：" prop="validTime">
+                      <el-date-picker
+                        :clearable="false"
+                        type="datetimerange"
+                        v-model="releaseData.validTime"
+                        value-format="yyyy-MM-dd"
+                      ></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="院系：" prop="college">
+                      <el-select
+                        clearable
+                        multiple
+                        v-model="releaseData.college"
+                        placeholder="请选择院系"
+                      >
+                        <el-option
+                          v-for="(item,index) in collegeList"
+                          :key="index"
+                          :label="item.college"
+                          :value="item.college"
+                        ></el-option>
+                      </el-select>
                     </el-form-item>
                   </el-form>
                   <span slot="footer" class="dialog-footer">
@@ -116,12 +208,10 @@
             ></el-pagination>
 
             <div v-if="secondVisible">
-              <el-dialog
-                :visible.sync="secondVisible"
-                title="复审"
-                width="50%"
-                :close-on-click-modal="false"
-              >
+              <el-dialog :visible.sync="secondVisible" width="50%" :close-on-click-modal="false">
+                <div slot="title">
+                  <span style="color:#fff;font-weight:bold;font-size:24px;">复审</span>
+                </div>
                 <el-form :model="params" label-width="140px">
                   <el-form-item prop="secondAuditStatus" label="初审状态:">
                     <el-select v-model="params.secondAuditStatus">
@@ -153,9 +243,14 @@
 </template>
 <script>
 import { addPolicy, exportExcel } from "../../api";
-import { auditList, secondAuditReplace } from "../../api/scholar";
+import {
+  auditList,
+  secondAuditReplace,
+  addAnnouncementTable
+} from "../../api/scholar";
 import formatDate from "../../utils/formatDate";
 import mixins from "./mixins";
+import AnnouncementVue from "../Announcement.vue";
 export default {
   mixins: [mixins],
   mounted() {
@@ -169,6 +264,7 @@ export default {
     name() {
       return this.$store.state.name;
     },
+
     number() {
       return this.$store.state.number;
     },
@@ -177,10 +273,9 @@ export default {
     }
   },
   methods: {
-    onSubmit() {},
     // 文件导出功能
     exportFile() {
-      exportExcel({ category: this.queryData.category }).then(data => {
+      exportExcel({ category: this.exportCategory,status:'复审通过' }).then(data => {
         if (data.status === "1") {
           this.filePath = data.path;
           this.$message.success("导出成功！");
@@ -189,6 +284,7 @@ export default {
           document.body.appendChild(a);
           a.download = this.filePath;
           a.click();
+          this.exportVisible = false
         }
       });
     },
@@ -225,12 +321,25 @@ export default {
             item.category === this.releaseData.category
         );
         if (list.length > 0) {
-          window.localStorage.setItem("scholarList", JSON.stringify(list));
+          //学号  项目名称  就可以联查
+          //将获奖的信息插入表内    项目 金额 （奖助学条件定制表）  学院  学号（个人信息表）   审核表   三个表联查！！！
+          // window.localStorage.setItem("scholarList", JSON.stringify(list));
+          let date = new Date();
+          addAnnouncementTable({ list, year: date.getFullYear() })
+            .then(data => {
+              console.log(data);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+
           Object.assign(this.releaseData, {
             update_date,
             type: "通知公告",
-            content: "0"
+            content: "0",
+            title: this.releaseData.category + "复审名单公示"
           });
+
           addPolicy(this.releaseData)
             .then(data => {
               this.$message.success("发布成功！");
@@ -268,21 +377,46 @@ export default {
       this.secondVisible = true;
       this.params = val;
     },
-    getList() {
+    onSubmit() {
+      this.getList(
+        this.queryData.category,
+        this.queryData.number,
+        this.queryData.name,
+        this.queryData.major,
+        this.queryData.grade,
+        this.queryData.college,
+        this.queryData.secondAuditStatus
+      );
+    },
+    onReset() {
+      this.$refs["tableRef"].resetFields();
+    },
+
+    getList(
+      category = "",
+      number = "",
+      name = "",
+      major = "",
+      grade = "",
+      college = "",
+      secondAuditStatus = ""
+    ) {
       auditList({
         role: "2",
         pageSize: this.pageSize,
-        currentPage: this.currentPage
+        currentPage: this.currentPage,
+        category,
+        number,
+        name,
+        major,
+        grade,
+        college,
+        secondAuditStatus
       })
         .then(data => {
           if (data.status === "1") {
             this.formdata = data.content;
             this.totalCount = data.totalCount;
-            let categoryList = [];
-            this.formdata.forEach(item => {
-              categoryList.push(item.category);
-            });
-            this.categoryList = Array.from(new Set(categoryList));
           } else {
             this.$message.error(data.msg);
             this.$router.push("/login");
@@ -295,6 +429,8 @@ export default {
   },
   data: function() {
     return {
+      exportVisible: false,
+      exportCategory: "",
       filePath: "",
       totalCount: 0,
       currentPage: 1,
@@ -308,18 +444,22 @@ export default {
         content: "",
         secondResponse: ""
       },
+      isDown: true,
       queryData: {
-        category:'',
-        college:'',
-        name:''
+        major: "",
+        grade: "",
+        number: "",
+        name: "",
+        category: "",
+        firstAuditStatus: "",
+        secondAuditStatus: ""
       },
-      categoryList: [],
       formdata: [],
       formatDate: formatDate,
       releaseVisible: false,
       releaseData: {},
       collegeList: JSON.parse(window.localStorage.collegeEnum),
-      categoryList1: JSON.parse(window.localStorage.categoryEnum)
+      categoryList: JSON.parse(window.localStorage.categoryEnum)
     };
   }
 };

@@ -20,7 +20,8 @@
             path="/announcement"
             :list="announcementList.slice(0,5)"
           ></cwx-slide-content>
-          <cwx-slide-content title="奖助学金政策" path="/policy" :list="scholarList.slice(0,5)"></cwx-slide-content>
+
+          <cwx-slide-content title="奖助学金项目" path="/policy" :list="scholarList.slice(0,5)"></cwx-slide-content>
         </div>
         <div style="width:50%;min-height:460px;float:left;">
           <cwx-slide-content title="在线申请指南" path="/working" :list="workingList.slice(0,5)"></cwx-slide-content>
@@ -49,8 +50,18 @@ export default {
       //将所有院系信息存入本地
       getCollegeEnum()
         .then(data => {
-          window.localStorage.setItem('collegeEnum',JSON.stringify(data.content.college))
-          window.localStorage.setItem('categoryEnum',JSON.stringify(data.content.category))
+          window.localStorage.setItem(
+            "collegeEnum",
+            JSON.stringify(data.content.college)
+          );
+          window.localStorage.setItem(
+            "categoryEnum",
+            JSON.stringify(data.content.category)
+          );
+                    window.localStorage.setItem(
+            "gradeEnum",
+            JSON.stringify(data.content.grade)
+          );
         })
         .catch(err => {
           console.log(err);
@@ -107,7 +118,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     .mainer {
-      min-height: 40px;
+      min-height: 600px;
     }
     .header,
     .main {

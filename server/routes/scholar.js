@@ -248,9 +248,13 @@ router.get('/introduction',(req, res, next) => {
 router.get('/announcement',(req, res, next) => {
   let totalCount = 0
   let {pageSize,currentPage} = req.query
+  let college = req.query.college?'%'+req.query.college+'%':'%%'
+  let category = req.query.category?'%'+req.query.category+'%':'%%'
+  // let grade = req.query.grade?'%'+req.query.grade+'%':'%%'
   let size = pageSize * (currentPage -1 )
-  let totalCountsql = `select count(*) from announcement`
-  let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY detailDate DESC, id DESC LIMIT ${size},${pageSize}`
+  let totalCountsql = `select count(*) from announcement where college like '${college}' and title like '${category}' `
+  // let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY detailDate DESC, id DESC LIMIT ${size},${pageSize}`
+  let sql =` SELECT * from announcement where college like '${college}' and title like '${category}'  ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
   pool.query(totalCountsql,(err,result) => {
     if (err) {
       res.json({
@@ -278,7 +282,7 @@ router.get('/announcement',(req, res, next) => {
   })
 })
 
-//通知公告详情
+//通知公告详情  
 router.get('/announcement/detail',(req, res, next) => {
   let id = req.query.id
   let sql = `select * from announcement where id = ${id}`;
@@ -300,6 +304,33 @@ router.get('/announcement/detail',(req, res, next) => {
     }
   })
 })
+//插入获奖名单
+router.post('/announcement/table/add',(req, res, next) => {
+  let {list,year} = req.body
+  let values = ''
+  list.forEach(item =>{
+    values+=`('${item.category}','${item.number}','${year}'),`
+ })
+ values = values.slice(0,(values.length-1))
+  let sql = `insert into announcementTable(category,number,year) values ${values}`;
+  // let sql = `insert into announcementTable(category,number,year) values ('测试奖学金','2019002','2019'),('测试奖学金','2019001','2019')`
+  console.log(sql)
+  pool.query(sql, function(err, result){
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+        res.json({
+          status: '1',
+          msg: 'success',
+          content: result
+        });
+    }
+  })
+})
+
 //工作动态
 router.get('/working',(req, res, next) => {
   let totalCount = 0

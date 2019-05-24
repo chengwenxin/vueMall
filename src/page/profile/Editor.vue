@@ -14,6 +14,11 @@
               <el-card>
                 <div slot="header" class="clearfix">
                   <h1 style="color:#438F49;padding-left:20px; display:inline-block">基本定制</h1>
+                    <el-form-item>
+                 <div style="margin-left:770px;">
+                  <el-button @click="scan"  style="background:#438F48;color:#fff">预览</el-button>
+                  <el-button @click="submit"  style="background:#438F48;color:#fff">提交</el-button></div>
+                </el-form-item>
                 </div>
                 <el-form-item label="类型" prop="type">
                   <el-select v-model="formData.type">
@@ -49,10 +54,7 @@
                   </el-form-item>
                 </template>
 
-                <el-form-item>
-                  <el-button @click="scan" type="success">预览</el-button>
-                  <el-button @click="submit" type="success">提交</el-button>
-                </el-form-item>
+              
 
                 <div v-if="this.formData.isApply === '允许申请' && formData.type === '资助政策'">
                   <el-form-item label="申请开始/截止时间时间：" prop="validTime">
@@ -141,7 +143,7 @@
 
               <el-form-item>
                 <el-upload :on-success="uploadSuccess" multiple action="api/upload">
-                  <el-button size="small" type="success">上传文件</el-button>
+                  <el-button size="small" style="background:#438F48;color:#fff">上传文件</el-button>
                 </el-upload>
                 <template prop="content">
                   <vue-ueditor-wrap

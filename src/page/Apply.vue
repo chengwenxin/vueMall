@@ -622,7 +622,7 @@ export default {
   data: function() {
     return {
       interval: null,
-      seconds: 5,
+      seconds: 3,
       promiseVisible: false,
       list: [],
       collegeList: ["信息工程学院", "动物科技学院"],

@@ -33,7 +33,14 @@ export const updateInformation = (params) => {
 export const addPolicy = (params) => {
   return http.fetchPost('/api/ueditor/content',params)
 }
-
+//查询获奖学号
+export const queryAnnouncementTable = (params) => {
+  return http.fetchPost('/api/announcement/table/query',params)
+}
+//查询单挑奖助学金信息
+export const getScholarship = (params) => {
+  return http.fetchPost('/api/scholarship/detail',params)
+}
 //查询学院 专业 班级 
 export const getCollegeList = () => {
   return http.fetchQuickSearch('/api/college/list')
@@ -58,4 +65,12 @@ export const modifyPassword = (params) => {
 //修改密码
 export const exportExcel = (params) => {
   return http.fetchPost('/api/export',params)
+}
+//不解释了
+export const applyDetailList = (params) => {
+  return http.fetchPost('/api/apply/detail/list',params)
+}
+//查审核名单
+export const queryAuditList = (params) => {
+  return http.fetchPost('/api/audit/query',params)
 }

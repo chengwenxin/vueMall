@@ -16,9 +16,10 @@
                 :model="queryData"
                 class="demo-form-inline"
                 style="margin-left:40px;"
+                ref="tableRef"
               >
                 <el-form-item label="项目名称：" prop="category">
-                  <el-select clearable v-model="queryData.category" placeholder="请选择项目名称">
+                  <el-select clearable v-model="queryData.category"  placeholder="请选择项目名称">
                     <el-option
                       v-for="(item,index) in categoryList"
                       :key="index"
@@ -27,20 +28,21 @@
                     ></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="初审状态：">
-              <el-select v-model="queryData.firstAuditStatus" clearable  placeholder="请选择初审状态">
-                <el-option label="初审通过" value="初审通过"></el-option>
-                <el-option label="初审驳回" value="初审驳回"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="复审状态：">
-             <el-select v-model="queryData.secondAuditStatus" clearable placeholder="请选择复审状态">
-                <el-option label="复审通过" value="复审通过"></el-option>
-                <el-option label="复审驳回" value="复审驳回"></el-option>
-              </el-select>
+                <el-form-item label="初审状态：" prop="firstAuditStatus">
+                  <el-select v-model="queryData.firstAuditStatus" clearable placeholder="请选择初审状态">
+                    <el-option label="初审通过" value="初审通过"></el-option>
+                    <el-option label="初审驳回" value="初审驳回"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="复审状态：" prop="secondAuditStatus">
+                  <el-select v-model="queryData.secondAuditStatus" clearable placeholder="请选择复审状态">
+                    <el-option label="复审通过" value="复审通过"></el-option>
+                    <el-option label="复审驳回" value="复审驳回"></el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
+                  <el-button type="primary" @click="onReset" style="background:#438F48;">重置</el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -87,11 +89,24 @@ export default {
     //   let date = new Date(applyDate)
     //   return date.toLocaleString()
     // },
-    getList() {
+    onSubmit() {
+      this.getList(
+        this.queryData.category,
+        this.queryData.firstAuditStatus,
+        this.queryData.secondAuditStatus
+      );
+    },
+    onReset() {
+      this.$refs["tableRef"].resetFields();
+    },
+    getList(category='', firstAuditStatus='', secondAuditStatus='') {
       auditList({
         role: "0",
         pageSize: this.pageSize,
-        currentPage: this.currentPage
+        currentPage: this.currentPage,
+        category,
+        firstAuditStatus,
+        secondAuditStatus
       })
         .then(data => {
           if (data.status === "1") {
@@ -109,13 +124,17 @@ export default {
   },
   data: function() {
     return {
-      categoryList:JSON.parse(window.localStorage.categoryEnum),
+      categoryList: JSON.parse(window.localStorage.categoryEnum),
       formdata: [],
       formatDate: formatDate,
       totalCount: 0,
       currentPage: 1,
       pageSize: 10,
-      queryData: {}
+      queryData: {
+        category:'',
+        firstAuditStatus:'',
+        secondAuditStatus:''
+      }
     };
   }
 };

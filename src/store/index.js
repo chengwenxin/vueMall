@@ -9,6 +9,7 @@ const state = {
   number:'',
   name:'',
   lastLoginTime:'',
+  college:''
 }
 
 export default new Vuex.Store({
@@ -22,6 +23,9 @@ export default new Vuex.Store({
       state.role = params.role;
       state.number = params.number;
       state.name = params.name;
+      if(params.college){
+        state.college = params.college
+      }
     },
     lastLogin(state,time){
       state.lastLoginTime = time

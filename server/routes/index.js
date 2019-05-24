@@ -16,19 +16,27 @@ router.use(express.static('public'));
 // var fileName = path.join(dirname, "../public/file", fileName)
 router.post('/export', function (req, res, next) {
   const {
-    category
+    category,
+    status
   } = req.body
+  let sql = ''
   let dataSheet = [
     ['审核序号', '资助项目名称', '学号', '姓名', '年级', '专业', '学院', '性别', '年龄', '出生日期', '民族', '身份证号', '手机号', '邮箱', '银行卡号', '申请过程是否弄虚作假', '考试作弊', '校外租住', '其他诚信问题', '政治面貌',
       '类别', '是否全日制', '外语类别', '外语水平', '外语分数',
       '学制', '学历', '入学日期', '毕业日期', '学分成绩', '综测成绩', '学分班级排名', '学分年级排名', '综测班级排名',
       '综测年级排名', '是否有挂科记录', '科研成果', '籍贯', '家庭住址', '家庭具体情况', '是否为建档贫困生', '申请理由',
-      '其他说明','申请学号','申请日期','初审账户','初审人','初审回复','初审结果','初审日期','复审账户','复审人','复审回复','复审结果','复审日期'
-  
+      '其他说明', '申请学号', '申请日期', '初审账户', '初审人', '初审回复', '初审结果', '初审日期', '复审账户', '复审人', '复审回复', '复审结果', '复审日期'
+
     ]
   ];
-  let pathName = category + '.xlsx'
-  let sql = `select * from apply,audit where apply.category = audit.category and audit.category = '${category}' and audit.secondAuditStatus = '复审通过'`
+  let pathName = ''
+  if (status === '初审通过') {
+    sql = `select * from apply,audit where apply.category = audit.category and audit.category = '${category}' and audit.firstAuditStatus = '初审通过' and audit.college = '${req.body.college}'`
+    pathName = category + '初审通过名单' + '.xlsx'
+  } else {
+    sql = `select * from apply,audit where apply.category = audit.category and audit.category = '${category}' and audit.secondAuditStatus = '复审通过'`
+    pathName = category + '复审通过名单' + '.xlsx'
+  }
   pool.query(sql, function (err, result) {
     if (err) throw err;
     //保证查询有值
@@ -76,8 +84,11 @@ router.post('/export', function (req, res, next) {
 //登录
 router.post('/login', function (req, res, next) {
   //对输入的密码进行加密
-  let number = req.body.number || ''
-  let password = req.body.password || ''
+  let {
+    number,
+    password
+  } = req.body
+
   let sql = `select * from user where number = '${number}'`
   pool.query(sql, function (err, result) {
     if (err) {
@@ -250,7 +261,6 @@ router.post('/user/update', function (req, res, next) {
   } else {
     sql = `insert  into user(number,password,name,role,college,grade) values('${req.body.number}','${req.body.password}','${req.body.name}','${req.body.role}','${req.body.college}','${req.body.grade}')`
   }
-  console.log(sql)
   pool.query(sql, function (err, result) {
     if (err) {
       res.json({
@@ -295,15 +305,13 @@ router.post('/upload', multipartMiddleware, (req, res, next) => {
     var des_file = path.join(dirname, "../public/file", req.files.file.originalFilename)
     fs.readFile(req.files.file.originalFilename, function (err, data) {
       fs.writeFile(des_file, data, function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json({
-            status: '1',
-            msg: "上传成功",
-            filename: "http://127.0.0.1:8081/api/file/" + req.files.file.originalFilename
-          });
-        }
+        if (err) throw err;
+        res.json({
+          status: '1',
+          msg: "上传成功",
+          filename: "http://127.0.0.1:8081/api/file/" + req.files.file.originalFilename
+        });
+
       });
     });
 
@@ -411,18 +419,29 @@ router.post('/information/update', (req, res, next) => {
 //ueditor 获取content
 router.post('/ueditor/content', (req, res, next) => {
   if (req.cookies && req.cookies.number) {
-    let {announcementTime,auditTime,college,grade,validTime} = req.body
-    college=college.join(';')
-    grade=grade.join(';')
-    let startTime = validTime[0] 
+    let {
+      college,
+      validTime
+    } = req.body
+    if (typeof (college) !== 'string') {
+      college = college.join(';')
+    }
+    let startTime = validTime[0]
     let endTime = validTime[1]
     let sql = ''
     if (req.body.type === "资助政策") {
+      let {
+        announcementTime,
+        auditTime,
+        grade
+      } = req.body
+      grade = grade.join(';')
+
       sql = `insert into policy(author, update_date, title,content,detailDate,isApply,announcementTime,auditTime,startTime,endTime,college,grade) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
       '${announcementTime}','${auditTime}','${startTime}','${endTime}','${college}','${grade}')`
     } else if (req.body.type === "通知公告") {
-      let publicDay = req.body.publicDay ? req.body.publicDay : 0
-      sql = `insert into announcement(author, update_date, title,content,detailDate,publicDay) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}',${publicDay})`
+
+      sql = `insert into announcement(author, update_date, title,content,detailDate,startTime,endTime,college,category) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${startTime}','${endTime}','${college}','${req.body.category}')`
     } else if (req.body.type === "工作动态") {
       sql = `insert into working(author, update_date, title,content,detailDate) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}')`
     }
@@ -448,7 +467,6 @@ router.post('/ueditor/content', (req, res, next) => {
 router.post('/audit/insert', function (req, res, next) {
   //辅导员对应的学生申请
   let sql = `SELECT * from user AS a INNER JOIN (select instructor from college ,user where college.college = user.college AND  user.role = '学生' AND user.number = '${req.body.number}') AS b on a.number = b.instructor`
-  console.log(sql)
   pool.query(sql, function (err, result) {
     if (err) {
       res.json({
@@ -458,8 +476,7 @@ router.post('/audit/insert', function (req, res, next) {
     } else {
       if (result.length > 0) {
         result = result[0]
-        let insertsql = `insert into audit(number,name,category,firstAuditNumber,firstAudit,applyDate) values('${req.body.number}','${req.body.name}','${req.body.category}','${result.instructor}','${result.name}','${req.body.applyDate}')`;
-        console.log(insertsql)
+        let insertsql = `insert into audit(college,major,grade,number,name,category,firstAuditNumber,firstAudit,applyDate) values('${req.body.college}','${req.body.major}','${req.body.grade}','${req.body.number}','${req.body.name}','${req.body.category}','${result.instructor}','${result.name}','${req.body.applyDate}')`;
         pool.query(insertsql, function (err, result) {
           if (err) {
             res.json({
@@ -483,7 +500,7 @@ router.post('/audit/insert', function (req, res, next) {
 //查询审核列表
 router.post('/audit/list', function (req, res, next) {
   let sql = ''
-  if (req.body.category) {
+  if (!req.body.pageSize) {
     sql = `select * from audit where number = '${req.cookies.number}' and category = '${req.body.category}'  ORDER BY id DESC `;
     pool.query(sql, function (err, result) {
       if (err) {
@@ -516,14 +533,37 @@ router.post('/audit/list', function (req, res, next) {
     let countSql = ''
 
     if (req.body.role === '0') {
-      sql = `select * from audit where number = '${req.cookies.number}'  order by  applyDate DESC LIMIT ${size},${pageSize}`;
-      countSql = `select count(*) from audit where number = '${req.cookies.number}'`
+      let category = req.body.category ? req.body.category : ''
+      let firstAuditStatus = req.body.firstAuditStatus ? req.body.firstAuditStatus : ''
+      let secondAuditStatus = req.body.secondAuditStatus ? req.body.secondAuditStatus : ''
+      sql = `select * from audit where number = '${req.cookies.number}' and category like '%${category}%'and firstAuditStatus like '%${firstAuditStatus}%'and secondAuditStatus like'%${secondAuditStatus}%' order by  applyDate DESC LIMIT ${size},${pageSize}`;
+      countSql = `select count(*) from audit where number = '${req.cookies.number}' and category like '%${category}%'and firstAuditStatus like '%${firstAuditStatus}%'and secondAuditStatus like'%${secondAuditStatus}%'`
     } else if (req.body.role === '1') {
-      sql = `select * from audit where firstAuditNumber = '${req.cookies.number}'  order by  applyDate DESC LIMIT ${size},${pageSize}`;
-      countSql = `select count(*) from audit where firstAuditNumber = '${req.cookies.number}'`
+      let category = req.body.category ? req.body.category : ''
+      let number = req.body.number ? req.body.number : ''
+      let name = req.body.name ? req.body.name : ''
+      let major = req.body.major ? req.body.major : ''
+      let grade = req.body.grade ? req.body.grade : ''
+      let firstAuditStatus = req.body.firstAuditStatus ? req.body.firstAuditStatus : ''
+      let secondAuditStatus = req.body.secondAuditStatus ? req.body.secondAuditStatus : ''
+      sql = `select * from audit where firstAuditNumber = '${req.cookies.number}' and 
+      number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and firstAuditStatus like '%${firstAuditStatus}%'and secondAuditStatus like'%${secondAuditStatus}%'
+      order by  applyDate DESC LIMIT ${size},${pageSize}`;
+      countSql = `select count(*) from audit where firstAuditNumber = '${req.cookies.number}' and number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and firstAuditStatus like '%${firstAuditStatus}%'and secondAuditStatus like'%${secondAuditStatus}%'`
     } else if (req.body.role === '2') {
-      sql = `select * from audit  where firstAuditStatus = '初审通过' order by  applyDate DESC LIMIT ${size},${pageSize}`;
-      countSql = `select count(*) from audit where firstAuditStatus = '初审通过'`
+
+      let category = req.body.category ? req.body.category : ''
+      let number = req.body.number ? req.body.number : ''
+      let name = req.body.name ? req.body.name : ''
+      let major = req.body.major ? req.body.major : ''
+      let grade = req.body.grade ? req.body.grade : ''
+      let college = req.body.college ? req.body.college : ''
+      let secondAuditStatus = req.body.secondAuditStatus ? req.body.secondAuditStatus : ''
+      sql = `select * from audit  where firstAuditStatus = '初审通过' and 
+      number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and college like '%${college}%'and secondAuditStatus like'%${secondAuditStatus}%'
+      order by  applyDate DESC LIMIT ${size},${pageSize}`;
+      countSql = `select count(*) from audit where firstAuditStatus = '初审通过' and
+      number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and college like '%${college}%'and secondAuditStatus like'%${secondAuditStatus}%'`
     }
     pool.query(sql, function (err, result1) {
       if (err) {
@@ -598,6 +638,37 @@ router.post('/apply/detail', function (req, res, next) {
     }
   })
 })
+//查询申请记录   apply表
+router.post('/apply/detail/list', function (req, res, next) {
+  let {
+    category,
+    snoList
+  } = req.body
+  let sno = []
+  snoList.forEach(item => {
+    sno.push(item.number)
+  })
+  let ids = sno.join(',')
+  ids = '(' + ids + ')'
+
+  let sql = `select * from apply where category ='${req.body.category}' and sno in ${ids}  `;
+  console.log(sql)
+
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: "查询成功",
+        content: result
+      });
+    }
+  })
+})
 //新增申请信息
 router.post('/apply/add', (req, res, next) => {
   if (req.cookies && req.cookies.number) {
@@ -652,7 +723,7 @@ router.post('/apply/add', (req, res, next) => {
     } else {
       updatesql = `update information  set credibility='${req.body.credibility}', cheat='${req.body.cheat}',  rent='${req.body.rent}',breach='${req.body.breach}' where sno ='${req.body.sno}'`
       pool.query(updatesql, (err, result) => {
-        console.log(err)
+        if (err) throw err
       })
       sql = `update apply  set credibility='${req.body.credibility}', cheat='${req.body.cheat}',  rent='${req.body.rent}',breach='${req.body.breach}' where id ='${req.body.id}'`
     }
@@ -700,7 +771,6 @@ router.post('/audit/first/replace', function (req, res, next) {
     firstAuditDate
   } = req.body
   sql = `update audit set firstAuditStatus='${firstAuditStatus}',firstResponse='${firstResponse}',firstAuditDate='${firstAuditDate}' where id='${id}'`
-  console.log('复审：', sql)
   pool.query(sql, function (err, result) {
     if (err) {
       res.json({
@@ -742,20 +812,103 @@ router.post('/audit/second/replace', function (req, res, next) {
     }
   })
 })
-router.get('/enum/college',function(req,res){
+router.get('/enum/college', function (req, res) {
   let sql = `select college from college`
-  let policySql = `select title from policy` 
-  pool.query(sql,function(err,college){
-    if(err) throw err
-    pool.query(policySql,function(err,category){
-      if(err) throw err
-      res.json({
-        status:'1',
-        content:{college,category}
+  let policySql = `select title from policy`
+  let gradeSql = `select grade from grade`
+  pool.query(sql, function (err, college) {
+    if (err) throw err
+    pool.query(policySql, function (err, category) {
+      if (err) throw err
+      pool.query(gradeSql, function (err, gradeResult) {
+        if (err) throw err
+        let grade = []
+        gradeResult.forEach(item => {
+          grade.push(item.grade.slice(0, 2))
+        });
+        grade = Array.from(new Set(grade))
+        res.json({
+          status: '1',
+          content: {
+            college,
+            category,
+            grade
+          }
+        })
       })
     })
   })
-
-
 })
+
+
+router.post('/announcement/table/query', function (req, res, next) {
+  let {
+    category
+  } = req.body
+  let sql = ` select * from announcementTable  where category = '${category}'`
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: result
+      });
+
+    }
+  })
+})
+
+router.post('/scholarship/detail', function (req, res, next) {
+  let {
+    category
+  } = req.body
+  let sql = ` select * from policy  where title = '${category}'`
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: result
+      });
+
+    }
+  })
+})
+//查审核记录
+router.post('/audit/query', function (req, res, next) {
+  let {
+    category,
+    sno
+  } = req.body
+  let sql = ` select * from audit  where category = '${category}' and number = '${sno}'`
+  pool.query(sql, function (err, result) {
+    if (result && result.length > 0) {
+      result = result[0]
+    }
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: result
+      });
+
+    }
+  })
+})
+
 module.exports = router;

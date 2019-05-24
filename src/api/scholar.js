@@ -51,6 +51,11 @@ return http.fetchGet('/api/scholar/announcement',{params})
 export const getAnnouncementListDetail = (params) => {
   return http.fetchGet('/api/scholar/announcement/detail',params)
 }
+//添加获奖名单
+export const addAnnouncementTable = (params) => {
+  return http.fetchPost('/api/scholar/announcement/table/add',params)
+}
+
 // 获取工作动态
 export const getWorkingtList = (params={pageSize:10000,currentPage:1}) => {
   return http.fetchGet('/api/scholar/working',{params})

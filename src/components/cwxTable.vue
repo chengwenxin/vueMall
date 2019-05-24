@@ -8,12 +8,12 @@
         <template slot-scope="scope">{{scope.$index+1}}</template>
       </el-table-column>
       <!-- <el-table-column align="center" prop="type" label="类型" width="80"></el-table-column> -->
-      <el-table-column align="center" prop="title" label="标题" show-overflow-tooltip width="200"></el-table-column>
-      <el-table-column align="center" prop="author" label="作者" width="80"></el-table-column>
+      <el-table-column align="center" prop="title" label="标题" show-overflow-tooltip width="300"></el-table-column>
+      <el-table-column align="center" prop="author" label="作者" width="160"></el-table-column>
       <template v-if="type === '资助政策'">
-         <el-table-column align="center" prop="isApply" label="申请状态" width="80"></el-table-column>
+         <el-table-column align="center" prop="isApply" label="申请状态" width="160"></el-table-column>
       </template>
-      <el-table-column align="center" prop="detailDate" label="发布日期" width="120">
+      <el-table-column align="center" prop="detailDate" label="发布日期" width="240">
       <template slot-scope="scope">
          <div v-if="scope.row.detailDate > formatDate(new Date())">
            <span style="color:red">{{scope.row.detailDate}}</span>
@@ -55,12 +55,13 @@
 
     <div v-if="dialogVisible">
       <el-dialog center :visible.sync="dialogVisible" width="1200">
-        <div slot="title" style="font-size:18px;font-weight:bold;color:#007536">发布内容详情</div>
+        <div slot="title" style="font-size:20px;color:#fff">发布内容详情</div>
         <div v-html="content"></div>
       </el-dialog>
     </div>
     <div v-if="editVisible">
-      <el-dialog :visible.sync="editVisible" width="1300px">
+      <el-dialog :visible.sync="editVisible" width="1300px" center >
+        <div slot="title" style="font-size:20px;color:#fff">发布编辑</div>
         <cwx-ue :formParam="formParam" :type="type" @closeDialog="closeDialog" @refresh="refresh"></cwx-ue>
       </el-dialog>
     </div>
@@ -216,3 +217,13 @@ export default {
   }
 };
 </script>
+<style>
+.el-dialog__header {
+  background: #438F48;
+    color: #ffffff;
+}
+.el-button--success{
+    background: #438F48;
+    color: #ffffff;   
+}
+</style>

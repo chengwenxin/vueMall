@@ -5,7 +5,7 @@
         <el-table-column align="center" label="序号" width="50">
           <template slot-scope="scope">{{scope.$index+1}}</template>
         </el-table-column>
-        <el-table-column align="center" prop="title" label="项目名称" show-overflow-tooltip width="200">
+        <el-table-column align="center" prop="title" label="项目名称" show-overflow-tooltip width="160">
           <template slot-scope="scope">
             <el-button type="text" @click="handlePolicyTo(scope.row.id)">{{scope.row.title}}</el-button>
           </template>
@@ -13,27 +13,27 @@
         <el-table-column align="center" prop="college" label="可申请院系" width="120"></el-table-column>
         <el-table-column align="center" prop="grade" label="可申请年级" width="120"></el-table-column>
         <el-table-column align="center" prop="startTime" label="申请开始时间" width="120"></el-table-column>
-        <el-table-column align="center" prop="endTime" label="申请截止时间" width="120"></el-table-column>
+        <el-table-column align="center" prop="endTime" label="申请截止时间" sortable width="140"></el-table-column>
         <el-table-column align="center" prop="auditTime" label="评审时间" width="120"></el-table-column>
         <el-table-column align="center" prop="announcementTime" label="名单公示时间" width="120"></el-table-column>
         <el-table-column align="center" prop="detailDate" label="发布日期" width="120"></el-table-column>
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作" sortable>
           <template slot-scope="scope">
             <div v-if="applyButton(scope.row) === '在线申请'">
               <el-button
                 size="small"
-                type="text"
+                type="success"
                 @click="handleApply(scope.row)"
               >{{applyButton(scope.row)}}</el-button>
             </div>
             <div v-else>
-              <el-button size="small" type="danger" style="color:#606266">{{applyButton(scope.row)}}</el-button>
+              <el-button size="small" disabled>{{applyButton(scope.row)}}</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <div v-else>
+    <div v-else-if="currentPath">
       <el-table :data="list" border stripe>
         <el-table-column align="center" label="序号" width="50">
           <template slot-scope="scope">{{scope.$index+1}}</template>
@@ -43,32 +43,13 @@
             <el-button type="text" @click="handleAnnouncentTo(scope.row.id)">{{scope.row.title}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="author" label="院系" width="120"></el-table-column>
-        <el-table-column align="center" prop="author" label="公示开始时间" width="150"></el-table-column>
-        <el-table-column align="center" prop="author" label="公示截止时间" width="150"></el-table-column>
-        <el-table-column align="center" prop="detailDate" label="发布人" width="100"></el-table-column>
+        <el-table-column align="center" prop="college" label="院系" width="120"></el-table-column>
+        <el-table-column align="center" prop="startTime" label="公示开始时间" width="150"></el-table-column>
+        <el-table-column align="center" prop="endTime" label="公示截止时间" width="150"></el-table-column>
+        <el-table-column align="center" prop="author" label="发布人" width="100"></el-table-column>
         <el-table-column align="center" prop="detailDate" label="发布日期" width="150"></el-table-column>
       </el-table>
     </div>
-
-    <!-- <ul>
-        <li
-          v-for="item in list"
-          :key="item.id"
-          :style="paddingleft"
-        >
-          <span>{{item.update_date}}</span>
-          <router-link :to="item.path+'/'+item.id">
-          <div  v-if="item.content === '0'" style="color:#438F49;">
-          {{item.title}}
-            </div> 
-            <div v-else>
-          {{item.title}}
-
-              </div>         
-          </router-link>
-        </li>
-    </ul>-->
   </div>
 </template>
 <script>
@@ -94,6 +75,10 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.login;
+    },
+    currentPath() {
+      console.log(this.$route.path);
+      return this.$route.path === "/announcement";
     }
   },
   methods: {
@@ -102,7 +87,6 @@ export default {
       let now = new Date();
       let temp = this.parseTime(now);
       if (temp > startTime && temp < endTime) {
-        console.log(temp > startTime);
         return "在线申请";
       } else if (temp < startTime) {
         return "暂未开始";

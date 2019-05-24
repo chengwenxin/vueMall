@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-table :data="formdata" border stripe mutiple>
-      <el-table-column type="selection" width="55"></el-table-column>
+    <el-table :data="formdata" border stripe >
+      <!-- <el-table-column type="selection" width="55"></el-table-column> -->
       <el-table-column align="center" prop="number" label="序号">
         <template slot-scope="scope">{{scope.$index+1}}</template>
       </el-table-column>
@@ -12,10 +12,13 @@
         show-overflow-tooltip
         width="200"
       ></el-table-column>
-      <el-table-column align="center" prop="number" label="申请学号" sortable></el-table-column>
-      <el-table-column align="center" prop="name" label="申请人" sortable></el-table-column>
+      <el-table-column align="center" prop="number" label="申请学号" min-width="110" sortable></el-table-column>
+      <el-table-column align="center" prop="name" label="申请人" min-width="110" sortable></el-table-column>
+      <el-table-column align="center" prop="college" label="学院" min-width="110" sortable></el-table-column>
+      <el-table-column align="center" prop="major" label="专业" min-width="110" sortable></el-table-column>
+      <el-table-column align="center" prop="grade" label="班级" min-width="110" sortable></el-table-column>
       <el-table-column sortable align="center" prop="applyDate" label="申请时间" min-width="200"></el-table-column>
-      <el-table-column sortable align="center" prop="firstAuditStatus" label="初审状态">
+      <el-table-column sortable align="center" prop="firstAuditStatus" label="初审状态" min-width="110">
         <template slot-scope="scope">
           <div v-if="scope.row.firstAuditStatus.includes('驳回')">
             <el-button type="text">
@@ -29,16 +32,17 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column sortable align="center" prop="firstAudit" label="初审人"></el-table-column>
+      <el-table-column sortable align="center" prop="firstAudit" min-width="100" label="初审人"></el-table-column>
       <el-table-column
         sortable
         align="center"
         prop="firstResponse"
         label="初审回复"
         show-overflow-tooltip
+        min-width="110"
       ></el-table-column>
       <el-table-column sortable align="center" prop="firstAuditDate" label="初审时间" min-width="200"></el-table-column>
-      <el-table-column sortable align="center" prop="secondAuditStatus" label="复审状态">
+      <el-table-column sortable align="center" prop="secondAuditStatus" label="复审状态" min-width="110">
         <template slot-scope="scope">
           <div v-if="scope.row.secondAuditStatus.includes('驳回')">
             <el-button type="text">
@@ -52,13 +56,14 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column sortable align="center" prop="secondAudit" label="复审人"></el-table-column>
+      <el-table-column sortable align="center" prop="secondAudit" label="复审人" min-width="110"></el-table-column>
       <el-table-column
         sortable
         align="center"
         prop="secondResponse"
         label="复审回复"
         show-overflow-tooltip
+        min-width="110"
       ></el-table-column>
       <el-table-column sortable align="center" prop="secondAuditDate" label="复审时间" min-width="200"></el-table-column>
       <el-table-column align="center" label="操作" fixed="right" width="120">
@@ -80,9 +85,9 @@
     </el-table>
 
     <div v-if="visible">
-      <el-dialog width="70%" :visible.sync="visible"  center>
-        <div slot="title" >
-          <span style="color:#fff;font-weight:bold;font-size:24px;"> 申 请 书</span>
+      <el-dialog width="70%" :visible.sync="visible" center>
+        <div slot="title">
+          <span style="color:#fff;font-weight:bold;font-size:24px;">申 请 书</span>
         </div>
         <div>
           <!-- 基本信息 -->

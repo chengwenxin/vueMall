@@ -28,10 +28,6 @@ module.exports = {
             pathRewrite: {
               '^/api': '',  // 若target中没有/api、这里又为空，则404；
             }
-        },
-        '/socket':{
-          target:'ws://127.0.0.1:3001',
-          changeOrigin: true,
         }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
