@@ -29,7 +29,7 @@ export const updateInformation = (params) => {
   return http.fetchPost('/api/information/update',params)
 }
 
-//添加资助政策信息
+//添加奖助学金项目信息
 export const addPolicy = (params) => {
   return http.fetchPost('/api/ueditor/content',params)
 }
@@ -45,11 +45,20 @@ export const getScholarship = (params) => {
 export const getCollegeList = () => {
   return http.fetchQuickSearch('/api/college/list')
 }
+//查发布模板
+export const queryTemplate = () => {
+  return http.fetchQuickSearch('/api/template/query')
+}
 
+//查询 用户表
+export const queryTemplateList = (params) => {
+  return http.fetchPost('/api/template/list',params)
+}
 //查询 用户表
 export const userList = (params) => {
   return http.fetchPost('/api/user/list',params)
 }
+
 //update  用户表
 export const userUpdate = (params) => {
   return http.fetchPost('/api/user/update',params)
@@ -73,4 +82,8 @@ export const applyDetailList = (params) => {
 //查审核名单
 export const queryAuditList = (params) => {
   return http.fetchPost('/api/audit/query',params)
+}
+//提交初审名单到教务处
+export const firstFinish = (params) => {
+  return http.fetchPost('/api/first/finish',params)
 }

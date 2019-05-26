@@ -9,16 +9,10 @@
         <div style="float:left;width:100%;min-height:645px;">
           <div style="width:90%;margin:0 auto;padding-top:20px;">
             <el-steps :active="active" finish-status="success" align-center>
-              <el-step title="基本信息"></el-step>
-              <el-step title="诚信记录"></el-step>
-              <el-step title="学习信息"></el-step>
-              <el-step title="家庭信息"></el-step>
-              <el-step title="申请理由"></el-step>
-              <el-step title="其他信息"></el-step>
-              <el-step title="完成"></el-step>
+              <el-step v-for="(item,index) in steps" :title="item" :key="index"></el-step>
             </el-steps>
             <!-- 基本信息 -->
-            <div v-if="active === 0">
+            <div v-if="active === steps.indexOf('基本信息')">
               <el-form
                 label-width="120px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -37,25 +31,32 @@
                       <el-input v-model="formData.name" disabled></el-input>
                     </el-form-item>
                   </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="身份：" prop="role" v-if="formRule.role1 !=='不填'">
+                      <el-select v-model="formData.role" disabled>
+                        <el-option v-for="item in ['本科生','研究生']" :key="item" :value="item"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="学院：" prop="college">
-                      <el-select v-model="formData.college">
+                      <el-select v-model="formData.college" disabled>
                         <el-option v-for="item in collegeList" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
                     <el-form-item label="专业：" prop="major">
-                      <el-select v-model="formData.major">
+                      <el-select v-model="formData.major" disabled>
                         <el-option v-for="item in majorList" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
                     <el-form-item label="班级：" prop="grade">
-                      <el-select v-model="formData.grade">
+                      <el-select v-model="formData.grade" disabled>
                         <el-option v-for="item in gradeList" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
@@ -64,22 +65,15 @@
 
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="身份：" prop="role">
-                      <el-select v-model="formData.role">
-                        <el-option v-for="item in ['本科生','研究生']" :key="item" :value="item"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="性别：" prop="gender">
-                      <el-select v-model="formData.gender">
+                    <el-form-item label="性别：" prop="gender" v-if="formRule.gender1 !=='不填'" >
+                      <el-select v-model="formData.gender" disabled>
                         <el-option v-for="item in ['男','女']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="8" v-if="formRule.nation1 !=='不填'">
                     <el-form-item label="民族：" prop="nation">
-                      <el-select v-model="formData.nation">
+                      <el-select v-model="formData.nation" disabled>
                         <el-option v-for="item in ['汉族','少数民族']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
@@ -87,12 +81,12 @@
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="年龄：" prop="age">
+                    <el-form-item label="年龄：" prop="age" v-if="formRule.age1 !=='不填'">
                       <el-input v-model="formData.age"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="出生日期：" prop="birthday">
+                    <el-form-item label="出生日期：" prop="birthday" v-if="formRule.birthday1 !=='不填'">
                       <el-date-picker
                         v-model="formData.birthday"
                         type="date"
@@ -104,17 +98,17 @@
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="身份证号：" prop="cardId">
+                    <el-form-item label="身份证号：" prop="cardId" v-if="formRule.cardId1 !=='不填'">
                       <el-input v-model="formData.cardId"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="电话：" prop="phone">
+                    <el-form-item label="电话：" prop="phone" v-if="formRule.phone1 !=='不填'">
                       <el-input v-model="formData.phone"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="邮箱：" prop="mail">
+                    <el-form-item label="邮箱：" prop="mail" v-if="formRule.mail1 !=='不填'">
                       <el-input v-model="formData.mail"></el-input>
                     </el-form-item>
                   </el-col>
@@ -123,7 +117,7 @@
             </div>
 
             <!-- 诚信问题 -->
-            <div v-else-if="active === 1">
+            <div v-else-if="active === steps.indexOf('诚信记录')">
               <el-form
                 label-width="120px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:10px;"
@@ -132,8 +126,8 @@
                 ref="information"
               >
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="credibility">
+                  <el-col>
+                    <el-form-item prop="credibility" v-if="formRule.credibility1 !=='不填'">
                       <h4>申请资助过程中弄虚作假：</h4>
                       <el-input
                         v-model="formData.credibility"
@@ -144,24 +138,25 @@
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="cheat">
+                  <el-col>
+                    <el-form-item prop="cheat" v-if="formRule.cheat1 !=='不填'">
                       <h4>考试作弊记录：</h4>
                       <el-input v-model="formData.cheat" :autosize="{ minRows: 2}" type="textarea"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="rent">
+                  <el-col>
+                    <el-form-item prop="rent" v-if="formRule.rent1 !=='不填'">
                       <h4>校外租住情况：</h4>
                       <el-input v-model="formData.rent" :autosize="{ minRows: 2}" type="textarea"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
+
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="breach">
+                  <el-col>
+                    <el-form-item prop="breach" v-if="formRule.breach1 !=='不填'">
                       <h4>其他诚信问题：</h4>
                       <el-input v-model="formData.breach" :autosize="{ minRows: 2}" type="textarea"></el-input>
                     </el-form-item>
@@ -170,7 +165,7 @@
               </el-form>
             </div>
             <!-- 学习信息 -->
-            <div v-else-if="active === 2">
+            <div v-else-if="active === steps.indexOf('学习信息')">
               <el-form
                 label-width="140px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -180,7 +175,7 @@
               >
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="政治面貌：" prop="political">
+                    <el-form-item label="政治面貌：" prop="political" v-if="formRule.political1 !=='不填'">
                       <el-select v-model="formData.political">
                         <el-option
                           v-for="item in ['中共党员','预备役党员','团员','群众']"
@@ -190,24 +185,25 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="类别：" prop="studentType">
-                      <el-select v-model="formData.studentType">
-                        <el-option v-for="item in ['本科生','研究生']" :key="item" :value="item"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="外语语种：" prop="foreignLang">
+                    <el-form-item
+                      label="外语语种："
+                      prop="foreignLang"
+                      v-if="formRule.foreignLang1 !=='不填'"
+                    >
                       <el-select v-model="formData.foreignLang">
                         <el-option v-for="item in ['英语','德语','日语','韩语']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="外语水平：" prop="foreignLevel">
+                    <el-form-item
+                      label="外语水平："
+                      prop="foreignLevel"
+                      v-if="formRule.foreignLevel1 !=='不填'"
+                    >
                       <el-select v-model="formData.foreignLevel">
                         <el-option
                           v-for="item in ['CET4','CET6','托福','雅思','专业四级','专业八级']"
@@ -218,36 +214,44 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="外语分数：" prop="foreignGrade">
+                    <el-form-item
+                      label="外语分数："
+                      prop="foreignGrade"
+                      v-if="formRule.foreignGrade1 !=='不填'"
+                    >
                       <el-input v-model="formData.foreignGrade"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
 
                 <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="学制：" prop="educationalSystem">
+                  <!-- <el-col :span="8">
+                    <el-form-item label="学制：" prop="educationalSystem" v-if="formRule.educationalSystem1 !=='不填'">
                       <el-input v-model="formData.educationalSystem"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="学历：" prop="educationalBackground">
+                    <el-form-item label="学历：" prop="educationalBackground" v-if="formRule.educationalBackground1 !=='不填'"> 
                       <el-select v-model="formData.educationalBackground">
                         <el-option v-for="item in ['高中','本科']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="民族：" prop="nation">
+                  </el-col>-->
+                  <!-- <el-col :span="8">
+                    <el-form-item label="民族：" prop="nation" v-if="formRule.nation1 !=='不填'">
                       <el-select v-model="formData.nation">
                         <el-option v-for="item in ['汉族','少数民族']" :key="item" :value="item"></el-option>
                       </el-select>
                     </el-form-item>
-                  </el-col>
+                  </el-col>-->
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="入学时间：" prop="enrolmentTime">
+                    <el-form-item
+                      label="入学时间："
+                      prop="enrolmentTime"
+                      v-if="formRule.enrolmentTime1 !=='不填'"
+                    >
                       <el-date-picker
                         v-model="formData.enrolmentTime"
                         type="date"
@@ -257,7 +261,11 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="毕业时间：" prop="graduationTime">
+                    <el-form-item
+                      label="毕业时间："
+                      prop="graduationTime"
+                      v-if="formRule.graduationTime1 !=='不填'"
+                    >
                       <el-date-picker
                         v-model="formData.graduationTime"
                         type="date"
@@ -269,41 +277,69 @@
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="学分成绩：" prop="creditScore">
+                    <el-form-item
+                      label="学分成绩："
+                      prop="creditScore"
+                      v-if="formRule.creditScore1 !=='不填'"
+                    >
                       <el-input v-model="formData.creditScore"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="学分班级排名：" prop="creditClassRanking">
+                    <el-form-item
+                      label="学分班级排名："
+                      prop="creditClassRanking"
+                      v-if="formRule.creditClassRanking1 !=='不填'"
+                    >
                       <el-input v-model="formData.creditClassRanking"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="学分年级排名：" prop="creditGradeRanking">
+                    <el-form-item
+                      label="学分年级排名："
+                      prop="creditGradeRanking"
+                      v-if="formRule.creditGradeRanking1 !=='不填'"
+                    >
                       <el-input v-model="formData.mail"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="综合成绩：" prop="comprehensiveResult">
+                    <el-form-item
+                      label="综合成绩："
+                      prop="comprehensiveResult"
+                      v-if="formRule.comprehensiveResult1 !=='不填'"
+                    >
                       <el-input v-model="formData.comprehensiveResult"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="综合班级排名：" prop="comprehensiveClassRanking">
+                    <el-form-item
+                      label="综合班级排名："
+                      prop="comprehensiveClassRanking"
+                      v-if="formRule.comprehensiveClassRanking1 !=='不填'"
+                    >
                       <el-input v-model="formData.comprehensiveClassRanking"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
-                    <el-form-item label="综合年级排名：" prop="comprehensiveGradeRanking">
+                    <el-form-item
+                      label="综合年级排名："
+                      prop="comprehensiveGradeRanking"
+                      v-if="formRule.comprehensiveGradeRanking1 !=='不填'"
+                    >
                       <el-input v-model="formData.comprehensiveGradeRanking"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="挂科情况：" prop="failureCourse">
+                    <el-form-item
+                      label="挂科情况："
+                      prop="failureCourse"
+                      v-if="formRule.failureCourse1 !=='不填'"
+                    >
                       <el-input
                         v-model="formData.failureCourse"
                         :autosize="{ minRows: 2}"
@@ -313,8 +349,8 @@
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="result" label="科研成果：">
+                  <el-col>
+                    <el-form-item prop="result" label="科研成果：" v-if="formRule.result1 !=='不填'">
                       <el-input v-model="formData.result" :autosize="{ minRows: 3}" type="textarea"></el-input>
                     </el-form-item>
                   </el-col>
@@ -322,7 +358,7 @@
               </el-form>
             </div>
             <!-- 家庭情况 -->
-            <div v-else-if="active === 3">
+            <div v-else-if="active === steps.indexOf('家庭信息')">
               <el-form
                 label-width="0"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px 140px ;"
@@ -330,7 +366,7 @@
                 :model="formData"
                 ref="information"
               >
-                <el-row>
+                <el-row v-if="formRule.home1 !=='不填'">
                   <el-col :span="1.8">
                     <h4 style="line-height:2">籍贯：</h4>
                   </el-col>
@@ -343,8 +379,8 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row>
-                  <el-col :span="20">
+                <el-row v-if="formRule.address1 !=='不填'">
+                  <el-col>
                     <h4>家庭详细地址：</h4>
                     <el-form-item prop="address" label-width="0">
                       <el-input
@@ -355,7 +391,7 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row>
+                <el-row v-if="formRule.isPoor1 !=='不填'">
                   <el-col :span="5.2">
                     <h4 style="line-height:2">是否为建档贫困生：</h4>
                   </el-col>
@@ -367,8 +403,8 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row>
-                  <el-col :span="20">
+                <el-row v-if="formRule.family1 !=='不填'">
+                  <el-col>
                     <h4>家庭详细情况描述：</h4>
                     <el-form-item prop="family" label-width="0">
                       <el-input v-model="formData.family" :autosize="{ minRows: 3}" type="textarea"></el-input>
@@ -378,7 +414,7 @@
               </el-form>
             </div>
             <!-- 申请理由 -->
-            <div v-else-if="active === 4">
+            <div v-else-if="active === steps.indexOf('申请理由')">
               <el-form
                 label-width="140px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -387,8 +423,8 @@
                 ref="information"
               >
                 <el-row>
-                  <el-col :span="20">
-                    <el-form-item prop="applyReason">
+                  <el-col>
+                    <el-form-item prop="applyReason" v-if="formRule.applyReason1 !=='不填'">
                       <h3>请详细说明申请理由：</h3>
                       <el-input
                         v-model="formData.applyReason"
@@ -401,7 +437,7 @@
               </el-form>
             </div>
             <!-- 其他说明 -->
-            <div v-else-if="active === 5">
+            <div v-else-if="active === steps.indexOf('其他信息')">
               <el-form
                 label-width="140px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -410,7 +446,7 @@
                 ref="information"
               >
                 <el-row>
-                  <el-col :span="20">
+                  <el-col>
                     <el-form-item prop="others">
                       <h3>其他需要特别说明的情况：</h3>
                       <el-input
@@ -424,7 +460,7 @@
               </el-form>
             </div>
             <!-- 承诺页面 -->
-            <div v-else-if="active === 6">
+            <div v-else-if="active === steps.indexOf('完成')">
               <el-form
                 label-width="140px"
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
@@ -433,7 +469,7 @@
                 ref="information"
               >
                 <el-row>
-                  <el-col center :span="20">
+                  <el-col center>
                     <el-form-item prop="cardId">
                       <h2 style="text-align:center;font-weight:bold;">西北农林科技大学资助申请诚信协议</h2>
                       <div style="text-align:left;padding-left:50px;">
@@ -507,7 +543,7 @@
                 ref="information"
               >
                 <el-row>
-                  <el-col :span="20">
+                  <el-col>
                     <el-form-item prop="cardId">
                       <h2>提交申请成功！</h2>
                       <h2>{{seconds}} 秒后跳转至申请状态页面...</h2>
@@ -520,14 +556,19 @@
 
           <div style="width:100%;text-align:center">
             <el-button
-              v-if="active > 0 && active < 7"
+              v-if="active > 0 && active < len"
               style="margin-top: 12px;"
               type="success"
               @click="pre"
             >上一步</el-button>
-            <el-button v-if="active < 6" style="margin-top: 12px;" type="success" @click="next">下一步</el-button>
             <el-button
-              v-if="Ipromise && active === 6"
+              v-if="active < len-1"
+              style="margin-top: 12px;"
+              type="success"
+              @click="next"
+            >下一步</el-button>
+            <el-button
+              v-if="Ipromise && active === len-1"
               style="margin-top: 12px;"
               type="success"
               @click="onSubmit"
@@ -543,7 +584,7 @@
 </template>
 <script>
 import { getScholarList, auditInsert, getApplyList } from "../api/scholar.js";
-import { applyAdd } from "../api";
+import { applyAdd, queryTemplateList } from "../api";
 import formatDate from "../utils/formatDate";
 export default {
   mounted() {
@@ -555,6 +596,81 @@ export default {
   computed: {
     role() {
       return this.$store.state.role;
+    },
+    len() {
+      return this.steps.length;
+    },
+    rules() {
+      // let rule = {
+      //   breach: { required: true, message: "必填项", trigger: "blur" },
+      //   cheat: { required: true, message: "必填项", trigger: "blur" },
+      //   credibility: { required: true, message: "必填项", trigger: "blur" },
+      //   rent: { required: true, message: "必填项", trigger: "blur" }
+      // };
+      let rule= {}
+       if(this.formRule.age1 === '必填') rule = Object.assign({},rule,{age:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.phone1 === '必填') rule = Object.assign({},rule,{phone:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.cardId1 === '必填') rule = Object.assign({},rule,{cardId:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.mail1 === '必填') rule = Object.assign({},rule,{mail:{ required:true,message:'必填项',trigger: 'blur'}})
+        if(this.formRule.rent1 === '必填') rule = Object.assign({},rule,{rent:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.cheat1 === '必填') rule = Object.assign({},rule,{cheat:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.credibility1 === '必填') rule = Object.assign({},rule,{credibility:{ required:true,message:'必填项',trigger: 'blur'}})
+       if(this.formRule.breach1 === '必填') rule = Object.assign({},rule,{breach:{ required:true,message:'必填项',trigger: 'blur'}})
+      console.log(rule);
+
+      return rule;
+    },
+    steps() {
+      // let step=["基本信息","诚信记录","学习信息","家庭信息","申请理由","其他信息",'完成']
+      let step = ["基本信息"];
+      if (
+        !(
+          this.formRule.rent1 === "不填" &&
+          this.formRule.cheat1 === "不填" &&
+          this.formRule.credibility1 === "不填" &&
+          this.formRule.breach1 === "不填"
+        )
+      ) {
+        step.push("诚信记录");
+      }
+      if (
+        !(
+          this.formRule.political1 === "不填" &&
+          this.formRule.foreignLang1 === "不填" &&
+          this.formRule.foreignLevel1 === "不填" &&
+          this.formRule.foreignGrade1 === "不填" &&
+          this.formRule.graduationTime1 === "不填" &&
+          this.formRule.enrolmentTime1 === "不填" &&
+          this.formRule.creditScore1 === "不填" &&
+          this.formRule.creditClassRanking1 === "不填" &&
+          this.formRule.creditGradeRanking1 === "不填" &&
+          this.formRule.comprehensiveResult1 === "不填" &&
+          this.formRule.comprehensiveClassRanking1 === "不填" &&
+          this.formRule.comprehensiveGradeRanking1 === "不填" &&
+          this.formRule.failureCourse1 === "不填" &&
+          this.formRule.result1 === "不填"
+        )
+      ) {
+        step.push("学习信息");
+      }
+      if (
+        !(
+          this.formRule.home1 === "不填" &&
+          this.formRule.address1 === "不填" &&
+          this.formRule.isPoor1 === "不填" &&
+          this.formRule.family1 === "不填"
+        )
+      ) {
+        step.push("家庭信息");
+      }
+      if (this.formRule.applyReason1 !== "不填") {
+        step.push("申请理由");
+      }
+      if (this.formRule.others1 !== "不填") {
+        step.push("其他信息");
+      }
+      step.push("完成");
+      return step;
     }
   },
   methods: {
@@ -562,18 +678,24 @@ export default {
       getApplyList().then(data => {
         this.formData = data.content;
       });
+      queryTemplateList({
+        title: this.$route.params.title,
+        isTemplate: "0"
+      }).then(data => {
+        this.formRule = data.content;
+      });
     },
     next() {
-      if (this.active++ > 6) {
+      if (this.active++ > this.len - 1) {
         this.active = 0;
       }
-      if (this.active === 7) {
+      if (this.active === this.len) {
         this.countDown();
       }
     },
     pre() {
       if (this.active-- < 1) {
-        this.active = 6;
+        this.active = this.len - 1;
       }
     },
     //倒计时三秒
@@ -621,13 +743,14 @@ export default {
   },
   data: function() {
     return {
+      formRule: {},
       interval: null,
       seconds: 3,
       promiseVisible: false,
       list: [],
-      collegeList: ["信息工程学院", "动物科技学院"],
-      majorList: ["电子商务", "软件工程"],
-      gradeList: ["1501", "1601", "1701"],
+      collegeList: [],
+      majorList: [],
+      gradeList: [],
       active: 0,
       formData: {
         // birthday: "1996-11-26",

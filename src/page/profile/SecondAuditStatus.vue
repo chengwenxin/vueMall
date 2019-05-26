@@ -89,7 +89,7 @@
                       type="primary"
                       @click="exportVisible = true"
                       style="background:#438F48;"
-                    >导出</el-button>
+                    >导出名单</el-button>
                   </el-form-item>
                 </el-row>
               </el-form>

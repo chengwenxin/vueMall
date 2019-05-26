@@ -153,7 +153,6 @@ export default {
       this.loading = true
       // 查出获奖学号
       queryAnnouncementTable({ category: this.detail.category }).then(data => {
-        console.log("学号：", data);
         //查出奖学金信息
         let tableData = []
         getScholarship({ category: this.detail.category }).then(data1 => {

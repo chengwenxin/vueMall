@@ -10,9 +10,9 @@
         <cwx-sort-right width="width:1198px;border-left:1px dashed #438F48;">
           <div>
             <el-tabs type="border-card" @tab-click="tabClick">
-              <el-tab-pane label="资助政策">
+              <el-tab-pane label="奖助学金项目">
                 <div class="tab-item">
-                  <cwx-table type="资助政策"></cwx-table>
+                  <cwx-table type="奖助学金项目"></cwx-table>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="工作动态">

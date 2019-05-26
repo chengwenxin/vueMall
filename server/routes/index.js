@@ -79,6 +79,33 @@ router.post('/export', function (req, res, next) {
   }
 })
 
+//提交初审名单到教务处
+router.post('/first/finish', function (req, res, next) {
+  //对输入的密码进行加密
+  let {
+    category,
+    college,
+    firstAuditStatus
+  } = req.body
+
+  let sql = `update audit set firstFinish = 1 where category ='${category}' and college = '${college}' and firstAuditStatus = '${firstAuditStatus}' `
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: result
+      });
+
+
+    }
+  })
+})
 
 
 //登录
@@ -429,16 +456,207 @@ router.post('/ueditor/content', (req, res, next) => {
     let startTime = validTime[0]
     let endTime = validTime[1]
     let sql = ''
-    if (req.body.type === "资助政策") {
+    if (req.body.type === "奖助学金项目") {
+      let isTemplate = req.body.isTemplate ? req.body.isTemplate : 0
       let {
         announcementTime,
         auditTime,
-        grade
+        grade,
+        address,
+        address1,
+        applyReason,
+        applyReason1,
+        breach,
+        breach1,
+        cheat,
+        cheat1,
+        comprehensiveClassRanking,
+        comprehensiveClassRanking1,
+        comprehensiveGradeRanking,
+        comprehensiveGradeRanking1,
+        comprehensiveResult,
+        comprehensiveResult1,
+        credibility,
+        credibility1,
+        creditClassRanking,
+        creditClassRanking1,
+        creditGradeRanking,
+        creditGradeRanking1,
+        creditScore,
+        creditScore1,
+        enrolmentTime,
+        enrolmentTime1,
+        failureCourse,
+        failureCourse1,
+        family,
+        family1,
+        foreignGrade,
+        foreignGrade1,
+        foreignLang,
+        foreignLang1,
+        foreignLevel,
+        foreignLevel1,
+        gender,
+        gender1,
+        graduationTime,
+        graduationTime1,
+        home,
+        home1,
+        isPoor,
+        isPoor1,
+        nation,
+        nation1,
+        political,
+        political1,
+        rent,
+        rent1,
+        result,
+        result1,
+        others,
+        others1,
+        age,
+        age1,
+        phone,
+        phone1,
+        cardId,
+        cardId1,
+        birthday,
+        birthday1,
+        mail,
+        mail1
       } = req.body
       grade = grade.join(';')
 
-      sql = `insert into policy(author, update_date, title,content,detailDate,isApply,announcementTime,auditTime,startTime,endTime,college,grade) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
-      '${announcementTime}','${auditTime}','${startTime}','${endTime}','${college}','${grade}')`
+      sql = `replace into policy(author, update_date, title,content,detailDate,isApply,announcementTime,auditTime,startTime,endTime,college,grade,
+        address,
+        address1,
+        applyReason,
+        applyReason1,
+        breach,
+        breach1,
+        cheat,
+        cheat1,
+        comprehensiveClassRanking,
+        comprehensiveClassRanking1,
+        comprehensiveGradeRanking,
+        comprehensiveGradeRanking1,
+        comprehensiveResult,
+        comprehensiveResult1,
+        credibility,
+        credibility1,
+        creditClassRanking,
+        creditClassRanking1,
+        creditGradeRanking,
+        creditGradeRanking1,
+        creditScore,
+        creditScore1,
+        enrolmentTime,
+        enrolmentTime1,
+        failureCourse,
+        failureCourse1,
+        family,
+        family1,
+        foreignGrade,
+        foreignGrade1,
+        foreignLang,
+        foreignLang1,
+        foreignLevel,
+        foreignLevel1,
+        gender,
+        gender1,
+        graduationTime,
+        graduationTime1,
+        home,
+        home1,
+        isPoor,
+        isPoor1,
+        nation,
+        nation1,
+        political,
+        political1,
+        rent,
+        rent1,
+        result,
+        result1,
+        isTemplate,
+        others,
+        others1,
+        age,
+        age1,
+        phone,
+        phone1,
+        cardId,
+        cardId1,
+        birthday,
+        birthday1,
+        mail,
+        mail1) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
+      '${announcementTime}','${auditTime}','${startTime}','${endTime}','${college}','${grade}',
+      '${address}',
+      '${address1}',
+      '${applyReason}',
+      '${applyReason1}',
+      '${breach}',
+      '${breach1}',
+      '${cheat}',
+      '${cheat1}',
+      '${comprehensiveClassRanking}',
+      '${comprehensiveClassRanking1}',
+      '${comprehensiveGradeRanking}',
+      '${comprehensiveGradeRanking1}',
+      '${comprehensiveResult}',
+      '${comprehensiveResult1}',
+      '${credibility}',
+      '${credibility1}',
+      '${creditClassRanking}', 
+      '${creditClassRanking1}',
+      '${creditGradeRanking}',
+      '${creditGradeRanking1}',
+      '${creditScore}',
+      '${creditScore1}',
+      '${enrolmentTime}',
+      '${enrolmentTime1}',
+      '${failureCourse}', 
+      '${failureCourse1}',
+      '${family}',
+      '${family1}',
+      '${foreignGrade}',
+      '${foreignGrade1}',
+      '${foreignLang}',
+      '${foreignLang1}',
+      '${foreignLevel}', 
+      '${foreignLevel1}',
+      '${gender}',
+      '${gender1}',
+      '${graduationTime}',
+      '${graduationTime1}',
+      '${home}',
+      '${home1}',
+      '${isPoor}',
+      '${isPoor1}',
+      '${nation}',
+      '${nation1}',
+      '${political}',
+      '${political1}',
+      '${rent}',
+      '${rent1}',
+      '${result}',
+      '${result1}',
+      '${isTemplate}',
+
+      '${others}',
+      '${others1}',
+     '${age}',
+      '${age1}',     
+      '${phone}',
+      '${phone1}',     
+      '${cardId}',
+      '${cardId1}',  
+         '${birthday}',
+      '${birthday1}',   
+        '${mail}',
+      '${mail1}'
+      )`
     } else if (req.body.type === "通知公告") {
 
       sql = `insert into announcement(author, update_date, title,content,detailDate,startTime,endTime,college,category) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${startTime}','${endTime}','${college}','${req.body.category}')`
@@ -461,7 +679,56 @@ router.post('/ueditor/content', (req, res, next) => {
     })
   }
 })
+//查发布模板 /template/query
+router.get('/template/query', function (req, res, next) {
+  let sql = `select title from policy where isTemplate = '1'`
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message,
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: '查询成功',
+        content: result
+      });
+    }
 
+  })
+})
+
+
+
+//查发布模板 /template/list
+router.post('/template/list', function (req, res, next) {
+  let sql = ''
+  if (req.body.isTemplate === '0') {
+    sql = `select * from policy where title='${req.body.title}'`
+  } else {
+    sql = `select * from policy where isTemplate = '1' and title='${req.body.title}'`
+  }
+  console.log(sql)
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message,
+      });
+    } else {
+      if (result.length > 0) {
+        result = result[0]
+      }
+      res.json({
+        status: '1',
+        msg: '查询成功',
+        content: result
+      });
+    }
+
+  })
+})
 
 //新增审核
 router.post('/audit/insert', function (req, res, next) {
@@ -559,10 +826,10 @@ router.post('/audit/list', function (req, res, next) {
       let grade = req.body.grade ? req.body.grade : ''
       let college = req.body.college ? req.body.college : ''
       let secondAuditStatus = req.body.secondAuditStatus ? req.body.secondAuditStatus : ''
-      sql = `select * from audit  where firstAuditStatus = '初审通过' and 
+      sql = `select * from audit  where firstFinish = 1 and 
       number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and college like '%${college}%'and secondAuditStatus like'%${secondAuditStatus}%'
       order by  applyDate DESC LIMIT ${size},${pageSize}`;
-      countSql = `select count(*) from audit where firstAuditStatus = '初审通过' and
+      countSql = `select count(*) from audit where firstFinish = 1 and
       number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and college like '%${college}%'and secondAuditStatus like'%${secondAuditStatus}%'`
     }
     pool.query(sql, function (err, result1) {

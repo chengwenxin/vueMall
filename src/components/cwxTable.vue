@@ -10,7 +10,7 @@
       <!-- <el-table-column align="center" prop="type" label="类型" width="80"></el-table-column> -->
       <el-table-column align="center" prop="title" label="标题" show-overflow-tooltip width="300"></el-table-column>
       <el-table-column align="center" prop="author" label="作者" width="160"></el-table-column>
-      <template v-if="type === '资助政策'">
+      <template v-if="type === '奖助学金项目'">
          <el-table-column align="center" prop="isApply" label="申请状态" width="160"></el-table-column>
       </template>
       <el-table-column align="center" prop="detailDate" label="发布日期" width="240">
@@ -108,7 +108,7 @@ export default {
       this.query()
     },
     query() {
-      if (this.type === "资助政策") {
+      if (this.type === "奖助学金项目") {
         getScholarList({
           pageSize: this.pageSize,
           currentPage: this.currentPage
@@ -177,7 +177,7 @@ export default {
     //删除
     handleDelete(id) {
       // this.visible = false;
-      if (this.type === "资助政策") {
+      if (this.type === "奖助学金项目") {
         deletePolicy({ id })
           .then(data => {
             this.refresh()

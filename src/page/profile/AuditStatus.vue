@@ -74,11 +74,16 @@
                       @click="releaseVisible = true"
                       style="background:#438F48;"
                     >发布获奖公告</el-button>
+                              <el-button
+                      type="primary"
+                      @click="submitVisible = true"
+                      style="background:#438F48;"
+                    >提交至学生处</el-button>
                     <el-button
                       type="primary"
                       @click="exportVisible = true"
                       style="background:#438F48;"
-                    >导出</el-button>
+                    >导出名单</el-button>
                   </el-form-item>
                 </el-row>
               </el-form>
@@ -107,7 +112,36 @@
                   </el-form>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="exportVisible = false">取 消</el-button>
-                    <el-button type="success" @click="exportFile">发 布</el-button>
+                    <el-button type="success" @click="exportFile">导 出</el-button>
+                  </span>
+                </el-dialog>
+              </div>
+              <div v-if="submitVisible">
+                <el-dialog
+                  :visible.sync="submitVisible"
+                  width="40%"
+                  :model="releaseData"
+                  :inline="true"
+                  center
+                >
+                  <div slot="title">
+                    <span style="color:#fff;font-weight:bold;font-size:24px;">导出获奖名单</span>
+                  </div>
+                  <el-form label-width="120px">
+                    <el-form-item label="提交资助项目：" prop="category">
+                      <el-select v-model="exportCategory" style="width:300px;">
+                        <el-option
+                          v-for="(item,index) in categoryList"
+                          :key="index"
+                          :label="item.title"
+                          :value="item.title"
+                        ></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="submitVisible = false">取 消</el-button>
+                    <el-button type="success" @click="firstSubmit">提 交</el-button>
                   </span>
                 </el-dialog>
               </div>
@@ -221,7 +255,7 @@
   </div>
 </template>
 <script>
-import { addPolicy, exportExcel } from "../../api";
+import { addPolicy, exportExcel ,firstFinish} from "../../api";
 import {
   auditList,
   firstAuditReplace,
@@ -250,6 +284,16 @@ export default {
     }
   },
   methods: {
+
+    
+       firstSubmit() {
+      firstFinish({ category: this.exportCategory,college:this.college ,firstAuditStatus:'初审通过'}).then(data => {
+        if (data.status === "1") {
+          this.$message.success("提交成功！");
+          this.submitVisible = false
+        }
+      });
+    },
     // 文件导出功能
     exportFile() {
       exportExcel({ category: this.exportCategory,college:this.college ,status:'初审通过'}).then(data => {
@@ -289,7 +333,6 @@ export default {
             item.firstAuditStatus === "初审通过" &&
             item.category === this.releaseData.category
         );
-        console.log(list);
         if (list.length > 0) {
           //学号  项目名称  就可以联查
           //将获奖的信息插入表内    项目 金额 （奖助学条件定制表）  学院  学号（个人信息表）   审核表   三个表联查！！！
@@ -406,6 +449,7 @@ export default {
   },
   data: function() {
     return {
+      submitVisible:false,
       exportVisible: false,
       exportCategory: "",
       releaseData: {

@@ -2,15 +2,15 @@ import http from './public'
 
 
 
-// 获取资助政策
+// 获取奖助学金项目
 export const getScholarList = (params={pageSize:10000,currentPage:1}) => {
   return http.fetchGet('/api/scholar/policy',{params})
 }
-//获取资助政策详情
+//获取奖助学金项目详情
 export const getScholarDetail = (params) => {
   return http.fetchGet('/api/scholar/policy/detail',params)
 }
-// 更新资助政策
+// 更新奖助学金项目
 export const updatePolicy = (params) => {
   return http.fetchPost('/api/scholar/policy/update',params)
 }
@@ -31,7 +31,7 @@ export const deleteAnnouncement = (params) => {
   return http.fetchPost('/api/scholar/announcement/delete',params)
 }
 
-// 删除资助政策
+// 删除奖助学金项目
 export const deletePolicy = (params) => {
   return http.fetchPost('/api/scholar/policy/delete',params)
 }

@@ -32,7 +32,7 @@ export default {
     menu:{
       type:Array,
       default:function(){
-        return [{label:'首页',path:'/introduction'},{label:'中心简介',path:'/introduction'}, {label:'通知公告',path:'/announcement'},{label:'工作动态',path:'/working'},{label:'资助政策',path:'/policy'}]
+        return [{label:'首页',path:'/introduction'},{label:'中心简介',path:'/introduction'}, {label:'通知公告',path:'/announcement'},{label:'工作动态',path:'/working'},{label:'奖助学金项目',path:'/policy'}]
       }
     }
   }
