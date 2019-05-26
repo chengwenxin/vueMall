@@ -36,16 +36,21 @@ Vue.config.productionTip = false
 
 // 全局路由守卫
 router.beforeResolve((to, from, next) => {
+  //判断访问的页面是否为权限页面
   if (to.path.toLowerCase().indexOf('profile') > -1) {
+    //进一步判断Vuex store中是否存有已登录信息
     if (!store.state.login) {
-      Message.error('暂未登录，请您先登录')   
+      Message.error('暂未登录，请您先登录')  
+      //判断当前页面是否为登录页面，解决Vue-router 同路由不跳转限制 
       if(from.name === 'Login'){
         router.go(0)
       }else {
+        //若用户未登录则跳转至登录页面
         router.push('/login')
       }
     }
   }
+  //继续访问
   next()
 })
 /* eslint-disable no-new */

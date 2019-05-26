@@ -1,7 +1,7 @@
 
 <template>
   <div class="footer">
-    <p>版权所有 &nbsp;西北农林科技大学学生处 &nbsp;</p>
+    <p>版权所有 &nbsp;西北农林科技大学三号公寓522宿舍 &nbsp;</p>
     <p>地址：陕西省杨凌高新农业技术产业示范区西农路22号 &nbsp;邮编：712100</p>
   </div>
 </template>
