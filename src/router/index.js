@@ -21,13 +21,25 @@ import HighProfile from '../page/profile/HighProfile'
 import Admin from '../page/profile/Admin'
 import Distribution from '../page/profile/Distribution'
 import ModifyPassword from '../page/profile/ModifyPassword'
+import Backup from '../page/profile/Backup'
+import ConfigSystem from '../page/profile/ConfigSystem'
 Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path:'/profile/configSystem',
+      name:'EdiConfigSystemtor',
+      component:ConfigSystem
+    },
+    {
       path:'/profile/editor',
       name:'Editor',
       component:Editor
+    },
+    {
+      path:'/profile/backup',
+      name:'Backup',
+      component:Backup
     },
     {
       path:'/profile/modifypassword',

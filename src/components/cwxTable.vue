@@ -14,6 +14,7 @@
          <el-table-column align="center" prop="isApply" label="申请状态" width="160"></el-table-column>
       </template>
       <el-table-column align="center" prop="detailDate" label="发布日期" width="240">
+      
       <template slot-scope="scope">
          <div v-if="scope.row.detailDate > formatDate(new Date())">
            <span style="color:red">{{scope.row.detailDate}}</span>
@@ -126,6 +127,7 @@ export default {
           pageSize: this.pageSize,
           currentPage: this.currentPage
         }).then(data => {
+          console.log('why')
           if (data.status === "1") {
             this.formdata = data.content;
             this.totalCount = data.totalCount;

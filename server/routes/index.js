@@ -79,6 +79,140 @@ router.post('/export', function (req, res, next) {
   }
 })
 
+
+// //备份数据
+// router.get('/backup', function (req, res, next) {
+
+//   let sql = ''
+//   let dataSheet = [
+
+//   ];
+//   let pathName = 'database.bak.xlsx'
+//     sql = `select * from  announcement `
+
+//   pool.query(sql, function (err, result) {
+//     if (err) throw err;
+//     //保证查询有值
+//     if (result.length > 0) {
+//       //获取键值
+//       let keys = Object.keys(result[0])
+//       //循环遍历 将对象转换成数组
+//       result.forEach(item => {
+//         let temp = []
+//         keys.forEach(key => {
+//           temp.push(item[key])
+//         })
+//         dataSheet.push(temp)
+//       })
+//     }
+//     writeExcel(dataSheet, pathName, 'sheet')
+//   })
+
+//   function writeExcel(sheet, fileName, sheetName) {
+//     let buffer = xlsx.build([{
+//       name: sheetName,
+//       data: sheet
+//     }])
+//     var dirname = __dirname.replace(/\\/g, "/")
+//     var fileName = path.join(dirname, "../public/file", fileName)
+//     fs.writeFile(fileName, buffer, function (err) {
+//       if (err) {
+//         res.json({
+//           status: '1',
+//           content: sheet
+//         })
+//       } else {
+//         let tempPath = 'http://127.0.0.1:8081/api/file/' + pathName
+//         res.json({
+//           status: '1',
+//           path: tempPath
+//         })
+//       }
+//     })
+//   }
+// })
+
+router.get('/backup', function (req, res) {
+  var dirname = __dirname.replace(/\\/g, "/")
+
+  var fileName = path.join(dirname, "../public/file", "announcement.txt")
+
+  sql = `select * from announcement into outfile '${fileName}'`
+
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message,
+        content: sql
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: obj[0].data
+      });
+    }
+  })
+
+})
+//恢复数据
+router.get('/recover', function (req, res, next) {
+
+  var dirname = __dirname.replace(/\\/g, "/")
+  // var fileName = path.join(dirname, "../public/file", "database.bak.xlsx")
+  //   var obj = xlsx.parse(fileName);
+  //   let values =''
+  //   obj[0].data.forEach(item =>{
+  //     values+= `(`       
+  //      let len =item.length
+  //      item.forEach((i,index)=>{
+  //        console.log(i)
+  //      values+= `'${i}'`   
+  //      if(index<len-1){
+  //       values+=','
+  //      }    
+  //      })
+  //     // values= values.slice(0,values.length-1)
+  //      values+= `),` 
+  //   })
+  //   values= values.slice(0,values.length-1)
+  //   sql = `replace into announcement(
+  //     id,
+  //     author, 
+  //     update_date,
+  //     category,
+  //      title,
+  //      reading_times,
+  //      path,
+  //      content,
+  //      detailDate,
+  //      college,
+  //      startTime,
+  //      endTime
+  // ) values ${values}`
+
+  var fileName = path.join(dirname, "../public/file", "announcement.txt")
+
+  sql = `load data infile ${fileName} into table announcement`
+
+  pool.query(sql, function (err, result) {
+    if (err) {
+      res.json({
+        status: '-1',
+        msg: err.message,
+        content: sql
+      });
+    } else {
+      res.json({
+        status: '1',
+        msg: 'success',
+        content: obj[0].data
+      });
+    }
+  })
+})
+
 //提交初审名单到教务处
 router.post('/first/finish', function (req, res, next) {
   //对输入的密码进行加密

@@ -11,6 +11,16 @@
             <el-form-item label="作者：" prop="author">
               <el-input v-model="formData.author"></el-input>
             </el-form-item>
+           <template v-if="this.type === '通知公告'">
+                           <el-form-item label="公示期：" prop="validTime">
+                      <el-date-picker
+                        :clearable="false"
+                        type="datetimerange"
+                        v-model="formData.validTime"
+                        value-format="yyyy-MM-dd"
+                      ></el-date-picker>
+                    </el-form-item>
+           </template>
             <el-form-item label="发布日期：" prop="detailDate">
               <el-date-picker
                 :clearable="false"
@@ -174,7 +184,7 @@ export default {
   //   }
   // },
   mounted() {
-    console.log('mounted',this.formParam)
+    console.log("mounted", this.formParam);
     this.getList();
   },
   computed: {
@@ -193,16 +203,17 @@ export default {
     getList() {
       let validTime = [this.formParam.startTime, this.formParam.endTime];
       let college = this.formParam.college;
-      college = college.split(";");
       let grade = this.formParam.grade;
-      grade = grade.split(";");
+      if (this.formParam.content !== "0") {
+        grade = grade.split(";");
+        college = college.split(";");
+      }
       this.formData = Object.assign({}, this.formParam, {
         // detailDate: this.defaultValue(),
         validTime,
         college,
         grade
       });
-      console.log('this,',this.formData)
     },
     defaultValue() {
       let date = new Date();

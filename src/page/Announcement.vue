@@ -36,7 +36,7 @@
                   :value="item"
                 ></el-option>
               </el-select>
-            </el-form-item> -->
+            </el-form-item>-->
             <el-form-item>
               <el-button type="primary" @click="onSubmit" style="background:#438F48;">检索</el-button>
               <el-button @click="onReset">重置</el-button>
@@ -74,10 +74,28 @@ export default {
     onSubmit() {
       this.getList();
     },
+    parseTime(date) {
+      let time =
+        date.getFullYear() +
+        "-" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + (date.getDate() + 1)).slice(-2) +
+        " " +
+        ("0" + (date.getHours() + 1)).slice(-2) +
+        ":" +
+        ("0" + (date.getMinutes() + 1)).slice(-2) +
+        ":" +
+        ("0" + (date.getSeconds() + 1)).slice(-2);
+      return time;
+    },
     getList() {
+      let now = new Date();
+
+      let endTime = this.parseTime(now);
       getAnnouncementList(
         Object.assign(
-          { currentPage: this.currentPage, pageSize: this.pageSize },
+          { currentPage: this.currentPage, pageSize: this.pageSize, endTime },
           this.queryData
         )
       )
@@ -108,7 +126,7 @@ export default {
       // gradeList: JSON.parse(window.localStorage.gradeEnum),
       queryData: {
         category: "",
-        college: "",
+        college: ""
         // grade: ""
       },
       list: [],

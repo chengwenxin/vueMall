@@ -203,10 +203,14 @@ router.post('/announcement/update', (req, res, next) => {
     title,
     content,
     detailDate,
+    validTime,
     id,
     update_date
   } = req.body
-  let sql = `update announcement set author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}', where id = ${id}`;
+  
+  let startTime = validTime[0]
+  let endTime = validTime[1]
+  let sql = `update announcement set startTime= '${startTime}', endTime= '${endTime}', author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}' where id = ${id}`;
   pool.query(sql, (err, result) => {
     if (err) {
       res.json({
@@ -294,20 +298,31 @@ router.get('/introduction', (req, res, next) => {
 })
 
 
-//工作动态
+//通知公告
 router.get('/announcement', (req, res, next) => {
   let totalCount = 0
   let {
     pageSize,
-    currentPage
+    currentPage,
   } = req.query
   let college = req.query.college ? '%' + req.query.college + '%' : '%%'
   let category = req.query.category ? '%' + req.query.category + '%' : '%%'
-  // let grade = req.query.grade?'%'+req.query.grade+'%':'%%'
+
   let size = pageSize * (currentPage - 1)
-  let totalCountsql = `select count(*) from announcement where college like '${college}' and title like '${category}' `
-  // let sql =` SELECT o.* from (SELECT * from announcement ) o ORDER BY detailDate DESC, id DESC LIMIT ${size},${pageSize}`
-  let sql = ` SELECT * from announcement where college like '${college}' and title like '${category}'  ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+  
+
+  let totalCountsql = ''
+  let sql = ''
+  if(req.query.endTime){
+    let endTime = req.query.endTime
+    totalCountsql = `select count(*) from announcement where endTime>'${endTime}' and college like '${college}' and title like '${category}' `
+    sql = ` SELECT * from announcement where endTime>'${endTime}' and  college like '${college}' and title like '${category}'  ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+  }else{
+    totalCountsql = `select count(*) from announcement where  college like '${college}' and title like '${category}' `
+    sql = ` SELECT * from announcement where  college like '${college}' and title like '${category}'  ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+  }
+  console.log(sql)
+
   pool.query(totalCountsql, (err, result) => {
     if (err) {
       res.json({

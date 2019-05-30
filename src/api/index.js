@@ -87,3 +87,12 @@ export const queryAuditList = (params) => {
 export const firstFinish = (params) => {
   return http.fetchPost('/api/first/finish',params)
 }
+
+//备份数据库
+export const backup = () => {
+  return http.fetchQuickSearch('/api/backup')
+}
+//恢复数据库
+export const recover = () => {
+  return http.fetchQuickSearch('/api/recover')
+}

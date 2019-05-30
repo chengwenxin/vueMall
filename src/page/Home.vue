@@ -46,6 +46,21 @@ export default {
     this.getList();
   },
   methods: {
+        parseTime(date) {
+      let time =
+        date.getFullYear() +
+        "-" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + (date.getDate() + 1)).slice(-2) +
+        " " +
+        ("0" + (date.getHours() + 1)).slice(-2) +
+        ":" +
+        ("0" + (date.getMinutes() + 1)).slice(-2) +
+        ":" +
+        ("0" + (date.getSeconds() + 1)).slice(-2);
+      return time;
+    },
     getList() {
       //将所有院系信息存入本地
       getCollegeEnum()
@@ -75,7 +90,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      getAnnouncementList()
+            let now = new Date();
+
+      let endTime = this.parseTime(now);
+      getAnnouncementList({ currentPage:1, pageSize: 10, endTime })
         .then(data => {
           this.announcementList = data.content.filter(
             item => item.detailDate < formatDate(new Date())

@@ -116,11 +116,15 @@
 
                   <el-form-item label="评审时间：" prop="auditTime">
                     <el-date-picker
+                    style="width:150px;"
                       :clearable="false"
                       type="date"
                       value-format="yyyy-MM-dd"
                       v-model="formData.auditTime"
                     ></el-date-picker>
+                  </el-form-item>
+                              <el-form-item label="资助金额：" prop="money">
+                   <el-input-number v-model="formData.money" :min="1" :max="10000000" :step="100" label="资助金额"></el-input-number>
                   </el-form-item>
                   <el-form-item label="名单公示时间：" prop="announcementTime">
                     <el-date-picker

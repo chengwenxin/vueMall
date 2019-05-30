@@ -68,12 +68,21 @@ export default {
         this.menu= [ {
           label: '首页',
           path: '/'
-        },{
-          label: '个人信息',
-          path: '/profile/high'
         }, {
           label: '分配账户',
           path: '/profile/distribution'
+        },
+        {
+          label: '数据库管理',
+          path: '/profile/backup'
+        },
+        {
+          label: '系统参数配置',
+          path: '/profile/configSystem'
+        },
+        {
+          label: '个人信息',
+          path: '/profile/high'
         },{
           label: '退出登录',
           path: '/login'
