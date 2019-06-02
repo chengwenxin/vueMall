@@ -16,38 +16,41 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
-  //  读文件路径
+  // 读文件路径
 let  fs = require('fs');
 let fileNames=fs.readdirSync('public/file').map(file => ('127.0.0.1:8081/api/file/'));
   if(req.query.action === 'config'){
     console.log(req.query)
   }
   if(req.query.action === 'uploadimage'){
-    // 这里你可以获得上传图片的信息
+    // 获得上传图片的信息
     var foo = req.ueditor;
     var img_url = 'images';
-    res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+    res.ue_up(img_url); 
   }else  if(req.query.action === 'uploadfile'){
-    // 这里你可以获得上传图片的信息
+    // 获得上传图片的信息
     var foo = req.ueditor;
     var file_url = 'file';
-    res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+    //要保存的地址，其他操作由ueditor来做
+    res.ue_up(file_url); 
     res.send({
       urlList:fileNames
     })
   }
     //  客户端发起图片列表请求
   else if (req.query.action === 'listimage'){
-      var dir_url = 'images'; // 要展示给客户端的文件夹路径
-      res.ue_list(dir_url) // 客户端会列出 dir_url 目录下的所有图片
+     // 要展示给客户端的文件夹路径
+      var dir_url = 'images';
+      // 客户端会列出 dir_url 目录下的所有图片
+      res.ue_list(dir_url) 
   }else {
     res.setHeader('Content-Type', 'application/json');
     // 这里填写 ueditor.config.json 这个文件的路径
     res.redirect('/static/ue/nodejs/config.json')
   }
 }))
-
-app.use(function (req,res,next) { // 拦截请求
+// 拦截请求
+app.use(function (req,res,next) { 
   //请求中有cookies.userId 就继续执行，否则查看请求是否为未登录可访问页面（若是，可继续访问），反之提示未登录
   if(req.cookies.number){
     next();
@@ -64,25 +67,21 @@ app.use(function (req,res,next) { // 拦截请求
       }
   }
 });
-
-
+//路由控制
 app.use('/', index);
 app.use('/scholar', scholar);
 
-// catch 404 and forward to error handler
+// 404异常处理
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+// 错误处理
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
