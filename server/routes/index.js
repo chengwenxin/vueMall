@@ -69,7 +69,7 @@ router.post('/export', function (req, res, next) {
           content: sheet
         })
       } else {
-        let tempPath = 'http://127.0.0.1:8081/api/file/' + pathName
+        let tempPath = 'http://10.239.219.21:8081/api/file/' + pathName
         res.json({
           status: '1',
           path: tempPath
@@ -122,7 +122,7 @@ router.post('/export', function (req, res, next) {
 //           content: sheet
 //         })
 //       } else {
-//         let tempPath = 'http://127.0.0.1:8081/api/file/' + pathName
+//         let tempPath = 'http://:8081/api/file/' + pathName
 //         res.json({
 //           status: '1',
 //           path: tempPath
@@ -345,6 +345,7 @@ router.post('/modifypassword', function (req, res, next) {
 router.post('/register', function (req, res, next) {
   let querysql = `select number from user where number = ${req.body.number}`
   let registersql = `insert into user(number,name,password,role,college,major,grade) values('${req.body.number}','${req.body.name}','${req.body.password}','${req.body.role}','${req.body.college}','${req.body.major}','${req.body.grade}')`;
+  let sql = `insert into information(sno) values('${req.body.number}')`;
   pool.query(querysql, function (err, result) {
     if (err) {
       res.json({
@@ -365,10 +366,19 @@ router.post('/register', function (req, res, next) {
               msg: err.message
             });
           } else {
-            res.json({
-              status: '1',
-              msg: '注册成功'
-            });
+            pool.query(sql, function (err, resultI) {
+              if (err) {
+                res.json({
+                  status: '-1',
+                  msg: err.message
+                });
+              } else {
+                res.json({
+                  status: '1',
+                  msg: '注册成功'
+                });
+              }
+            })
           }
         })
       }
@@ -470,7 +480,7 @@ router.post('/upload', multipartMiddleware, (req, res, next) => {
         res.json({
           status: '1',
           msg: "上传成功",
-          filename: "http://127.0.0.1:8081/api/file/" + req.files.file.originalFilename
+          filename: "http://10.239.219.21:8081/api/file/" + req.files.file.originalFilename
         });
 
       });
@@ -1227,7 +1237,10 @@ router.get('/enum/college', function (req, res) {
         gradeResult.forEach(item => {
           grade.push(item.grade.slice(0, 2))
         });
+        grade.unshift('所有','本科生','研究生')
         grade = Array.from(new Set(grade))
+        college.unshift({college:'所有'})
+        category.unshift({title:'所有'})
         res.json({
           status: '1',
           content: {

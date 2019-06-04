@@ -56,12 +56,14 @@
                     v-model.trim="formData.password"
                     placeholder="请输入密码"
                     style="width:200px"
+                    type="password"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="密码确认" prop="passwordsecond">
                   <el-input
                     v-model.trim="formData.passwordsecond"
                     placeholder="请再次输入密码"
+                    type="password"
                     style="width:200px"
                   ></el-input>
                 </el-form-item>

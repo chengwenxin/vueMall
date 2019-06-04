@@ -116,15 +116,21 @@
 
                   <el-form-item label="评审时间：" prop="auditTime">
                     <el-date-picker
-                    style="width:150px;"
+                      style="width:150px;"
                       :clearable="false"
                       type="date"
                       value-format="yyyy-MM-dd"
                       v-model="formData.auditTime"
                     ></el-date-picker>
                   </el-form-item>
-                              <el-form-item label="资助金额：" prop="money">
-                   <el-input-number v-model="formData.money" :min="1" :max="10000000" :step="100" label="资助金额"></el-input-number>
+                  <el-form-item label="资助金额：" prop="money">
+                    <el-input-number
+                      v-model="formData.money"
+                      :min="1"
+                      :max="10000000"
+                      :step="100"
+                      label="资助金额"
+                    ></el-input-number>
                   </el-form-item>
                   <el-form-item label="名单公示时间：" prop="announcementTime">
                     <el-date-picker
@@ -854,6 +860,7 @@ export default {
   components: { VueUeditorWrap },
   data() {
     return {
+      formDataC:{},
       temp: "",
       isScan: false,
       // categoryList: JSON.parse(window.localStorage.categoryEnum),
@@ -861,76 +868,76 @@ export default {
       category: "",
       formData: {
         // address: "没有要求",
-        address1: '不填',
+        address1: "不填",
         // announcementTime: "2019-05-08",
         // applyReason: "没有要求",
-        applyReason1: '不填',
+        applyReason1: "不填",
         // auditTime: "2019-05-08",
         // author: "赵三丰",
         // breach: "必填",
-        breach1:'不填',
+        breach1: "不填",
         category: 0,
         // cheat: "必填",
-        cheat1:'不填',
+        cheat1: "不填",
         // college: ["信息工程学院", "动物医学院", "动物科技学院", "农学院"],
         // comprehensiveClassRanking: "没有要求",
-        comprehensiveClassRanking1: '不填',
+        comprehensiveClassRanking1: "不填",
         // comprehensiveGradeRanking: "没有要求",
-        comprehensiveGradeRanking1: '不填',
+        comprehensiveGradeRanking1: "不填",
         // comprehensiveResult: "没有要求",
-        comprehensiveResult1:'不填',
+        comprehensiveResult1: "不填",
         // content: "<p>没有要求</p>",
         // credibility: "必填",
-        credibility1: '不填',
+        credibility1: "不填",
         // creditClassRanking: "没有要求",
-        creditClassRanking1: '不填',
+        creditClassRanking1: "不填",
         // creditGradeRanking: "没有要求",
-        creditGradeRanking1: '不填',
+        creditGradeRanking1: "不填",
         // creditScore: "没有要求",
-        creditScore1:'不填',
+        creditScore1: "不填",
         // detailDate: "2019-05-24",
         // enrolmentTime: "没有要求",
-        enrolmentTime1:'不填',
+        enrolmentTime1: "不填",
         // failureCourse: "没有要求",
-        failureCourse1:'不填',
+        failureCourse1: "不填",
         // family: "没有要求",
-        family1: '不填',
+        family1: "不填",
         // foreignGrade: "没有要求",
-        foreignGrade1:'不填',
+        foreignGrade1: "不填",
         // foreignLang: "英语",
-        foreignLang1: '不填',
+        foreignLang1: "不填",
         // foreignLevel:'不填',
-        foreignLevel1: '不填',
+        foreignLevel1: "不填",
         // gender: "所有",
-        gender1: '不填',
+        gender1: "不填",
         // grade: ["研究生", "15"],
         // graduationTime: "没有要求",
-        graduationTime1: '不填',
+        graduationTime1: "不填",
         // home: "没有要求",
-        home1: '不填',
+        home1: "不填",
         // isApply: "不能申请",
         // isPoor: "不限",
-        isPoor1: '不填',
+        isPoor1: "不填",
         // nation: "所有",
-        nation1:'不填',
+        nation1: "不填",
         // political: "所有",
-        political1: '不填',
+        political1: "不填",
         // rent: "必填",
-        rent1: '不填',
+        rent1: "不填",
         // result: "没有要求",
-        result1: '不填',
+        result1: "不填",
         // title: "没有标题",
         // type: "奖助学金项目",
         // update_date: "05-24",
         // validTime: ["2019-05-01 00:00:00", "2019-05-09 00:00:00"],
         isApply: "不能申请",
         // isTemplate:1,
-           birthday1:'不填',
-           age1:'不填',
-           cardId1:'不填',
-           phone1:'不填',
-           mail1:'不填',
-           others1:'不填'
+        birthday1: "不填",
+        age1: "不填",
+        cardId1: "不填",
+        phone1: "不填",
+        mail1: "不填",
+        others1: "不填"
       },
       typeList: ["通知公告", "工作动态", "奖助学金项目"],
       // applyList: [
@@ -962,17 +969,20 @@ export default {
     },
     collegeList() {
       let collegeEnum = JSON.parse(window.localStorage.collegeEnum);
-      collegeEnum.unshift({ college: "所有院系" });
       return collegeEnum;
     },
     gradeList() {
       let gradeEnum = JSON.parse(window.localStorage.gradeEnum);
-      gradeEnum.unshift("所有年级", "研究生", "本科生");
       return gradeEnum;
     }
   },
   mounted() {
+
     this.formData = Object.assign({}, this.formData, {
+      detailDate: this.defaultValue(),
+      author: this.name
+    });
+    this.formDataC= Object.assign({}, this.formData, {
       detailDate: this.defaultValue(),
       author: this.name
     });
@@ -999,6 +1009,14 @@ export default {
             category: this.category,
             isTemplate: "0"
           });
+        });
+      } else {
+        this.formData = Object.assign({}, this.formDataC, {
+          detailDate: this.defaultValue(),
+          author: this.name
+        });
+        queryTemplate().then(data => {
+          this.templateList = data.content;
         });
       }
     },

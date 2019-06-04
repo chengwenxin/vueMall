@@ -23,10 +23,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api':{
-            target:'http://127.0.0.1:3001',
+            target:'http://10.239.219.21:3001',
             changeOrigin: true,
             pathRewrite: {
-              '^/api': '',  // 若target中没有/api、这里又为空，则404；
+              '^/api': '', 
             }
         }
     },

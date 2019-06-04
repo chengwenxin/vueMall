@@ -2,7 +2,6 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
 -- Generation Time: 2018-01-13 09:32:33
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12

@@ -11,11 +11,11 @@
           </div>
           <div class="right">
             <div class="right-content">
-              <div v-if="isLogin" style="text-align:center">
+              <div v-if="isLogin ==='1'" style="text-align:center">
                 <h1 style="color:#438F49;font-weight:bold;margin:50px 0px;">当前已登录</h1>
                 <el-button @click="logout" type="success">登 出</el-button>
               </div>
-              <div v-if="!isLogin">
+              <div v-else>
                 <el-form label-width="80px" :model="loginForm" ref="loginForm" :rules="rules">
                   <div
                     style="display:inline-block;text-align:center;padding:20px 0px 20px 100px;font-size:20px;"
@@ -23,10 +23,18 @@
                     <img src="../../static/yhdl.png" style="padding-right:15px;">用户登录
                   </div>
                   <el-form-item label="账 户：" prop="number">
-                    <el-input v-model.trim="loginForm.number" placeholder="学号/职工号"></el-input>
+                    <!-- <el-input v-model.trim="loginForm.number" placeholder="学号/职工号"></el-input> -->
+                    <el-autocomplete
+                    style="width:199px;"
+      v-model="loginForm.number"
+      :fetch-suggestions="querySearch"
+      placeholder="请输入账户"
+      @select="autoSelect"
+      clearable
+    ></el-autocomplete>
                   </el-form-item>
-                  <el-form-item label="密 码：" prop="password">
-                    <el-input v-model.trim="loginForm.password" type="password" placeholder="请输入密码"></el-input>
+                  <el-form-item label="密 码：" prop="password" >
+                    <el-input v-model.trim="loginForm.password" clearable  type="password" placeholder="请输入密码" style="width:199px;"></el-input>
                   </el-form-item>
                   <!-- 验证码 -->
                   <el-form-item label="验证码：" prop="checkCode" >
@@ -84,10 +92,19 @@ export default {
         // }
       };
     return {
+      numbers:[
+        {value:'2015012744'},
+        {value:'2015012745'},
+        {value:'2015012746'},
+        {value:'2015012747'},
+        {value:'1234567890'},
+        {value:'2015123456'},
+        {value:'2015123457'},
+      ],
       applyNotice: [],
       loginForm: {
-        number: "2015110",
-        password: "2015110",
+        number: "",
+        password: "",
         checkCode:null
       },
       checkCoder: Math.round(Math.random()*899999 + 100000),
@@ -95,7 +112,7 @@ export default {
         number: {
           required: true,
           message: "请输入账号",
-          trigger: "blur"
+          trigger: "change"
         },
         password: {
           required: true,
@@ -121,6 +138,23 @@ watch: {
     
   },
   methods: {
+    autoSelect(val){
+       this.loginForm.number =val.value
+       this.loginForm.password =val.value
+       this.loginForm.checkCode = this.checkCoder
+    },
+     createFilter(queryString) {
+        return (restaurant) => {
+          return (restaurant.value.toLowerCase().includes(queryString.toLowerCase()));
+        };
+      },
+     querySearch(queryString, cb) {
+        var numbers = this.numbers;
+        console.log(numbers)
+        var results = queryString ? numbers.filter(this.createFilter(queryString)) : numbers;
+        console.log(results)
+        cb(results);
+      },
     codeRandom(){
       this.checkCoder = Math.round(Math.random()*899999 + 100000)
     },
@@ -128,14 +162,12 @@ watch: {
     getAuditList() {
       auditList({ role: "0" ,pageSize:100,currentPage:1})
         .then(data => {
-          console.log(data)
           if (data.status === "1") {
             let time = this.$store.state.lastLoginTime;
             time = new Date(time);
             this.applyNotice = data.content.filter(
               item => item.secondAuditDate > formatDate(time)
             );
-            console.log(this.applyNotice)
             this.applyNotice.forEach(item => {
               let type = "success";
               if (item.secondAuditStatus !== "复审通过") {
@@ -196,7 +228,7 @@ watch: {
             window.sessionStorage.setItem(data.content.number, new Date());
             this.getAuditList();
             //改变登录状态
-            this.$store.commit("changeLogin", true);
+            this.$store.commit("changeLogin", 1);
             //存储 number  role  name等信息
             this.$store.commit("setBase", data.content);
 
@@ -227,7 +259,7 @@ watch: {
     logout() {
       logoutApi()
         .then(() => {
-          this.$store.commit("changeLogin", false);
+          this.$store.commit("changeLogin", 0);
         })
         .catch(err => {
           console.log(err);

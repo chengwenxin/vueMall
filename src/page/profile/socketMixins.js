@@ -3,7 +3,7 @@ import io from  'socket.io-client'
 export default {
     data(){
         return {
-            path: "ws://127.0.0.1:3001",
+            path: "ws://10.239.219.21:3001",
             socket: null,
         }
     },

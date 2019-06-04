@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Router from '../router'
 Vue.use(Vuex)
 const state = {
   // 登录状态

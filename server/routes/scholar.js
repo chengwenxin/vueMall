@@ -36,11 +36,26 @@ router.get('/policy', (req, res, next) => {
     currentPage
   } = req.query
   let college = req.query.college ? '%' + req.query.college + '%' : '%%'
+  college = req.query.college==='所有' || req.query.college==='' ? '%%':college
+
   let category = req.query.category ? '%' + req.query.category + '%' : '%%'
+  category = req.query.category==='所有' || req.query.category==='' ? '%%':category
+
   let grade = req.query.grade ? '%' + req.query.grade + '%' : '%%'
+  grade = req.query.grade==='所有' || req.query.grade==='' ? '%%':grade
+
   let size = pageSize * (currentPage - 1)
-  let totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade like '${grade}'`
-  let sql = ` SELECT * from policy where college like '${college}' and title like '${category}' and grade like '${grade}' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+  let totalCountsql = ''
+  let sql =''
+  if(grade==='%本科生%'){
+    sql = ` SELECT * from policy where college like '${college}' and title like '${category}' and grade not like '研究生' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+    totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade not like '研究生'`
+
+  }else{
+    sql = ` SELECT * from policy where college like '${college}' and title like '${category}' and grade like '${grade}' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+    totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade like '${grade}'`
+
+  }
   pool.query(totalCountsql, (err, result) => {
     if (err) {
       res.json({

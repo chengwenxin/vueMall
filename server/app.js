@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/ue",ueditor(path.join(__dirname,'public'),function(req,res,next){
   // 读文件路径
 let  fs = require('fs');
-let fileNames=fs.readdirSync('public/file').map(file => ('127.0.0.1:8081/api/file/'));
+let fileNames=fs.readdirSync('public/file').map(file => ('10.239.219.21:8081/api/file/'));
   if(req.query.action === 'config'){
     console.log(req.query)
   }
@@ -42,7 +42,7 @@ let fileNames=fs.readdirSync('public/file').map(file => ('127.0.0.1:8081/api/fil
      // 要展示给客户端的文件夹路径
       var dir_url = 'images';
       // 客户端会列出 dir_url 目录下的所有图片
-      res.ue_list(dir_url) 
+      res.ue_list(dir_url)  
   }else {
     res.setHeader('Content-Type', 'application/json');
     // 这里填写 ueditor.config.json 这个文件的路径
