@@ -29,6 +29,8 @@ export default new Vuex.Store({
       if(params.college){
         state.college = params.college
         window.sessionStorage.setItem('college',params.college)
+        state.grade = params.grade.slice(0,2)
+        window.sessionStorage.setItem('grade', state.grade)
       }
     },
     lastLogin(state,time){

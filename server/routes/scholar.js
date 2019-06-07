@@ -48,12 +48,12 @@ router.get('/policy', (req, res, next) => {
   let totalCountsql = ''
   let sql =''
   if(grade==='%本科生%'){
-    sql = ` SELECT * from policy where college like '${college}' and title like '${category}' and grade not like '研究生' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
-    totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade not like '研究生'`
+    sql = ` SELECT * from policy where college like '${college}' or college like '%所有%' and title like '${category}' and grade not like '研究生' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+    totalCountsql = `select count(*) from policy where college like '${college}' or college like '%所有%' and title like '${category}' and grade not like '研究生'`
 
   }else{
-    sql = ` SELECT * from policy where college like '${college}' and title like '${category}' and grade like '${grade}' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
-    totalCountsql = `select count(*) from policy where college like '${college}' and title like '${category}' and grade like '${grade}'`
+    sql = ` SELECT * from policy where college like '${college}' or college like '%所有%' and title like '${category}' and grade like '${grade}' ORDER BY  detailDate DESC,id DESC LIMIT ${size},${pageSize}`
+    totalCountsql = `select count(*) from policy where college like '${college}' or college like '%所有%'  and title like '${category}' and grade like '${grade}'`
 
   }
   pool.query(totalCountsql, (err, result) => {
@@ -180,7 +180,9 @@ router.post('/policy/update', (req, res, next) => {
     grade,
     announcementTime,
     auditTime,
-    validTime
+    validTime,
+    places,
+    money
   } = req.body
 
 
@@ -193,7 +195,7 @@ router.post('/policy/update', (req, res, next) => {
 
 
   let sql = `update policy set college= '${college}',announcementTime= '${announcementTime}',auditTime= '${auditTime}',
-  startTime= '${startTime}',
+  startTime= '${startTime}', places= '${places}', money= '${money}',
   endTime= '${endTime}',grade= '${grade}',
    author= '${author}',update_date ='${update_date}', title ='${title}',content='${content}',detailDate='${detailDate}',isApply='${isApply}' where id = ${id}`;
   pool.query(sql, (err, result) => {

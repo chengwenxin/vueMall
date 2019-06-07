@@ -11,7 +11,11 @@
       <el-table-column align="center" prop="title" label="标题" show-overflow-tooltip width="300"></el-table-column>
       <el-table-column align="center" prop="author" label="作者" width="160"></el-table-column>
       <template v-if="type === '奖助学金项目'">
-         <el-table-column align="center" prop="isApply" label="申请状态" width="160"></el-table-column>
+         <el-table-column align="center" prop="isTemplate" label="是否为模板" width="160">
+          <template slot-scope="scope">
+            {{scope.row.isTemplate==='1'?'是':'否'}}
+          </template>
+         </el-table-column>
       </template>
       <el-table-column align="center" prop="detailDate" label="发布日期" width="240">
       

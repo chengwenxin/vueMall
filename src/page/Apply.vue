@@ -18,7 +18,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref1"
               >
                 <el-row>
                   <el-col :span="8">
@@ -65,7 +65,7 @@
 
                 <el-row>
                   <el-col :span="8">
-                    <el-form-item label="性别：" prop="gender" v-if="formRule.gender1 !=='不填'" >
+                    <el-form-item label="性别：" prop="gender" v-if="formRule.gender1 !=='不填'">
                       <el-select v-model="formData.gender" disabled>
                         <el-option v-for="item in ['男','女']" :key="item" :value="item"></el-option>
                       </el-select>
@@ -123,7 +123,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:10px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref2"
               >
                 <el-row>
                   <el-col>
@@ -133,6 +133,7 @@
                         v-model="formData.credibility"
                         :autosize="{ minRows: 2}"
                         type="textarea"
+                        disabled
                       ></el-input>
                     </el-form-item>
                   </el-col>
@@ -141,7 +142,12 @@
                   <el-col>
                     <el-form-item prop="cheat" v-if="formRule.cheat1 !=='不填'">
                       <h4>考试作弊记录：</h4>
-                      <el-input v-model="formData.cheat" :autosize="{ minRows: 2}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.cheat"
+                        :autosize="{ minRows: 2}"
+                        type="textarea"
+                        disabled
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -149,7 +155,12 @@
                   <el-col>
                     <el-form-item prop="rent" v-if="formRule.rent1 !=='不填'">
                       <h4>校外租住情况：</h4>
-                      <el-input v-model="formData.rent" :autosize="{ minRows: 2}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.rent"
+                        :autosize="{ minRows: 2}"
+                        type="textarea"
+                        disabled
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -158,7 +169,12 @@
                   <el-col>
                     <el-form-item prop="breach" v-if="formRule.breach1 !=='不填'">
                       <h4>其他诚信问题：</h4>
-                      <el-input v-model="formData.breach" :autosize="{ minRows: 2}" type="textarea"></el-input>
+                      <el-input
+                        v-model="formData.breach"
+                        :autosize="{ minRows: 2}"
+                        type="textarea"
+                        disabled
+                      ></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -171,14 +187,14 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref3"
               >
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label="政治面貌：" prop="political" v-if="formRule.political1 !=='不填'">
                       <el-select v-model="formData.political">
                         <el-option
-                          v-for="item in ['中共党员','预备役党员','团员','群众']"
+                          v-for="item in ['不限','中共党员','预备役党员','团员','群众']"
                           :key="item"
                           :value="item"
                         ></el-option>
@@ -194,7 +210,11 @@
                       v-if="formRule.foreignLang1 !=='不填'"
                     >
                       <el-select v-model="formData.foreignLang">
-                        <el-option v-for="item in ['英语','德语','日语','韩语']" :key="item" :value="item"></el-option>
+                        <el-option
+                          v-for="item in ['不限','英语','德语','日语','韩语']"
+                          :key="item"
+                          :value="item"
+                        ></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -224,27 +244,7 @@
                   </el-col>
                 </el-row>
 
-                <el-row>
-                  <!-- <el-col :span="8">
-                    <el-form-item label="学制：" prop="educationalSystem" v-if="formRule.educationalSystem1 !=='不填'">
-                      <el-input v-model="formData.educationalSystem"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="学历：" prop="educationalBackground" v-if="formRule.educationalBackground1 !=='不填'"> 
-                      <el-select v-model="formData.educationalBackground">
-                        <el-option v-for="item in ['高中','本科']" :key="item" :value="item"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>-->
-                  <!-- <el-col :span="8">
-                    <el-form-item label="民族：" prop="nation" v-if="formRule.nation1 !=='不填'">
-                      <el-select v-model="formData.nation">
-                        <el-option v-for="item in ['汉族','少数民族']" :key="item" :value="item"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>-->
-                </el-row>
+                <el-row></el-row>
                 <el-row>
                   <el-col :span="8">
                     <el-form-item
@@ -364,7 +364,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px 140px ;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref4"
               >
                 <el-row v-if="formRule.home1 !=='不填'">
                   <el-col :span="1.8">
@@ -420,7 +420,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref5"
               >
                 <el-row>
                   <el-col>
@@ -443,7 +443,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref6"
               >
                 <el-row>
                   <el-col>
@@ -466,12 +466,12 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref7"
               >
                 <el-row>
                   <el-col center>
                     <el-form-item prop="cardId">
-                      <h2 style="text-align:center;font-weight:bold;">西北农林科技大学资助申请诚信协议</h2>
+                      <h2 style="text-align:center;font-weight:bold;">西北农林科技大学诚信协议书</h2>
                       <div style="text-align:left;padding-left:50px;">
                         <h3>（一）遵守宪法和法律、法规；</h3>
                         <h3>（二）遵守学校章程和规章制度；</h3>
@@ -483,7 +483,7 @@
                           <h3 style="font-weight:bold;">
                             本人承诺以上信息全部属实，愿意承担一切后果并同意
                             <el-button type="text" @click="promiseVisible = true">
-                              <h3>《西北农林科技大学资助申请诚信协议》</h3>
+                              <h3>《西北农林科技大学诚信协议书》</h3>
                             </el-button>
                           </h3>
                         </el-checkbox>
@@ -540,7 +540,7 @@
                 style="width:100%;font-size:16px;font-family:'微软雅黑';min-height:400px;border:1px solid ;margin-top:20px;padding:50px;"
                 :rules="rules"
                 :model="formData"
-                ref="information"
+                ref="ref8"
               >
                 <el-row>
                   <el-col>
@@ -607,15 +607,160 @@ export default {
       //   credibility: { required: true, message: "必填项", trigger: "blur" },
       //   rent: { required: true, message: "必填项", trigger: "blur" }
       // };
-      let rule= {}
-       if(this.formRule.age1 === '必填') rule = Object.assign({},rule,{age:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.phone1 === '必填') rule = Object.assign({},rule,{phone:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.cardId1 === '必填') rule = Object.assign({},rule,{cardId:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.mail1 === '必填') rule = Object.assign({},rule,{mail:{ required:true,message:'必填项',trigger: 'blur'}})
-        if(this.formRule.rent1 === '必填') rule = Object.assign({},rule,{rent:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.cheat1 === '必填') rule = Object.assign({},rule,{cheat:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.credibility1 === '必填') rule = Object.assign({},rule,{credibility:{ required:true,message:'必填项',trigger: 'blur'}})
-       if(this.formRule.breach1 === '必填') rule = Object.assign({},rule,{breach:{ required:true,message:'必填项',trigger: 'blur'}})
+      let rule = {};
+      if (this.formRule.age1 === "必填")
+        rule = Object.assign({}, rule, {
+          age: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.phone1 === "必填")
+        rule = Object.assign({}, rule, {
+          phone: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.cardId1 === "必填")
+        rule = Object.assign({}, rule, {
+          cardId: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.birthday1 === "必填")
+        rule = Object.assign({}, rule, {
+          birthday: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.mail1 === "必填")
+        rule = Object.assign({}, rule, {
+          mail: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.rent1 === "必填")
+        rule = Object.assign({}, rule, {
+          rent: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.cheat1 === "必填")
+        rule = Object.assign({}, rule, {
+          cheat: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.credibility1 === "必填")
+        rule = Object.assign({}, rule, {
+          credibility: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.breach1 === "必填")
+        rule = Object.assign({}, rule, {
+          breach: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.address1 === "必填")
+        rule = Object.assign({}, rule, {
+          address: { required: true, message: "必填项", trigger: "blur" }
+        });
+
+      if (this.formRule.applyReason1 === "必填")
+        rule = Object.assign({}, rule, {
+          applyReason: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.comprehensiveClassRanking1 === "必填")
+        rule = Object.assign({}, rule, {
+          comprehensiveClassRanking: {
+            required: true,
+            message: "必填项",
+            trigger: "blur"
+          }
+        });
+      if (this.formRule.comprehensiveGradeRanking1 === "必填")
+        rule = Object.assign({}, rule, {
+          comprehensiveGradeRanking: {
+            required: true,
+            message: "必填项",
+            trigger: "blur"
+          }
+        });
+      if (this.formRule.comprehensiveResult1 === "必填")
+        rule = Object.assign({}, rule, {
+          comprehensiveResult: {
+            required: true,
+            message: "必填项",
+            trigger: "blur"
+          }
+        });
+      if (this.formRule.creditClassRanking1 === "必填")
+        rule = Object.assign({}, rule, {
+          creditClassRanking1: {
+            required: true,
+            message: "必填项",
+            trigger: "blur"
+          }
+        });
+
+      if (this.formRule.creditGradeRanking1 === "必填")
+        rule = Object.assign({}, rule, {
+          creditGradeRanking: {
+            required: true,
+            message: "必填项",
+            trigger: "blur"
+          }
+        });
+      if (this.formRule.creditScore1 === "必填")
+        rule = Object.assign({}, rule, {
+          creditScore: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.enrolmentTime1 === "必填")
+        rule = Object.assign({}, rule, {
+          enrolmentTime: { required: true, message: "必填项", trigger: "blur" }
+        });
+
+      if (this.formRule.failureCourse1 === "必填")
+        rule = Object.assign({}, rule, {
+          failureCourse: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.family1 === "必填")
+        rule = Object.assign({}, rule, {
+          family: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.foreignGrade1 === "必填")
+        rule = Object.assign({}, rule, {
+          foreignGrade: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.foreignLang1 === "必填")
+        rule = Object.assign({}, rule, {
+          foreignLevel: { required: true, message: "必填项", trigger: "change" }
+        });
+      if (this.formRule.foreignLevel1 === "必填")
+        rule = Object.assign({}, rule, {
+          foreignLevel: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.gender1 === "必填")
+        rule = Object.assign({}, rule, {
+          gender: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.graduationTime1 === "必填")
+        rule = Object.assign({}, rule, {
+          graduationTime: { required: true, message: "必填项", trigger: "blur" }
+        });
+
+      if (this.formRule.home1 === "必填")
+        rule = Object.assign({}, rule, {
+          home: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.isPoor1 === "必填")
+        rule = Object.assign({}, rule, {
+          isPoor: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.nation1 === "必填")
+        rule = Object.assign({}, rule, {
+          nation: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.political1 === "必填")
+        rule = Object.assign({}, rule, {
+          political: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.others1 === "必填")
+        rule = Object.assign({}, rule, {
+          others: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.result1 === "必填")
+        rule = Object.assign({}, rule, {
+          result: { required: true, message: "必填项", trigger: "blur" }
+        });
+      if (this.formRule.age1 === "必填")
+        rule = Object.assign({}, rule, {
+          age: { required: true, message: "必填项", trigger: "blur" }
+        });
+
       console.log(rule);
 
       return rule;
@@ -686,9 +831,20 @@ export default {
       });
     },
     next() {
-      if (this.active++ > this.len - 1) {
-        this.active = 0;
+      let ref = "ref" + (this.active + 1);
+      console.log(this.active)
+      if (this.active < 7) {
+        this.$refs[ref].validate(valid => {
+          if (valid) {
+            this.active++;
+          } else {
+            this.$message.error("还有表单未填写，请填写");
+            return false;
+          }
+        });
       }
+
+      console.log("len:",this.len)
       if (this.active === this.len) {
         this.countDown();
       }
@@ -713,19 +869,20 @@ export default {
     onSubmit() {
       if (this.role === "学生") {
         let applyDate = formatDate(new Date());
-
-        let { number, name } = this.formData;
+        let { number, name,college,major,grade } = this.formData;
         let formInsert = Object.assign(
           {},
           { category: this.$route.params.title },
-          { number, name },
+          { number, name,college,major,grade },
           { applyDate }
         );
         auditInsert(formInsert)
           .then(() => {
+            console.log("what?");
             this.next();
           })
-          .catch(() => {
+          .catch(err => {
+            console.log(err);
             this.$message.error("审核记录插入失败！");
           });
         let formAdd = Object.assign({}, this.formData, {
@@ -752,19 +909,7 @@ export default {
       majorList: [],
       gradeList: [],
       active: 0,
-      formData: {
-        // birthday: "1996-11-26",
-        // role: "本科生",
-        // college: "信息工程学院",
-        // major: "电子商务",
-        // grade: "1501",
-        // gender: "男",
-        // age: "18",
-        // nation: "汉族",
-        // cardId: "421126199910100010",
-        // phone: "18821709973",
-        // mail: "1260077156@qq.com",
-      },
+      formData: {},
       Ipromise: false
     };
   }

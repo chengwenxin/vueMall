@@ -667,7 +667,9 @@ router.post('/ueditor/content', (req, res, next) => {
         birthday,
         birthday1,
         mail,
-        mail1
+        mail1,
+        places,
+        money
       } = req.body
       grade = grade.join(';')
 
@@ -734,7 +736,9 @@ router.post('/ueditor/content', (req, res, next) => {
         birthday,
         birthday1,
         mail,
-        mail1) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
+        mail1,
+        places,
+        money) values('${req.body.author}','${req.body.update_date}','${req.body.title}','${req.body.content}','${req.body.detailDate}','${req.body.isApply}',
       '${announcementTime}','${auditTime}','${startTime}','${endTime}','${college}','${grade}',
       '${address}',
       '${address1}',
@@ -799,7 +803,9 @@ router.post('/ueditor/content', (req, res, next) => {
          '${birthday}',
       '${birthday1}',   
         '${mail}',
-      '${mail1}'
+        '${mail1}',
+        '${places}',
+        '${money}'
       )`
     } else if (req.body.type === "通知公告") {
 
@@ -848,12 +854,15 @@ router.get('/template/query', function (req, res, next) {
 //查发布模板 /template/list
 router.post('/template/list', function (req, res, next) {
   let sql = ''
-  if (req.body.isTemplate === '0') {
-    sql = `select * from policy where title='${req.body.title}'`
-  } else {
-    sql = `select * from policy where isTemplate = '1' and title='${req.body.title}'`
+  if(req.body.isTemplate){
+    if (req.body.isTemplate === '0') {
+      sql = `select * from policy where title='${req.body.title}'`
+    } else {
+      sql = `select * from policy where isTemplate = '1' and title='${req.body.title}'`
+    }
+  }else{
+    sql = `select * from policy where  title='${req.body.title}'`
   }
-  console.log(sql)
   pool.query(sql, function (err, result) {
     if (err) {
       res.json({
@@ -975,6 +984,7 @@ router.post('/audit/list', function (req, res, next) {
       order by  applyDate DESC LIMIT ${size},${pageSize}`;
       countSql = `select count(*) from audit where firstFinish = 1 and
       number like '%${number}%' and category like '%${category}%'and name like '%${name}%' and major like '%${major}%' and grade like '%${grade}%' and college like '%${college}%'and secondAuditStatus like'%${secondAuditStatus}%'`
+       console.log(countSql)
     }
     pool.query(sql, function (err, result1) {
       if (err) {

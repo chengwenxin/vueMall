@@ -74,7 +74,7 @@
                       @click="releaseVisible = true"
                       style="background:#438F48;"
                     >发布获奖公告</el-button>
-                              <el-button
+                    <el-button
                       type="primary"
                       @click="submitVisible = true"
                       style="background:#438F48;"
@@ -255,7 +255,7 @@
   </div>
 </template>
 <script>
-import { addPolicy, exportExcel ,firstFinish} from "../../api";
+import { addPolicy, exportExcel, firstFinish } from "../../api";
 import {
   auditList,
   firstAuditReplace,
@@ -273,7 +273,6 @@ export default {
       author: this.name,
       college: this.college
     });
-    console.log(this.releaseData);
   },
   computed: {
     name() {
@@ -281,22 +280,33 @@ export default {
     },
     college() {
       return this.$store.state.college;
+    },
+    categoryList() {
+      let list = JSON.parse(window.localStorage.categoryEnum);
+      list.shift();
+      return list;
     }
   },
   methods: {
-
-    
-       firstSubmit() {
-      firstFinish({ category: this.exportCategory,college:this.college ,firstAuditStatus:'初审通过'}).then(data => {
+    firstSubmit() {
+      firstFinish({
+        category: this.exportCategory,
+        college: this.college,
+        firstAuditStatus: "初审通过"
+      }).then(data => {
         if (data.status === "1") {
           this.$message.success("提交成功！");
-          this.submitVisible = false
+          this.submitVisible = false;
         }
       });
     },
     // 文件导出功能
     exportFile() {
-      exportExcel({ category: this.exportCategory,college:this.college ,status:'初审通过'}).then(data => {
+      exportExcel({
+        category: this.exportCategory,
+        college: this.college,
+        status: "初审通过"
+      }).then(data => {
         if (data.status === "1") {
           this.filePath = data.path;
           this.$message.success("导出成功！");
@@ -305,7 +315,7 @@ export default {
           document.body.appendChild(a);
           a.download = this.filePath;
           a.click();
-          this.exportVisible = false
+          this.exportVisible = false;
         }
       });
     },
@@ -449,14 +459,13 @@ export default {
   },
   data: function() {
     return {
-      submitVisible:false,
+      submitVisible: false,
       exportVisible: false,
       exportCategory: "",
       releaseData: {
         title: ""
       },
       releaseVisible: false,
-      categoryList: JSON.parse(window.localStorage.categoryEnum),
       isDown: true,
       totalCount: 0,
       currentPage: 1,

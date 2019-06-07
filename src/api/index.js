@@ -50,7 +50,7 @@ export const queryTemplate = () => {
   return http.fetchQuickSearch('/api/template/query')
 }
 
-//查询 用户表
+//查询奖助学金项目
 export const queryTemplateList = (params) => {
   return http.fetchPost('/api/template/list',params)
 }

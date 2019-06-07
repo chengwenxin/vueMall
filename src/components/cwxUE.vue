@@ -95,6 +95,24 @@
                     ></el-option>
                   </el-select>
                 </el-form-item>
+                <el-form-item label="资助金额：" prop="money">
+                    <el-input-number
+                      v-model="formData.money"
+                      :min="0"
+                      :max="10000000"
+                      :step="100"
+                      label="资助金额"
+                    ></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="资助名额：" prop="places">
+                    <el-input-number
+                      v-model="formData.places"
+                      :min="0"
+                      :max="10000000"
+                      :step="5"
+                      label="资助名额"
+                    ></el-input-number>
+                  </el-form-item>
               </div>
             </template>
 

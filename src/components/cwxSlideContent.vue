@@ -23,7 +23,7 @@
           <el-step title="步骤 2" status="success">
             <template slot="description">
               <router-link class="router-class" to="/register">注册账户</router-link>后
-              <router-link class="router-class" to="/login">登陆</router-link>学生用户系统,
+              <router-link class="router-class" to="/login">登录</router-link>学生用户系统,
               完善个人基本信息，即可进入在线申请入口
             </template>
           </el-step>

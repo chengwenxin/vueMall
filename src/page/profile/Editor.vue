@@ -126,10 +126,19 @@
                   <el-form-item label="资助金额：" prop="money">
                     <el-input-number
                       v-model="formData.money"
-                      :min="1"
+                      :min="0"
                       :max="10000000"
                       :step="100"
                       label="资助金额"
+                    ></el-input-number>
+                  </el-form-item>
+                     <el-form-item label="资助名额：" prop="places">
+                    <el-input-number
+                      v-model="formData.places"
+                      :min="0"
+                      :max="10000000"
+                      :step="5"
+                      label="资助名额"
                     ></el-input-number>
                   </el-form-item>
                   <el-form-item label="名单公示时间：" prop="announcementTime">
@@ -860,6 +869,8 @@ export default {
   components: { VueUeditorWrap },
   data() {
     return {
+      places:0,
+      money:0,
       formDataC:{},
       temp: "",
       isScan: false,
@@ -867,71 +878,71 @@ export default {
       templateList: [],
       category: "",
       formData: {
-        // address: "没有要求",
+        address: "",
         address1: "不填",
         // announcementTime: "2019-05-08",
-        // applyReason: "没有要求",
+        applyReason: "",
         applyReason1: "不填",
         // auditTime: "2019-05-08",
         // author: "赵三丰",
-        // breach: "必填",
+        breach: "",
         breach1: "不填",
         category: 0,
-        // cheat: "必填",
+        cheat: "",
         cheat1: "不填",
         // college: ["信息工程学院", "动物医学院", "动物科技学院", "农学院"],
-        // comprehensiveClassRanking: "没有要求",
+        comprehensiveClassRanking: "",
         comprehensiveClassRanking1: "不填",
-        // comprehensiveGradeRanking: "没有要求",
+        comprehensiveGradeRanking: "",
         comprehensiveGradeRanking1: "不填",
-        // comprehensiveResult: "没有要求",
+        comprehensiveResult: "",
         comprehensiveResult1: "不填",
-        // content: "<p>没有要求</p>",
-        // credibility: "必填",
+        content: "",
+        credibility: "",
         credibility1: "不填",
-        // creditClassRanking: "没有要求",
+        creditClassRanking: "",
         creditClassRanking1: "不填",
-        // creditGradeRanking: "没有要求",
+        creditGradeRanking: "",
         creditGradeRanking1: "不填",
-        // creditScore: "没有要求",
+        creditScore: "",
         creditScore1: "不填",
         // detailDate: "2019-05-24",
-        // enrolmentTime: "没有要求",
+        enrolmentTime: "",
         enrolmentTime1: "不填",
-        // failureCourse: "没有要求",
+        failureCourse: "",
         failureCourse1: "不填",
-        // family: "没有要求",
+        family: "",
         family1: "不填",
-        // foreignGrade: "没有要求",
+        foreignGrade: "",
         foreignGrade1: "不填",
-        // foreignLang: "英语",
+        foreignLang: "",
         foreignLang1: "不填",
-        // foreignLevel:'不填',
+        foreignLevel:'',
         foreignLevel1: "不填",
-        // gender: "所有",
+        gender: "",
         gender1: "不填",
         // grade: ["研究生", "15"],
-        // graduationTime: "没有要求",
+        graduationTime: "",
         graduationTime1: "不填",
-        // home: "没有要求",
+        home: "",
         home1: "不填",
-        // isApply: "不能申请",
-        // isPoor: "不限",
+        isApply: "不能申请",
+        isPoor: "不限",
         isPoor1: "不填",
-        // nation: "所有",
+        nation: "",
         nation1: "不填",
-        // political: "所有",
+        political: "",
         political1: "不填",
-        // rent: "必填",
+        rent: "",
         rent1: "不填",
-        // result: "没有要求",
+        result: "",
         result1: "不填",
-        // title: "没有标题",
-        // type: "奖助学金项目",
+        title: "",
+        type: "奖助学金项目",
         // update_date: "05-24",
         // validTime: ["2019-05-01 00:00:00", "2019-05-09 00:00:00"],
         isApply: "不能申请",
-        // isTemplate:1,
+        isTemplate:"0",
         birthday1: "不填",
         age1: "不填",
         cardId1: "不填",

@@ -306,7 +306,7 @@
                       <el-form-item label="外语语种：" prop="foreignLang">
                         <el-select v-model="formData.foreignLang">
                           <el-option
-                            v-for="item in ['英语','德语','日语','韩语']"
+                            v-for="item in ['不限','英语','德语','日语','韩语']"
                             :key="item"
                             :value="item"
                           ></el-option>
@@ -599,10 +599,10 @@
                   </el-row>
                   <el-row>
                     <el-col :span="20">
-                      <h4>家庭详细情况描述：</h4>
-                      <el-form-item prop="family" label-width="0">
+                      <h4>家庭详细地址：</h4>
+                      <el-form-item prop="address" label-width="0">
                         <el-input
-                          v-model="formData.family"
+                          v-model="formData.address"
                           :autosize="{ minRows: 3}"
                           type="textarea"
                         ></el-input>

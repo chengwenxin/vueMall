@@ -76,8 +76,16 @@ export default {
     isLogin() {
       return this.$store.state.login;
     },
+        college() {
+      return this.$store.state.college;
+    },
+        grade() {
+      return this.$store.state.grade;
+    },
+      role() {
+      return this.$store.state.role;
+    },
     currentPath() {
-      console.log(this.$route.path);
       return this.$route.path === "/announcement";
     }
   },
@@ -87,9 +95,25 @@ export default {
       let now = new Date();
       let temp = this.parseTime(now);
       if (temp > startTime && temp < endTime) {
-        return "在线申请";
+        let temp="15;16;17;18"
+         if(this.role !=='学生'){
+           return "在线申请";
+         }else if(val.college.includes(this.college) && val.grade.includes(this.grade)){
+           return "在线申请";
+         }else if(val.college.includes(this.college) && val.grade==="所有"){
+           return "在线申请";
+         }
+         else if(val.college==='所有' || val.grade==="所有"){
+           return "在线申请";
+         }else if(val.grade.includes("本科生") && temp.includes(this.grade)){
+           return "在线申请";
+         }
+         else{
+            return "无资格申请"            
+         }
+
       } else if (temp < startTime) {
-        return "暂未开始";
+        return "申请未开始";
       } else if (temp > endTime) {
         return "申请已截止";
       } else {
